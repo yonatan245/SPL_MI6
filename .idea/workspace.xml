@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="" />
+    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/FutureTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/FutureTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
   </component>
   <component name="ProjectId" id="1UyRGbeMdlmZ8NFoCpxtS4B2v2w" />
   <component name="ProjectViewState">
@@ -15,6 +30,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -42,6 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1576326753819</updated>
       <workItem from="1576326756862" duration="383000" />
+      <workItem from="1576345770138" duration="393000" />
     </task>
     <servers />
   </component>
@@ -49,6 +66,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2" timestamp="1576346176033">
+      <screen x="70" y="27" width="1850" height="1053" />
+    </state>
+    <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2/70.27.1850.1053@70.27.1850.1053" timestamp="1576346176033" />
     <state width="1874" height="275" key="GridCell.Tab.0.bottom" timestamp="1576327202725">
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
