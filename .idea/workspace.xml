@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="" />
+    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/InventoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/InventoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/SquadTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/SquadTest.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
+  </component>
   <component name="ProjectId" id="1UyRGbeMdlmZ8NFoCpxtS4B2v2w" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -15,6 +25,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -42,6 +53,9 @@
       <option name="presentableId" value="Default" />
       <updated>1576326753819</updated>
       <workItem from="1576326756862" duration="383000" />
+      <workItem from="1576327152285" duration="744000" />
+      <workItem from="1576338612707" duration="253000" />
+      <workItem from="1576340988911" duration="4331000" />
     </task>
     <servers />
   </component>
@@ -69,9 +83,14 @@
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
     <state x="2049" y="188" width="1022" height="737" key="SettingsEditor/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327139121" />
-    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1576327157601">
+    <state x="513" y="335" key="com.intellij.ide.util.TipDialog" timestamp="1576341014006">
+      <screen x="0" y="27" width="1600" height="873" />
+    </state>
+    <state x="513" y="335" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@0.27.1600.873" timestamp="1576341014006" />
+    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576338616936" />
+    <state x="2328" y="473" width="454" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576327767981">
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
-    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327157601" />
+    <state x="2328" y="473" width="454" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327767981" />
   </component>
 </project>
