@@ -12,6 +12,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -64,10 +65,15 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2" timestamp="1576413751661">
-      <screen x="70" y="27" width="1850" height="1053" />
+    <state x="509" y="148" width="860" height="818" key="CommitChangelistDialog2" timestamp="1576415951823">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
+    <state x="509" y="148" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1576415951823" />
     <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2/70.27.1850.1053@70.27.1850.1053" timestamp="1576413751661" />
+    <state x="100" y="127" width="1720" height="853" key="DiffContextDialog" timestamp="1576416009600">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="100" y="127" width="1720" height="853" key="DiffContextDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576416009600" />
     <state width="1874" height="275" key="GridCell.Tab.0.bottom" timestamp="1576327202725">
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
@@ -92,9 +98,10 @@
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
     <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327157601" />
-    <state x="763" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576413757462">
-      <screen x="70" y="27" width="1850" height="1053" />
+    <state x="719" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576415868247">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
+    <state x="719" y="473" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576415868247" />
     <state x="763" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/70.27.1850.1053@70.27.1850.1053" timestamp="1576413757462" />
   </component>
 </project>
