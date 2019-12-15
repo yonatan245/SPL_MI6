@@ -34,7 +34,6 @@ public class SquadTest {
         idan.setSerialNumber("0010");
 
         agents = new Agent[]{yonatan, omer, ziv, idan};
-
         squad.load(agents);
     }
 
