@@ -6,6 +6,8 @@ import bgu.spl.mics.Subscriber;
 import bgu.spl.mics.application.MissionReceivedEvent;
 import bgu.spl.mics.application.passiveObjects.MissionInfo;
 
+import java.util.List;
+
 /**
  * A Publisher only.
  * Holds a list of Info objects and sends them
@@ -15,6 +17,7 @@ import bgu.spl.mics.application.passiveObjects.MissionInfo;
  */
 public class Intelligence extends Publisher {
 	private MissionInfo[] missions;
+	private List<Event> eventlist;
 
 	public Intelligence(String name,MissionInfo[] missions) {
 		super(name);
@@ -25,13 +28,15 @@ public class Intelligence extends Publisher {
 	protected void initialize() {
 		for(MissionInfo m:missions) {
 			Event<MissionInfo> toPublish = new MissionReceivedEvent(m);
-			this.getSimplePublisher().sendEvent(toPublish);
+			eventlist.add(toPublish);
 		}
 	}
 
 	@Override
 	public void run() {
-		// TODO Implement this
+		for (Event iter:eventlist) {
+			this.getSimplePublisher().sendEvent(iter);
+		}
 	}
 
 }
