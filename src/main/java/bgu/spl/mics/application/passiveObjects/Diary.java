@@ -1,5 +1,7 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,6 +13,22 @@ import java.util.List;
  * You can add ONLY private fields and methods to this class as you see fit.
  */
 public class Diary {
+
+	//Fields
+	private List<Report> reports;
+
+
+	//Constructor
+	private static class DiaryHolder{
+		private static Diary instance = new Diary();
+
+		public static Diary getInstance() {
+			return instance;
+		}
+	}
+	private Diary(){
+		reports = new ArrayList<>();
+	}
 	/**
 	 * Retrieves the single instance of this class.
 	 */

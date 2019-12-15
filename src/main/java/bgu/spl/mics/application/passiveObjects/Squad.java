@@ -1,4 +1,6 @@
 package bgu.spl.mics.application.passiveObjects;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,14 +12,27 @@ import java.util.Map;
  */
 public class Squad {
 
+	//Fields
 	private Map<String, Agent> agents;
 
+	//Constructor
+	private static class SquadHolder{
+		private static Squad instance = new Squad();
+
+		public static Squad getInstance() {
+			return instance;
+		}
+	}
+	private Squad(){
+		agents = new HashMap<>();
+	}
+
+	//Methods
 	/**
 	 * Retrieves the single instance of this class.
 	 */
 	public static Squad getInstance() {
-		//TODO: Implement this
-		return null;
+		return SquadHolder.getInstance();
 	}
 
 	/**
@@ -27,14 +42,20 @@ public class Squad {
 	 * 						of the squad.
 	 */
 	public void load (Agent[] agents) {
-		// TODO Implement this
+		for(Agent agent : agents){
+			String serialNumber = agent.getSerialNumber();
+			this.agents.put(serialNumber, agent);
+		}
 	}
 
 	/**
 	 * Releases agents.
 	 */
 	public void releaseAgents(List<String> serials){
-		// TODO Implement this
+		for(String serial : serials){
+			Agent toRelease = agents.get(serial);
+			toRelease.release();
+		}
 	}
 
 	/**
@@ -42,7 +63,11 @@ public class Squad {
 	 * @param time   milliseconds to sleep
 	 */
 	public void sendAgents(List<String> serials, int time){
-		// TODO Implement this
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException ignored) {}
+
+		releaseAgents(serials);
 	}
 
 	/**
@@ -51,8 +76,25 @@ public class Squad {
 	 * @return ‘false’ if an agent of serialNumber ‘serial’ is missing, and ‘true’ otherwise
 	 */
 	public boolean getAgents(List<String> serials){
-		// TODO Implement this
-		return false;
+		List<String> aquiredAgents = new ArrayList<>();
+		boolean aborted = false;
+		Agent currentAgent;
+
+		for(String serial : serials){
+			currentAgent = agents.get(serial);
+			if(currentAgent == null){
+				aborted = true;
+				break;
+			}
+			else{
+				currentAgent.acquire();
+				aquiredAgents.add(serial);
+			}
+		}
+
+		if(aborted) releaseAgents(aquiredAgents);
+
+		return !aborted;
 	}
 
     /**
@@ -61,8 +103,15 @@ public class Squad {
      * @return a list of the names of the agents with the specified serials.
      */
     public List<String> getAgentsNames(List<String> serials){
-        // TODO Implement this
-	    return null;
+        List<String> agentNames = new ArrayList<>();
+        Agent currentAgent;
+
+        for(String serial : serials){
+        	currentAgent = agents.get(serial);
+        	if(currentAgent != null) agentNames.add(currentAgent.getName());
+		}
+
+        return agentNames;
     }
 
 }
