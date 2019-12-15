@@ -4,19 +4,16 @@
     <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Agent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Agent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Diary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Diary.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/MissionInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/MissionInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Report.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Report.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Squad.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Squad.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JUnit5 Test Class" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -30,6 +27,7 @@
     </option>
   </component>
   <component name="ProjectId" id="1UyRGbeMdlmZ8NFoCpxtS4B2v2w" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -40,20 +38,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="bgu.spl.mics" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -66,7 +51,6 @@
         </serviceView>
       </list>
     </option>
-    <option name="showServicesTree" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -80,14 +64,13 @@
       <updated>1576326753819</updated>
       <workItem from="1576326756862" duration="383000" />
       <workItem from="1576345770138" duration="2390000" />
-      <workItem from="1576415268057" duration="6448000" />
     </task>
-    <task id="LOCAL-00001" summary="including MBTest and changes in examples">
-      <created>1576420833226</created>
+    <task id="LOCAL-00001" summary="s">
+      <created>1576416241229</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1576420833226</updated>
+      <updated>1576416241229</updated>
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />
@@ -96,22 +79,19 @@
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="including MBTest and changes in examples" />
-    <option name="LAST_COMMIT_MESSAGE" value="including MBTest and changes in examples" />
+    <MESSAGE value="s" />
+    <option name="LAST_COMMIT_MESSAGE" value="s" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="809" y="412" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1576415700489">
-      <screen x="0" y="0" width="1920" height="1044" />
+    <state x="509" y="148" width="860" height="823" key="CommitChangelistDialog2" timestamp="1576429948811">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="809" y="412" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1576415700489" />
-    <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2" timestamp="1576413751661">
-      <screen x="70" y="27" width="1850" height="1053" />
-    </state>
+    <state x="509" y="148" width="860" height="823" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1576429948811" />
     <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2/70.27.1850.1053@70.27.1850.1053" timestamp="1576413751661" />
-    <state x="749" y="362" key="FileChooserDialogImpl" timestamp="1576415531710">
-      <screen x="0" y="0" width="1920" height="1044" />
+    <state x="100" y="127" width="1720" height="853" key="DiffContextDialog" timestamp="1576416048620">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="749" y="362" key="FileChooserDialogImpl/0.0.1920.1044@0.0.1920.1044" timestamp="1576415531710" />
+    <state x="100" y="127" width="1720" height="853" key="DiffContextDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576416048620" />
     <state width="1874" height="275" key="GridCell.Tab.0.bottom" timestamp="1576327202725">
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
@@ -128,24 +108,34 @@
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
     <state width="1874" height="275" key="GridCell.Tab.0.right/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
-    <state x="449" y="182" width="1022" height="737" key="SettingsEditor" timestamp="1576420765475">
-      <screen x="0" y="0" width="1920" height="1044" />
+    <state x="182" y="121" width="1536" height="879" key="MergeDialog" timestamp="1576423485412">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="449" y="182" key="SettingsEditor/0.0.1920.1044@0.0.1920.1044" timestamp="1576420765475" />
+    <state x="182" y="121" width="1536" height="879" key="MergeDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576423485412" />
+    <state x="665" y="271" width="580" height="571" key="MultipleFileMergeDialog" timestamp="1576423485415">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="665" y="271" width="580" height="571" key="MultipleFileMergeDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576423485415" />
+    <state x="782" y="266" width="346" height="581" key="RollbackChangesDialog" timestamp="1576416179058">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="782" y="266" width="346" height="581" key="RollbackChangesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576416179058" />
+    <state x="2049" y="188" width="1022" height="737" key="SettingsEditor" timestamp="1576327139121">
+      <screen x="1600" y="0" width="1920" height="1080" />
+    </state>
     <state x="2049" y="188" width="1022" height="737" key="SettingsEditor/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327139121" />
-    <state x="616" y="368" key="com.intellij.ide.util.TipDialog" timestamp="1576415269699">
-      <screen x="0" y="0" width="1920" height="1044" />
+    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1576416244226">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="616" y="368" key="com.intellij.ide.util.TipDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1576415269699" />
+    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576416244226" />
+    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1576327157601">
+      <screen x="1600" y="0" width="1920" height="1080" />
+    </state>
     <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327157601" />
-    <state x="719" y="442" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576420648470">
-      <screen x="0" y="0" width="1920" height="1044" />
+    <state x="719" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576429897998">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="719" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1044@0.0.1920.1044" timestamp="1576420648470" />
+    <state x="719" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576429897998" />
     <state x="763" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/70.27.1850.1053@70.27.1850.1053" timestamp="1576413757462" />
-    <state x="735" y="243" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1576415733066">
-      <screen x="0" y="0" width="1920" height="1044" />
-    </state>
-    <state x="735" y="243" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1576415733066" />
   </component>
 </project>

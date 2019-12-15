@@ -17,7 +17,6 @@ public class Inventory {
 	}
 	private Inventory(){
 		gadgets = new LinkedList<String>();
-		gadgets.add(head);
 	}
 	private List<String> gadgets;
 	/**
