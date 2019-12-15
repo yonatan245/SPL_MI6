@@ -2,9 +2,10 @@ package bgu.spl.mics.example.messages;
 
 import bgu.spl.mics.Event;
 
-public class ExampleEvent implements Event<String>{
+public class ExampleEvent implements Event<String> {
 
     private String senderName;
+    private Event eventType;
 
     public ExampleEvent(String senderName) {
         this.senderName = senderName;
@@ -13,4 +14,7 @@ public class ExampleEvent implements Event<String>{
     public String getSenderName() {
         return senderName;
     }
+
+
+
 }

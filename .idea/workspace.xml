@@ -2,16 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/FutureTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/FutureTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/example/messages/ExampleEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/example/messages/ExampleEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/example/subscribers/ExampleBroadcastSubscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/example/subscribers/ExampleBroadcastSubscriber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/example/subscribers/ExampleEventHandlerSubscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/example/subscribers/ExampleEventHandlerSubscriber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/MessageBrokerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/MessageBrokerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit5 Test Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -31,7 +43,20 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="bgu.spl.mics" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
   </component>
   <component name="ServiceViewManager">
     <option name="viewStates">
@@ -44,6 +69,7 @@
         </serviceView>
       </list>
     </option>
+    <option name="showServicesTree" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -57,6 +83,7 @@
       <updated>1576326753819</updated>
       <workItem from="1576326756862" duration="383000" />
       <workItem from="1576345770138" duration="2390000" />
+      <workItem from="1576415268057" duration="5367000" />
     </task>
     <servers />
   </component>
@@ -64,10 +91,18 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="809" y="412" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1576415700489">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="809" y="412" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1576415700489" />
     <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2" timestamp="1576413751661">
       <screen x="70" y="27" width="1850" height="1053" />
     </state>
     <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2/70.27.1850.1053@70.27.1850.1053" timestamp="1576413751661" />
+    <state x="749" y="362" key="FileChooserDialogImpl" timestamp="1576415531710">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="749" y="362" key="FileChooserDialogImpl/0.0.1920.1044@0.0.1920.1044" timestamp="1576415531710" />
     <state width="1874" height="275" key="GridCell.Tab.0.bottom" timestamp="1576327202725">
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
@@ -84,17 +119,24 @@
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
     <state width="1874" height="275" key="GridCell.Tab.0.right/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
-    <state x="2049" y="188" width="1022" height="737" key="SettingsEditor" timestamp="1576327139121">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state x="449" y="182" width="1022" height="737" key="SettingsEditor" timestamp="1576420765475">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
+    <state x="449" y="182" key="SettingsEditor/0.0.1920.1044@0.0.1920.1044" timestamp="1576420765475" />
     <state x="2049" y="188" width="1022" height="737" key="SettingsEditor/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327139121" />
-    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1576327157601">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state x="616" y="368" key="com.intellij.ide.util.TipDialog" timestamp="1576415269699">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
+    <state x="616" y="368" key="com.intellij.ide.util.TipDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1576415269699" />
     <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327157601" />
-    <state x="763" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576413757462">
-      <screen x="70" y="27" width="1850" height="1053" />
+    <state x="719" y="442" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576420648470">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
+    <state x="719" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1044@0.0.1920.1044" timestamp="1576420648470" />
     <state x="763" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/70.27.1850.1053@70.27.1850.1053" timestamp="1576413757462" />
+    <state x="735" y="243" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1576415733066">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="735" y="243" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1576415733066" />
   </component>
 </project>

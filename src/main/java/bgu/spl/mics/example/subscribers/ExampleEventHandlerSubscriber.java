@@ -1,11 +1,14 @@
 package bgu.spl.mics.example.subscribers;
 
+import bgu.spl.mics.Message;
 import bgu.spl.mics.Subscriber;
 import bgu.spl.mics.example.messages.ExampleEvent;
 
 public class ExampleEventHandlerSubscriber extends Subscriber {
 
     private int mbt;
+    private boolean isSubscribed;
+    private Message[] messages;
 
     public ExampleEventHandlerSubscriber(String name, String[] args) {
         super(name);
@@ -23,6 +26,16 @@ public class ExampleEventHandlerSubscriber extends Subscriber {
         if (mbt <= 0) {
             throw new IllegalArgumentException("Event Handler expecting the argument mbt to be a number > 0, instead received: " + args[0]);
         }
+    }
+
+    public boolean getIsSub(){
+        return isSubscribed;
+    }
+    public Message[] getMessages(){
+        return messages;
+    }
+    public void setMessages(Message[] toSet){
+        this.messages=toSet;
     }
 
     @Override
