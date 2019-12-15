@@ -11,6 +11,10 @@ public class Agent {
 	/**
 	 * Sets the serial number of an agent.
 	 */
+	public Agent(){
+
+	}
+
 	public void setSerialNumber(String serialNumber) {
 		// TODO Implement this
 	}

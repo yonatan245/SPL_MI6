@@ -1,5 +1,6 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -11,13 +12,19 @@ import java.util.List;
  * You can add ONLY private fields and methods to this class as you see fit.
  */
 public class Inventory {
+	private static class InventoryHolder{
+		private static Inventory instance= new Inventory();
+	}
+	private Inventory(){
+		gadgets = new LinkedList<String>();
+		gadgets.add(head);
+	}
 	private List<String> gadgets;
 	/**
      * Retrieves the single instance of this class.
      */
 	public static Inventory getInstance() {
-		//TODO: Implement this
-		return null;
+		return InventoryHolder.instance;
 	}
 
 	/**
@@ -28,7 +35,9 @@ public class Inventory {
      * 						of the inventory.
      */
 	public void load (String[] inventory) {
-		//TODO: Implement this
+		for(int i=0;i<inventory.length;i++){
+
+		}
 	}
 	
 	/**
