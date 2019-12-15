@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/InventoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/InventoryTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/SquadTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/bgu/spl/mics/SquadTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,14 +54,32 @@
       <workItem from="1576326756862" duration="383000" />
       <workItem from="1576327152285" duration="744000" />
       <workItem from="1576338612707" duration="253000" />
-      <workItem from="1576340988911" duration="4331000" />
+      <workItem from="1576340988911" duration="5061000" />
+      <workItem from="1576411933585" duration="2594000" />
     </task>
+    <task id="LOCAL-00001" summary="work start on Inventory and Squad tests">
+      <created>1576347313148</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1576347313148</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="work start on Inventory and Squad tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="work start on Inventory and Squad tests" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="525" y="168" width="860" height="823" key="CommitChangelistDialog2" timestamp="1576415791778">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="525" y="168" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1576415791778" />
+    <state x="2125" y="145" width="860" height="823" key="CommitChangelistDialog2/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576347313018" />
     <state width="1874" height="275" key="GridCell.Tab.0.bottom" timestamp="1576327202725">
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
@@ -79,18 +96,36 @@
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
     <state width="1874" height="275" key="GridCell.Tab.0.right/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
+    <state x="1782" y="110" width="1536" height="901" key="MergeDialog" timestamp="1576347384161">
+      <screen x="1600" y="0" width="1920" height="1080" />
+    </state>
+    <state x="1782" y="110" width="1536" height="901" key="MergeDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576347384161" />
+    <state x="2265" y="271" width="580" height="571" key="MultipleFileMergeDialog" timestamp="1576347384164">
+      <screen x="1600" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2265" y="271" width="580" height="571" key="MultipleFileMergeDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576347384164" />
+    <state x="782" y="266" width="346" height="581" key="RollbackChangesDialog" timestamp="1576412385972">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="782" y="266" width="346" height="581" key="RollbackChangesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576412385972" />
     <state x="2049" y="188" width="1022" height="737" key="SettingsEditor" timestamp="1576327139121">
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
     <state x="2049" y="188" width="1022" height="737" key="SettingsEditor/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327139121" />
-    <state x="513" y="335" key="com.intellij.ide.util.TipDialog" timestamp="1576341014006">
-      <screen x="0" y="27" width="1600" height="873" />
-    </state>
-    <state x="513" y="335" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@0.27.1600.873" timestamp="1576341014006" />
-    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576338616936" />
-    <state x="2328" y="473" width="454" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576327767981">
+    <state x="2155" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1576347391655">
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
+    <state x="2155" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576347391655" />
+    <state x="616" y="399" key="com.intellij.ide.util.TipDialog" timestamp="1576411933339">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="616" y="399" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576411933339" />
+    <state x="513" y="335" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@0.27.1600.873" timestamp="1576341014006" />
+    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576338616936" />
+    <state x="728" y="488" width="464" height="163" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576412233143">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="728" y="488" width="464" height="163" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576412233143" />
     <state x="2328" y="473" width="454" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327767981" />
   </component>
 </project>
