@@ -117,10 +117,10 @@
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
     <state x="769" y="235" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1044@0.0.1920.1044" timestamp="1576519297321" />
-    <state x="509" y="120" width="860" height="823" key="CommitChangelistDialog2" timestamp="1576521991066">
+    <state x="509" y="120" width="860" height="823" key="CommitChangelistDialog2" timestamp="1576522042677">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="509" y="120" key="CommitChangelistDialog2/0.0.1920.1044@0.0.1920.1044" timestamp="1576521991066" />
+    <state x="509" y="120" key="CommitChangelistDialog2/0.0.1920.1044@0.0.1920.1044" timestamp="1576522042677" />
     <state x="509" y="148" width="860" height="823" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1576429948811" />
     <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2/70.27.1850.1053@70.27.1850.1053" timestamp="1576430403542" />
     <state x="100" y="127" width="1720" height="853" key="DiffContextDialog" timestamp="1576416048620">
@@ -169,9 +169,10 @@
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
     <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327157601" />
-    <state x="763" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576430377304">
-      <screen x="70" y="27" width="1850" height="1053" />
+    <state x="719" y="442" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576522057101">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
+    <state x="719" y="442" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1044@0.0.1920.1044" timestamp="1576522057101" />
     <state x="719" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576429897998" />
     <state x="763" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/70.27.1850.1053@70.27.1850.1053" timestamp="1576430377304" />
     <state x="610" y="230" width="698" height="673" key="search.everywhere.popup" timestamp="1576516703953">
