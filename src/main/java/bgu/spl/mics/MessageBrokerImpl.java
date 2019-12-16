@@ -2,7 +2,6 @@ package bgu.spl.mics;
 
 import bgu.spl.mics.application.TickBroadcast;
 
-import java.sql.Time;
 
 /**
  * The {@link MessageBrokerImpl class is the implementation of the MessageBroker interface.
@@ -54,7 +53,7 @@ private long CurrentTime;
 	@Override
 	public void sendBroadcast(Broadcast b) {
 		CurrentTime = ((TickBroadcast) b).getCurrentTime();
-		Time.updateTime(CurrentTime);
+//		Time.updateTime(CurrentTime);
 
 	}
 
