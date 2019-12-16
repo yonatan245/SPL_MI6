@@ -16,6 +16,7 @@ public class Diary {
 
 	//Fields
 	private List<Report> reports;
+	private int total;
 
 
 	//Constructor
@@ -28,17 +29,19 @@ public class Diary {
 	}
 	private Diary(){
 		reports = new ArrayList<>();
+		total = 0;
 	}
+
+	//Methods
 	/**
 	 * Retrieves the single instance of this class.
 	 */
 	public static Diary getInstance() {
-		//TODO: Implement this
-		return null;
+		return DiaryHolder.getInstance();
 	}
 
 	public List<Report> getReports() {
-		return null;
+		return reports;
 	}
 
 	/**
@@ -46,7 +49,8 @@ public class Diary {
 	 * @param reportToAdd - the report to add
 	 */
 	public void addReport(Report reportToAdd){
-		//TODO: Implement this
+		reports.add(reportToAdd);
+		total++;
 	}
 
 	/**
@@ -65,7 +69,30 @@ public class Diary {
 	 * @return the total number of received missions (executed / aborted) be all the M-instances.
 	 */
 	public int getTotal(){
-		//TODO: Implement this
-		return 0;
+		return total;
+	}
+
+	//TODO: change writing to json format
+	private String reportToString(Report report){
+		StringBuilder agentSerialNumbers = new StringBuilder("{");
+		for(String serial : report.getAgentsSerialNumbersNumber()) agentSerialNumbers.append(serial).append(", ");
+		agentSerialNumbers = new StringBuilder(agentSerialNumbers.substring(0, agentSerialNumbers.length() - 1));
+		agentSerialNumbers.append("}");
+
+		StringBuilder agentNames = new StringBuilder("{");
+		for(String serial : report.getAgentsNames()) agentNames.append(serial).append(", ");
+		agentNames = new StringBuilder(agentNames.substring(0, agentNames.length() - 1));
+		agentNames.append("}");
+
+		return "Mission name: " +report.getMissionName() +"\n"
+				+"M id: " +report.getM() +"\n"
+				+"MoneyPenny id: " +report.getMoneypenny() +"\n"
+				+"Agent serial numbers: " +agentSerialNumbers +"\n"
+				+"Agent names: " +agentNames +"\n"
+				+"Gadget name: " +report.getGadgetName() +"\n"
+				+"Time issued: " +report.getTimeIssued() +"\n"
+				+"Time Created: " +report.getTimeCreated() +"\n"
+				+"QTime: " +report.getQTime() +"\n";
+
 	}
 }
