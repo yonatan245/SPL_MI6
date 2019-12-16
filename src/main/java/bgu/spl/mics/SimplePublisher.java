@@ -33,6 +33,7 @@ public final class SimplePublisher {
      * @param b The broadcast message to send
      */
     public final void sendBroadcast(Broadcast b) {
-        //TODO: implement this.
+        MessageBroker MB=MessageBrokerImpl.getInstance();
+        MB.sendBroadcast(b);
     }
 }

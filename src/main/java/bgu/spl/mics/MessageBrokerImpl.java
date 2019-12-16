@@ -1,12 +1,14 @@
 package bgu.spl.mics;
 
+import bgu.spl.mics.application.TickBroadcast;
+
 /**
  * The {@link MessageBrokerImpl class is the implementation of the MessageBroker interface.
  * Write your implementation here!
  * Only private fields and methods can be added to this class.
  */
 public class MessageBrokerImpl implements MessageBroker {
-
+private long CurrentTime;
 	/**
 	 * Retrieves the single instance of this class.
 	 */
@@ -35,7 +37,8 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
-		// TODO Auto-generated method stub
+		CurrentTime = ((TickBroadcast) b).getCurrentTime();
+		Time.updateTime(CurrentTime);
 
 	}
 

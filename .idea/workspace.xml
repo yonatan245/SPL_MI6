@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/subscribers/Intelligence.java" afterDir="false" />
+    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="Merge branch 'master' of https://github.com/yonatan245/SPL_MI6">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/MessageBrokerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/MessageBrokerImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/SimplePublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/SimplePublisher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/MissionReceivedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/MissionReceivedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/Intelligence.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/TickBroadcast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/TickBroadcast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/subscribers/Intelligence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/subscribers/Intelligence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/subscribers/M.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/subscribers/M.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +87,21 @@
       <option name="project" value="LOCAL" />
       <updated>1576430403634</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="s">
+      <created>1576518318937</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1576518318937</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Merge branch 'master' of https://github.com/yonatan245/SPL_MI6">
+      <created>1576518431887</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1576518431887</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,12 +109,18 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="s" />
-    <option name="LAST_COMMIT_MESSAGE" value="s" />
+    <MESSAGE value="Merge branch 'master' of https://github.com/yonatan245/SPL_MI6" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/yonatan245/SPL_MI6" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="560" y="148" width="860" height="823" key="CommitChangelistDialog2" timestamp="1576430403542">
-      <screen x="70" y="27" width="1850" height="1053" />
+    <state x="769" y="235" key="#com.intellij.ide.util.MemberChooser" timestamp="1576519297321">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
+    <state x="769" y="235" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1044@0.0.1920.1044" timestamp="1576519297321" />
+    <state x="509" y="120" width="860" height="823" key="CommitChangelistDialog2" timestamp="1576518431715">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="509" y="120" key="CommitChangelistDialog2/0.0.1920.1044@0.0.1920.1044" timestamp="1576518431715" />
     <state x="509" y="148" width="860" height="823" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1576429948811" />
     <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2/70.27.1850.1053@70.27.1850.1053" timestamp="1576430403542" />
     <state x="100" y="127" width="1720" height="853" key="DiffContextDialog" timestamp="1576416048620">
