@@ -1,8 +1,11 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.json.simple.*;
+
 
 /**
  * Passive object representing the diary where all reports are stored.
@@ -61,7 +64,15 @@ public class Diary {
 	 * This method is called by the main method in order to generate the output.
 	 */
 	public void printToFile(String filename){
-		//TODO: Implement this
+
+		JSONArray reports = new JSONArray();
+		for(Report report : this.reports) reports.add(reportToJSON(report));
+
+		try{
+			FileWriter file = new FileWriter(filename);
+			file.write(reports.toJSONString());
+		} catch(Exception ignored){}
+
 	}
 
 	/**
@@ -73,26 +84,24 @@ public class Diary {
 	}
 
 	//TODO: change writing to json format
-	private String reportToString(Report report){
-		StringBuilder agentSerialNumbers = new StringBuilder("{");
-		for(String serial : report.getAgentsSerialNumbersNumber()) agentSerialNumbers.append(serial).append(", ");
-		agentSerialNumbers = new StringBuilder(agentSerialNumbers.substring(0, agentSerialNumbers.length() - 1));
-		agentSerialNumbers.append("}");
+	private JSONObject reportToJSON(Report report){
+		JSONObject jsonReport = new JSONObject();
 
-		StringBuilder agentNames = new StringBuilder("{");
-		for(String serial : report.getAgentsNames()) agentNames.append(serial).append(", ");
-		agentNames = new StringBuilder(agentNames.substring(0, agentNames.length() - 1));
-		agentNames.append("}");
+		JSONArray agentSerialNumbers = new JSONArray();
+		agentSerialNumbers.addAll(report.getAgentsSerialNumbersNumber());
+		JSONArray agentNames = new JSONArray();
+		agentNames.addAll(report.getAgentsSerialNumbersNumber());
 
-		return "Mission name: " +report.getMissionName() +"\n"
-				+"M id: " +report.getM() +"\n"
-				+"MoneyPenny id: " +report.getMoneypenny() +"\n"
-				+"Agent serial numbers: " +agentSerialNumbers +"\n"
-				+"Agent names: " +agentNames +"\n"
-				+"Gadget name: " +report.getGadgetName() +"\n"
-				+"Time issued: " +report.getTimeIssued() +"\n"
-				+"Time Created: " +report.getTimeCreated() +"\n"
-				+"QTime: " +report.getQTime() +"\n";
+		jsonReport.put("Mission name", report.getMissionName());
+		jsonReport.put("M", report.getM());
+		jsonReport.put("Money Penny", report.getMoneypenny());
+		jsonReport.put("Agents serial numbers", agentSerialNumbers);
+		jsonReport.put("Agent names", agentNames);
+		jsonReport.put("Gadget name", report.getGadgetName());
+		jsonReport.put("Time issued", report.getTimeIssued());
+		jsonReport.put("Q time", report.getQTime());
+		jsonReport.put("Time created", report.getTimeCreated());
 
+		return jsonReport;
 	}
 }
