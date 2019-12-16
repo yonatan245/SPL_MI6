@@ -1,5 +1,10 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,7 +54,7 @@ public class Inventory {
      */
 	public synchronized boolean getItem(String gadget){
 		for(String toFind:gadgets){
-			if(toFind==gadget){
+			if(toFind.equals(gadget)){
 				gadgets.remove(toFind);
 				return true;
 			}
@@ -65,6 +70,13 @@ public class Inventory {
 	 * This method is called by the main method in order to generate the output.
 	 */
 	public void printToFile(String filename){
-		//TODO: Implement this
+
+		JSONArray gadgetsJson = new JSONArray();
+		gadgetsJson.addAll(gadgets);
+
+		try{
+			FileWriter file = new FileWriter(filename);
+			file.write(gadgetsJson.toJSONString());
+		} catch (IOException e) {}
 	}
 }
