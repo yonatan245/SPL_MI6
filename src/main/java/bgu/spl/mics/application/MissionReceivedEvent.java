@@ -17,16 +17,16 @@ public class MissionReceivedEvent implements Event {
     {
         COMPLETED,ABORTED,IN_PROGRESS, PENDING;
     }
-    private Future<Report> fut;
+    private Future<MissionInfo> fut;
     private Status status;
 
     public MissionReceivedEvent(MissionInfo m){
         this.m=m;
-        fut = new Future<Report>();
+        fut = new Future<MissionInfo>();
         status=Status.PENDING;
     }
 
-    public Future<Report> getFuture(){
+    public Future<MissionInfo> getFuture(){
         return fut;
     }
 
@@ -46,10 +46,11 @@ public class MissionReceivedEvent implements Event {
         return m.getTimeIssued();
     }
 
-    public void MissionComplete(int mId, int moneyPennyId, List<String> agentsSerialNumbers, List<String> agentsNames
+    public Report MissionComplete(int mId, int moneyPennyId, List<String> agentsSerialNumbers, List<String> agentsNames
             , int QTime, int timeCreated){
             Report result = new Report(m.getMissionName(), mId, moneyPennyId, agentsSerialNumbers, agentsNames, m.getGadget(), m.getTimeIssued(), QTime, timeCreated);
-            fut.resolve(result);
+            fut.resolve(m);
             status=Status.COMPLETED;
+            return result;
         }
     }

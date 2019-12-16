@@ -1,7 +1,9 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  *  That's where Q holds his gadget (e.g. an explosive pen was used in GoldenEye, a geiger counter in Dr. No, etc).
@@ -16,7 +18,7 @@ public class Inventory {
 		private static Inventory instance= new Inventory();
 	}
 	private Inventory(){
-		gadgets = new LinkedList<String>();
+		gadgets = new ArrayList<String>();
 	}
 	private List<String> gadgets;
 	/**
@@ -33,9 +35,9 @@ public class Inventory {
      * @param inventory 	Data structure containing all data necessary for initialization
      * 						of the inventory.
      */
-	public void load (String[] inventory) {
+	public synchronized void load (String[] inventory) {
 		for(int i=0;i<inventory.length;i++){
-
+			gadgets.add(inventory[i]);
 		}
 	}
 	
@@ -45,9 +47,14 @@ public class Inventory {
      * @param gadget 		Name of the gadget to check if available
      * @return 	‘false’ if the gadget is missing, and ‘true’ otherwise
      */
-	public boolean getItem(String gadget){
-		//TODO: Implement this
-		return true;
+	public synchronized boolean getItem(String gadget){
+		for(String toFind:gadgets){
+			if(toFind==gadget){
+				gadgets.remove(toFind);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
