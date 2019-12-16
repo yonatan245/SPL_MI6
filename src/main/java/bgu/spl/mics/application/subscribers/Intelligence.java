@@ -1,9 +1,8 @@
 package bgu.spl.mics.application.subscribers;
 
-import bgu.spl.mics.Event;
-import bgu.spl.mics.Future;
-import bgu.spl.mics.Subscriber;
+import bgu.spl.mics.*;
 import bgu.spl.mics.application.MissionReceivedEvent;
+import bgu.spl.mics.application.TickBroadcast;
 import bgu.spl.mics.application.passiveObjects.MissionInfo;
 import bgu.spl.mics.application.passiveObjects.Report;
 
@@ -28,11 +27,9 @@ public class Intelligence extends Subscriber {
         CurrentTime=0;
     }
 
-    public void RecieveEvent(){}
-
     @Override
     protected void initialize() {
-        CurrentTime=
+        this.subscribeBroadcast(TickBroadcast.class, c -> CurrentTime=c.getCurrentTime());
         for(MissionInfo m:missions) {
             Event<MissionInfo> toPublish = new MissionReceivedEvent(m);
 

@@ -46,11 +46,4 @@ public class MissionReceivedEvent implements Event {
         return m.getTimeIssued();
     }
 
-    public Report MissionComplete(int mId, int moneyPennyId, List<String> agentsSerialNumbers, List<String> agentsNames
-            , int QTime, int timeCreated){
-            Report result = new Report(m.getMissionName(), mId, moneyPennyId, agentsSerialNumbers, agentsNames, m.getGadget(), m.getTimeIssued(), QTime, timeCreated);
-            fut.resolve(m);
-            status=Status.COMPLETED;
-            return result;
-        }
     }
