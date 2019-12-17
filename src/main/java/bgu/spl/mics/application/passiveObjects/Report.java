@@ -103,8 +103,8 @@ public class Report {
 	/**
 	 * Sets the serial numbers of the agents.
 	 */
-	public void setAgentsSerialNumbersNumber(List<String> agentsSerialNumbersNumber) {
-		this.agentsSerialNumbers = agentsSerialNumbersNumber;
+	public void setAgentsSerialNumbers(List<String> agentsSerialNumbers) {
+		this.agentsSerialNumbers = agentsSerialNumbers;
 	}
 
 	/**
