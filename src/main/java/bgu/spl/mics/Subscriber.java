@@ -1,5 +1,7 @@
 package bgu.spl.mics;
 
+import java.util.Map;
+
 /**
  * The Subscriber is an abstract class that any subscriber in the system
  * must extend. The abstract Subscriber class is responsible to get and
@@ -17,6 +19,7 @@ package bgu.spl.mics;
  */
 public abstract class Subscriber extends RunnableSubPub {
     private boolean terminated = false;
+    private Map<Event,Callback> map;
 
     /**
      * @param name the Subscriber name (used mainly for debugging purposes -
@@ -48,7 +51,7 @@ public abstract class Subscriber extends RunnableSubPub {
      *                 queue.
      */
     protected final <T, E extends Event<T>> void subscribeEvent(Class<E> type, Callback<E> callback) {
-        //TODO: implement this.
+
     }
 
     /**

@@ -3,6 +3,9 @@ package bgu.spl.mics.application.publishers;
 import bgu.spl.mics.Broadcast;
 import bgu.spl.mics.Publisher;
 import bgu.spl.mics.application.TickBroadcast;
+
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
@@ -22,11 +25,21 @@ public class TimeService extends Publisher {
 		private static TimeService instance= new TimeService();
 	}
 	private long CurrentTime;
-
+	private TimerTask task;
 	private long TimeTicks;
+	private Timer timer;
 	private TimeUnit unit;
 	private TimeService() {
 		super("The One And Only TimeService");
+		timer = new Timer("The One And Only TimeService");
+		task = new TimerTask() {
+			@Override
+			public void run() {
+				CurrentTime = CurrentTime + 1;
+				Broadcast toSend = new TickBroadcast(CurrentTime);
+				TimeService.super.getSimplePublisher().sendBroadcast(toSend);
+			}
+		};
 	}
 
 	/**
@@ -48,15 +61,9 @@ public class TimeService extends Publisher {
 	@Override
 	public void run() {
 	while(CurrentTime<TimeTicks){
-		CurrentTime=CurrentTime+1;
-		Broadcast toSend= new TickBroadcast(CurrentTime);
-		this.getSimplePublisher().sendBroadcast(toSend);
-		try {
-			sleep(unit.toMillis(100));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		timer.schedule(task, 100);
 	}
+	timer.cancel();
 	}
 
 }
