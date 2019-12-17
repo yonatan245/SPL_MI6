@@ -25,8 +25,7 @@ public class AgentsAvailableEvent<T> implements Event<T> {
         return fut;
     }
 
-    public void resolveFut(List<Agent> agentList, Long MPID){ // Moneypenny will acquire the agents, send a list made of copies of the agents and her own ID.
-        Pair<List<Agent>,Long> result = new Pair(agentList,MPID);
+    public void resolveFut(Pair<List<Agent>,Long> result){ // Moneypenny will acquire the agents, send a list made of copies of the agents and her own ID.
         fut.resolve(result);
     }
 

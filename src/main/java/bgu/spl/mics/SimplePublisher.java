@@ -1,9 +1,11 @@
 package bgu.spl.mics;
 
-import bgu.spl.mics.application.AgentsAvailableEvent;
-import bgu.spl.mics.application.GadgetAvailableEvent;
-import bgu.spl.mics.application.MissionReceivedEvent;
-import bgu.spl.mics.application.SendThemAgentsEvent;
+import bgu.spl.mics.application.*;
+import bgu.spl.mics.application.passiveObjects.Agent;
+import bgu.spl.mics.application.passiveObjects.Report;
+import jdk.internal.net.http.common.Pair;
+
+import java.util.List;
 
 /**
  * The SimplePublisher is a class that any publisher in the system
@@ -37,21 +39,24 @@ public final class SimplePublisher {
      * 	       			null in case no Subscriber has subscribed to {@code e.getClass()}.
      */
     public final <T> Future<T> sendEvent(Event<T> e) {
-    String whichEvent = e.getClass().toString();
+    String whichEvent = e.getClass().getName();
     Future<T> fut;
     switch(whichEvent){
-        case "MissionReceivedEvent" :
+        case "bgu.spl.mics.MissionReceivedEvent":
             fut = mb.sendEvent((MissionReceivedEvent) e);
             return fut;
-        case "AgentsAvailableEvent":
+        case "bgu.spl.mics.AgentsAvailableEvent":
             fut = mb.sendEvent((AgentsAvailableEvent) e);
             return fut;
-        case "GadgetAvailableEvent":
+        case "bgu.spl.mics.GadgetAvailableEvent":
             fut = mb.sendEvent((GadgetAvailableEvent) e);
             return fut;
-        case "SendThemAgentsEvent":
+        case "bgu.spl.mics.SendThemAgentsEvent":
             fut = mb.sendEvent((SendThemAgentsEvent) e);
             return fut;
+        case "bgu.spl.mics.ReleaseAgentsEvent":
+            fut = mb.sendEvent((ReleaseAgentsEvent)e);
+           return fut;
     }
     return null;
     }

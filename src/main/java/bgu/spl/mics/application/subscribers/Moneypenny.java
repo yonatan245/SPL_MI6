@@ -11,6 +11,9 @@ import bgu.spl.mics.Subscriber;
  */
 public class Moneypenny extends Subscriber {
 
+	private long CurrentTime;
+	private int MoneyPennyID;
+
 	public Moneypenny() {
 		super("Change_This_Name");
 		// TODO Implement this

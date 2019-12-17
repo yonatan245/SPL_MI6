@@ -1,5 +1,11 @@
 package bgu.spl.mics;
 
+import bgu.spl.mics.application.*;
+import bgu.spl.mics.application.passiveObjects.Agent;
+import bgu.spl.mics.application.passiveObjects.Report;
+import jdk.internal.net.http.common.Pair;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +25,7 @@ import java.util.Map;
  */
 public abstract class Subscriber extends RunnableSubPub {
     private boolean terminated = false;
-    private Map<Event,Callback> map;
+    private Map<Class,Callback> map;
 
     /**
      * @param name the Subscriber name (used mainly for debugging purposes -
@@ -51,7 +57,8 @@ public abstract class Subscriber extends RunnableSubPub {
      *                 queue.
      */
     protected final <T, E extends Event<T>> void subscribeEvent(Class<E> type, Callback<E> callback) {
-
+    map.put(type, callback);
+    MessageBrokerImpl.getInstance().subscribeEvent(type,this);
     }
 
     /**
@@ -75,7 +82,8 @@ public abstract class Subscriber extends RunnableSubPub {
      *                 queue.
      */
     protected final <B extends Broadcast> void subscribeBroadcast(Class<B> type, Callback<B> callback) {
-        //TODO: implement this.
+        map.put(type, callback);
+        MessageBrokerImpl.getInstance().subscribeBroadcast(type,this);
     }
 
     /**
@@ -89,7 +97,19 @@ public abstract class Subscriber extends RunnableSubPub {
      *               {@code e}.
      */
     protected final <T> void complete(Event<T> e, T result) {
-        //TODO: implement this.
+        String whichEvent = e.getClass().getName();
+        switch (whichEvent) {
+            case "bgu.spl.mics.MissionReceivedEvent":
+                ((MissionReceivedEvent) e).resolveFuture((Report) result);
+            case "bgu.spl.mics.AgentsAvailableEvent":
+                ((AgentsAvailableEvent) e).resolveFut((Pair<List<Agent>, Long>) result);
+            case "bgu.spl.mics.GadgetAvailableEvent":
+                ((GadgetAvailableEvent) e).resolveFut((String) result);
+            case "bgu.spl.mics.SendThemAgentsEvent":
+                ((SendThemAgentsEvent) e).resolveFut((boolean) result);
+            case "bgu.spl.mics.ReleaseAgentsEvent":
+                ((ReleaseAgentsEvent) e).resolveFut((boolean) result);
+        }
     }
 
     /**
@@ -108,8 +128,36 @@ public abstract class Subscriber extends RunnableSubPub {
     public final void run() {
         initialize();
         while (!terminated) {
-            System.out.println("NOT IMPLEMENTED!!!"); //TODO: you should delete this line :)
-        }
-    }
+            try {
+                Message received = MessageBrokerImpl.getInstance().awaitMessage(this);
+                String whichType = received.getClass().getName();
+                switch (whichType) {
+                    case "bgu.spl.mics.MissionReceivedEvent":
+                       Callback<MissionReceivedEvent> MRECB=map.get(MissionReceivedEvent.class);
+                       MRECB.call((MissionReceivedEvent)received);
+                    case "bgu.spl.mics.AgentsAvailableEvent":
+                        Callback<AgentsAvailableEvent> AAECB=map.get(AgentsAvailableEvent.class);
+                        AAECB.call((AgentsAvailableEvent)received);
+                    case "bgu.spl.mics.GadgetAvailableEvent":
+                        Callback<GadgetAvailableEvent> GAECB=map.get(GadgetAvailableEvent.class);
+                        GAECB.call((GadgetAvailableEvent) received);
+                    case "bgu.spl.mics.SendThemAgentsEvent":
+                        Callback<SendThemAgentsEvent> STAECB=map.get(SendThemAgentsEvent.class);
+                        STAECB.call((SendThemAgentsEvent)received);
+                    case "bgu.spl.mics.ReleaseAgentsEvent":
+                        Callback<ReleaseAgentsEvent> RAECB=map.get(ReleaseAgentsEvent.class);
+                        RAECB.call((ReleaseAgentsEvent) received);
+                    case "bgu.spl.mics.TickBroadcast":
+                        Callback<TickBroadcast> TBCB=map.get(TickBroadcast.class);
+                        TBCB.call((TickBroadcast) received);
 
+
+            }
+
+        } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+}
 }

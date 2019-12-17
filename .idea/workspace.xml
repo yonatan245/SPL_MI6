@@ -2,15 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/ReleaseAgentsEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/Future.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/Future.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/SimplePublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/SimplePublisher.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/Subscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/Subscriber.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/AgentsAvailableEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/AgentsAvailableEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/GadgetAvailableEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/GadgetAvailableEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/MissionReceivedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/MissionReceivedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/SendThemAgentsEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/SendThemAgentsEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/subscribers/Moneypenny.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/subscribers/Moneypenny.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +71,7 @@
       <workItem from="1576326756862" duration="383000" />
       <workItem from="1576345770138" duration="2390000" />
       <workItem from="1576574327616" duration="5778000" />
-      <workItem from="1576584462556" duration="12650000" />
+      <workItem from="1576584462556" duration="15743000" />
     </task>
     <task id="LOCAL-00001" summary="s">
       <created>1576416241229</created>
@@ -174,7 +171,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576589514124</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Merge branch 'master' of https://github.com/yonatan245/SPL_MI6">
+      <created>1576597151115</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1576597151116</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,11 +190,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="Merge branch 'master' of https://github.com/yonatan245/SPL_MI6" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="809" y="264" width="374" height="575" key="#com.intellij.ide.util.MemberChooser" timestamp="1576586070553">
+    <state x="809" y="264" width="374" height="575" key="#com.intellij.ide.util.MemberChooser" timestamp="1576598749043">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="769" y="235" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1044@0.0.1920.1044" timestamp="1576519297321" />
-    <state x="809" y="264" width="374" height="575" key="#com.intellij.ide.util.MemberChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1576586070553" />
+    <state x="809" y="264" width="374" height="575" key="#com.intellij.ide.util.MemberChooser/67.27.1853.1053@67.27.1853.1053" timestamp="1576598749043" />
     <state x="558" y="148" width="867" height="807" key="CommitChangelistDialog2" timestamp="1576597149997">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
@@ -234,12 +238,12 @@
       <screen x="1600" y="0" width="1920" height="1080" />
     </state>
     <state x="2049" y="188" width="1022" height="737" key="SettingsEditor/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327139121" />
-    <state x="603" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1576589516170">
+    <state x="603" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1576597152942">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="555" y="260" key="Vcs.Push.Dialog.v2/0.0.1920.1044@0.0.1920.1044" timestamp="1576522069001" />
     <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576416244226" />
-    <state x="603" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1576589516170" />
+    <state x="603" y="289" width="800" height="528" key="Vcs.Push.Dialog.v2/67.27.1853.1053@67.27.1853.1053" timestamp="1576597152942" />
     <state x="605" y="289" key="Vcs.Push.Dialog.v2/70.27.1850.1053@70.27.1850.1053" timestamp="1576430406620" />
     <state x="662" y="398" key="com.intellij.ide.util.TipDialog" timestamp="1576584508253">
       <screen x="67" y="27" width="1853" height="1053" />
@@ -253,11 +257,11 @@
     <state x="719" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576429897998" />
     <state x="761" y="473" width="454" height="169" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/67.27.1853.1053@67.27.1853.1053" timestamp="1576574892963" />
     <state x="763" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/70.27.1850.1053@70.27.1850.1053" timestamp="1576430377304" />
-    <state x="656" y="259" width="674" height="679" key="search.everywhere.popup" timestamp="1576585927157">
+    <state x="656" y="259" width="674" height="679" key="search.everywhere.popup" timestamp="1576598046704">
       <screen x="67" y="27" width="1853" height="1053" />
     </state>
     <state x="610" y="230" width="698" height="673" key="search.everywhere.popup/0.0.1920.1044@0.0.1920.1044" timestamp="1576516703953" />
-    <state x="656" y="259" width="674" height="679" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1576585927157" />
+    <state x="656" y="259" width="674" height="679" key="search.everywhere.popup/67.27.1853.1053@67.27.1853.1053" timestamp="1576598046704" />
     <state x="658" y="259" width="672" height="678" key="search.everywhere.popup/70.27.1850.1053@70.27.1850.1053" timestamp="1576432177814" />
   </component>
 </project>
