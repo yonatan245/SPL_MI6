@@ -1,6 +1,10 @@
 package bgu.spl.mics.application.subscribers;
 
+import bgu.spl.mics.Callback;
 import bgu.spl.mics.Subscriber;
+import bgu.spl.mics.application.GadgetAvailableEvent;
+import bgu.spl.mics.application.TickBroadcast;
+import bgu.spl.mics.application.passiveObjects.Inventory;
 
 /**
  * Q is the only Subscriber\Publisher that has access to the {@link bgu.spl.mics.application.passiveObjects.Inventory}.
@@ -10,15 +14,26 @@ import bgu.spl.mics.Subscriber;
  */
 public class Q extends Subscriber {
 
+	private long CurrentTime;
+
+
 	public Q() {
-		super("Change_This_Name");
-		// TODO Implement this
+		super("I'm not fond of the actor Ben Whishaw");
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Implement this
-		
+		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
+		Callback<GadgetAvailableEvent> CBGAE = c -> {
+		if(Inventory.getInstance().getItem(c.getGadget())){
+			complete(c,c.getGadget());
+		}
+		else{
+			complete(c,null);
+		}
+		};
+		subscribeBroadcast(TickBroadcast.class, CBTB);
+		subscribeEvent(GadgetAvailableEvent.class,CBGAE);
 	}
 
 }

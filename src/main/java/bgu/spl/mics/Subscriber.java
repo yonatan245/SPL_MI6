@@ -150,8 +150,6 @@ public abstract class Subscriber extends RunnableSubPub {
                     case "bgu.spl.mics.TickBroadcast":
                         Callback<TickBroadcast> TBCB=map.get(TickBroadcast.class);
                         TBCB.call((TickBroadcast) received);
-
-
             }
 
         } catch (InterruptedException e) {

@@ -40,7 +40,7 @@ public class Inventory {
      * @param inventory 	Data structure containing all data necessary for initialization
      * 						of the inventory.
      */
-	public synchronized void load (String[] inventory) {
+	public void load (String[] inventory) {
 		for(int i=0;i<inventory.length;i++){
 			gadgets.add(inventory[i]);
 		}
@@ -52,7 +52,7 @@ public class Inventory {
      * @param gadget 		Name of the gadget to check if available
      * @return 	‘false’ if the gadget is missing, and ‘true’ otherwise
      */
-	public synchronized boolean getItem(String gadget){
+	public boolean getItem(String gadget){
 		for(String toFind:gadgets){
 			if(toFind.equals(gadget)){
 				gadgets.remove(toFind);

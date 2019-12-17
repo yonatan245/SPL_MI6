@@ -21,15 +21,14 @@ import static java.lang.Thread.sleep;
  */
 public class TimeService extends Publisher {
 
-	private static class TimeServiceHolder{
-		private static TimeService instance= new TimeService();
-	}
+
 	private long CurrentTime;
 	private TimerTask task;
 	private long TimeTicks;
 	private Timer timer;
 	private TimeUnit unit;
-	private TimeService() {
+
+	public TimeService(long TimeTicks) {
 		super("The One And Only TimeService");
 		timer = new Timer("The One And Only TimeService");
 		task = new TimerTask() {
@@ -40,18 +39,13 @@ public class TimeService extends Publisher {
 				TimeService.super.getSimplePublisher().sendBroadcast(toSend);
 			}
 		};
+		this.TimeTicks=TimeTicks;
 	}
 
 	/**
 	 * Retrieves the single instance of this class.
 	 */
-	public static TimeService getInstance() {
-		return TimeServiceHolder.instance;
-	}
 
-	public void SetTimeTicks(long TimeTicks){
-		this.TimeTicks=TimeTicks;
-	}
 
 	@Override
 	protected void initialize() {

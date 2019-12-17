@@ -1,6 +1,13 @@
 package bgu.spl.mics.application.subscribers;
 
+import bgu.spl.mics.Callback;
 import bgu.spl.mics.Subscriber;
+import bgu.spl.mics.application.AgentsAvailableEvent;
+import bgu.spl.mics.application.ReleaseAgentsEvent;
+import bgu.spl.mics.application.SendThemAgentsEvent;
+import bgu.spl.mics.application.TickBroadcast;
+import bgu.spl.mics.application.passiveObjects.Squad;
+
 
 /**
  * Only this type of Subscriber can access the squad.
@@ -12,17 +19,37 @@ import bgu.spl.mics.Subscriber;
 public class Moneypenny extends Subscriber {
 
 	private long CurrentTime;
-	private int MoneyPennyID;
+	private Integer MoneyPennyID;
 
-	public Moneypenny() {
-		super("Change_This_Name");
-		// TODO Implement this
+	public Moneypenny(Integer MPID) {
+		super("Moneypenny"+MPID);
+		MoneyPennyID=MPID;
 	}
 
 	@Override
 	protected void initialize() {
-		// TODO Implement this
-		
+		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
+		Callback<AgentsAvailableEvent> CBAAE= c -> {
+			if(Squad.getInstance().getAgents(c.getSerialAgentsNumbers())){
+				complete(c,MoneyPennyID);			}
+			else
+				complete(c,null);
+		};
+		Callback<ReleaseAgentsEvent> CBRAE = c -> {
+			Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers());
+			complete(c,true);
+		};
+		Callback<SendThemAgentsEvent> CBSTAE = new Callback<SendThemAgentsEvent>() {
+			@Override
+			public void call(SendThemAgentsEvent c) throws InterruptedException {
+				Squad.getInstance().sendAgents(c.getSerialAgentsNumbers(),c.getDuration());
+				complete(c,true);
+			}
+		};
+		subscribeBroadcast(TickBroadcast.class, CBTB);
+		subscribeEvent(AgentsAvailableEvent.class,CBAAE);
+		subscribeEvent(ReleaseAgentsEvent.class,CBRAE);
+		subscribeEvent(SendThemAgentsEvent.class,CBSTAE);
 	}
 
 }

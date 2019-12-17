@@ -11,7 +11,7 @@ import java.util.List;
 public class AgentsAvailableEvent<T> implements Event<T> {
 
     private List<String> serialAgentsNumbers;
-    private Future<Pair<List<Agent>,Long>> fut;
+    private Future<Long> fut;
 
     public AgentsAvailableEvent(List<String> serialAgentsNumbers) {
         this.serialAgentsNumbers=serialAgentsNumbers;
@@ -21,11 +21,11 @@ public class AgentsAvailableEvent<T> implements Event<T> {
         return serialAgentsNumbers;
     }
 
-    public Future<Pair<List<Agent>,Long>> getFut(){
+    public Future<Long> getFut(){
         return fut;
     }
 
-    public void resolveFut(Pair<List<Agent>,Long> result){ // Moneypenny will acquire the agents, send a list made of copies of the agents and her own ID.
+    public void resolveFut(Long result){ // Moneypenny will acquire the agents, send her own ID.
         fut.resolve(result);
     }
 
