@@ -27,7 +27,6 @@ public class TimeService extends Publisher {
 	private TimeUnit unit;
 	private TimeService() {
 		super("The One And Only TimeService");
-		this.TimeTicks=TimeTicks;
 	}
 
 	/**
@@ -37,7 +36,7 @@ public class TimeService extends Publisher {
 		return TimeServiceHolder.instance;
 	}
 
-	public void SetTimeTicks(int TimeTicks){
+	public void SetTimeTicks(long TimeTicks){
 		this.TimeTicks=TimeTicks;
 	}
 
