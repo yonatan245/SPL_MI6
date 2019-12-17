@@ -3,18 +3,18 @@ package bgu.spl.mics;
 public class TopicNode {
 
     //Fields
-    private SimplePublisher publisher;
+    private Subscriber subscriber;
     private TopicNode next;
     private TopicNode prev;
 
     //Constructor
-    public TopicNode(SimplePublisher publisher){
-        this.publisher = publisher;
+    public TopicNode(Subscriber subscriber){
+        this.subscriber = subscriber;
     }
 
     //Methods
-    public SimplePublisher getPublisher() {
-        return publisher;
+    public Subscriber getSubscriber() {
+        return subscriber;
     }
 
     public TopicNode getNext() {
