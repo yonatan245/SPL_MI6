@@ -8,7 +8,8 @@ import java.util.List;
 
 public class MissionReceivedEvent<T> implements Event<T> {
 
-    private MissionInfo m;
+    private MissionInfo mission;
+
     enum Status
     {
         COMPLETED,ABORTED,IN_PROGRESS, PENDING;
@@ -16,7 +17,7 @@ public class MissionReceivedEvent<T> implements Event<T> {
     private Status status;
     private Future<Report> fut;
     public MissionReceivedEvent(MissionInfo m){
-        this.m=m;
+        this.mission = m;
         status=Status.PENDING;
         fut=new Future<Report>();
     }
@@ -26,15 +27,15 @@ public class MissionReceivedEvent<T> implements Event<T> {
     }
 
     public List<String> AgentsRequired(){
-        return m.getSerialAgentsNumbers();
+        return mission.getSerialAgentsNumbers();
     }
 
     public String GadgetRequired(){
-        return m.getGadget();
+        return mission.getGadget();
     }
 
     public int getTimeIssued(){
-        return m.getTimeIssued();
+        return mission.getTimeIssued();
     }
 
     public Future<Report> getFut() {

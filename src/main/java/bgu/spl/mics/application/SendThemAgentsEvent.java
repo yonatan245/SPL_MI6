@@ -29,5 +29,7 @@ public class SendThemAgentsEvent<T> implements Event<T> {
     public void resolveFut(boolean result){ //Moneypenny will put the agents to sleep and return true;
         fut.resolve(result);
     }
+
+    public Future<Boolean> getFut(){return fut;}
 }
 

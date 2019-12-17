@@ -22,4 +22,6 @@ public class ReleaseAgentsEvent<T> implements Event<T> {
     public void resolveFut(boolean result){ //Moneypenny will release the agents and return true.
         fut.resolve(result);
     }
+
+    public Future<Boolean> getFut(){return fut;}
 }

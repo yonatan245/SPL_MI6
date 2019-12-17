@@ -22,4 +22,6 @@ public class GadgetAvailableEvent<T> implements Event<T> {
     public void resolveFut(String result){
         fut.resolve(result);
     }
+
+    public Future<String> getFut(){return fut;}
 }

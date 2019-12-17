@@ -1,14 +1,14 @@
 package bgu.spl.mics;
 
-public class TopicNode {
+public class EventTopicNode {
 
     //Fields
     private Subscriber subscriber;
-    private TopicNode next;
-    private TopicNode prev;
+    private EventTopicNode next;
+    private EventTopicNode prev;
 
     //Constructor
-    public TopicNode(Subscriber subscriber){
+    public EventTopicNode(Subscriber subscriber){
         this.subscriber = subscriber;
     }
 
@@ -17,19 +17,19 @@ public class TopicNode {
         return subscriber;
     }
 
-    public TopicNode getNext() {
+    public EventTopicNode getNext() {
         return next;
     }
 
-    public void setNext(TopicNode next) {
+    public void setNext(EventTopicNode next) {
         this.next = next;
     }
 
-    public TopicNode getPrev() {
+    public EventTopicNode getPrev() {
         return prev;
     }
 
-    public void setPrev(TopicNode prev) {
+    public void setPrev(EventTopicNode prev) {
         this.prev = prev;
     }
 
@@ -42,7 +42,7 @@ public class TopicNode {
         }
     }
 
-    public void insert(TopicNode prev, TopicNode next){
+    public void insert(EventTopicNode prev, EventTopicNode next){
         this.next = next;
         this.prev = prev;
 

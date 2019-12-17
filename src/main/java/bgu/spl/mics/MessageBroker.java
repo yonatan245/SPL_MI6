@@ -58,7 +58,7 @@ public interface MessageBroker {
      * @return {@link Future<T>} object to be resolved once the processing is complete,
      * 	       null in case no Subscriber has subscribed to {@code e.getClass()}.
      */
-    <T> Future<T> sendEvent(Event<T> e);
+    <T> Future<T> sendEvent(Event<T> e) throws ClassNotFoundException;
 
     /**
      * Allocates a message-queue for the {@link Subscriber} {@code m}.

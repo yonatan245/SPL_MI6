@@ -97,19 +97,7 @@ public abstract class Subscriber extends RunnableSubPub {
      *               {@code e}.
      */
     protected final <T> void complete(Event<T> e, T result) {
-        String whichEvent = e.getClass().getName();
-        switch (whichEvent) {
-            case "bgu.spl.mics.MissionReceivedEvent":
-                ((MissionReceivedEvent) e).resolveFuture((Report) result);
-            case "bgu.spl.mics.AgentsAvailableEvent":
-                ((AgentsAvailableEvent) e).resolveFut((Pair<List<Agent>, Long>) result);
-            case "bgu.spl.mics.GadgetAvailableEvent":
-                ((GadgetAvailableEvent) e).resolveFut((String) result);
-            case "bgu.spl.mics.SendThemAgentsEvent":
-                ((SendThemAgentsEvent) e).resolveFut((boolean) result);
-            case "bgu.spl.mics.ReleaseAgentsEvent":
-                ((ReleaseAgentsEvent) e).resolveFut((boolean) result);
-        }
+        MessageBrokerImpl.MessageBrokerImplHolder.getInstance().complete(e,result);
     }
 
     /**
@@ -126,7 +114,11 @@ public abstract class Subscriber extends RunnableSubPub {
      */
     @Override
     public final void run() {
-        initialize();
+        try {
+            initialize();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         while (!terminated) {
             try {
                 Message received = MessageBrokerImpl.getInstance().awaitMessage(this);

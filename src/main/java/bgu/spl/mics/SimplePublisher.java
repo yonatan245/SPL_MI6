@@ -3,7 +3,7 @@ package bgu.spl.mics;
 import bgu.spl.mics.application.*;
 import bgu.spl.mics.application.passiveObjects.Agent;
 import bgu.spl.mics.application.passiveObjects.Report;
-import jdk.internal.net.http.common.Pair;
+import java.util.*;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public final class SimplePublisher {
      *         			subscriber processing this event.
      * 	       			null in case no Subscriber has subscribed to {@code e.getClass()}.
      */
-    public final <T> Future<T> sendEvent(Event<T> e) {
+    public final <T> Future<T> sendEvent(Event<T> e) throws ClassNotFoundException {
     String whichEvent = e.getClass().getName();
     Future<T> fut;
     switch(whichEvent){

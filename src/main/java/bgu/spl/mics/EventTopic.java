@@ -1,16 +1,18 @@
 package bgu.spl.mics;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
-public class Topic {
+public class EventTopic {
 
     //Fields
-    private TopicNode firstSubscriber;
-    private TopicNode lastSubscriber;
-    private TopicNode currentSubscriber;
+    private EventTopicNode firstSubscriber;
+    private EventTopicNode lastSubscriber;
+    private EventTopicNode currentSubscriber;
 
     //Constructor
-    public Topic(){
+    public EventTopic(){
         firstSubscriber = null;
         lastSubscriber = null;
         currentSubscriber = null;
@@ -18,7 +20,7 @@ public class Topic {
 
     //Methods
     public void add(Subscriber toAdd){
-        TopicNode newNode = new TopicNode(toAdd);
+        EventTopicNode newNode = new EventTopicNode(toAdd);
 
         if(isEmpty()){
             firstSubscriber = newNode;
@@ -36,8 +38,8 @@ public class Topic {
 
     public void remove(Subscriber toRemove){
         if(!isEmpty()){
-            TopicNode nodeToRemove = null;
-            TopicNode toCheck = firstSubscriber;
+            EventTopicNode nodeToRemove = null;
+            EventTopicNode toCheck = firstSubscriber;
 
             do{
                 if(toCheck.getSubscriber().equals(toRemove)) nodeToRemove = toCheck;
@@ -68,7 +70,6 @@ public class Topic {
 
         return toReturn;
     }
-
 
 
 }
