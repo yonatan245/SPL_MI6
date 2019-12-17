@@ -17,17 +17,11 @@ public class MissionReceivedEvent<T> implements Event<T> {
     {
         COMPLETED,ABORTED,IN_PROGRESS, PENDING;
     }
-    private Future<MissionInfo> fut;
     private Status status;
 
     public MissionReceivedEvent(MissionInfo m){
         this.m=m;
-        fut = new Future<MissionInfo>();
         status=Status.PENDING;
-    }
-
-    public Future<MissionInfo> getFuture(){
-        return fut;
     }
 
     public void setStatus(Status status){
