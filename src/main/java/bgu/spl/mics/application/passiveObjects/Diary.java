@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.json.simple.*;
 
 
@@ -19,7 +21,7 @@ public class Diary {
 
 	//Fields
 	private List<Report> reports;
-	private int total;
+	private AtomicInteger total;
 
 
 	//Constructor
@@ -30,17 +32,16 @@ public class Diary {
 			return instance;
 		}
 	}
-	private Diary(){
+	private Diary() {
 		reports = new ArrayList<>();
-		total = 0;
+		total = new AtomicInteger();
 	}
-
 	//Methods
 	/**
 	 * Retrieves the single instance of this class.
 	 */
 	public static Diary getInstance() {
-		return DiaryHolder.getInstance();
+		return DiaryHolder.instance;
 	}
 
 	public List<Report> getReports() {
@@ -53,7 +54,7 @@ public class Diary {
 	 */
 	public void addReport(Report reportToAdd){
 		reports.add(reportToAdd);
-		total++;
+		total.getAndIncrement();
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class Diary {
 	 * @return the total number of received missions (executed / aborted) be all the M-instances.
 	 */
 	public int getTotal(){
-		return total;
+		return total.get();
 	}
 
 	//TODO: change writing to json format
