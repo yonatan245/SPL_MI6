@@ -1,5 +1,10 @@
 package bgu.spl.mics;
 
+import bgu.spl.mics.application.AgentsAvailableEvent;
+import bgu.spl.mics.application.GadgetAvailableEvent;
+import bgu.spl.mics.application.MissionReceivedEvent;
+import bgu.spl.mics.application.SendThemAgentsEvent;
+
 /**
  * The SimplePublisher is a class that any publisher in the system
  * stores. The SimplePublisher class is responsible to send
@@ -10,6 +15,15 @@ package bgu.spl.mics;
  * <p>
  */
 public final class SimplePublisher {
+
+    private MessageBroker mb;
+
+    public SimplePublisher(){
+        mb=MessageBrokerImpl.getInstance();
+    }
+
+
+
     /**
      * Sends the event {@code e} using the MessageBroker and receive a {@link Future<T>}
      * object that may be resolved to hold a result. This method must be Non-Blocking since
@@ -23,7 +37,23 @@ public final class SimplePublisher {
      * 	       			null in case no Subscriber has subscribed to {@code e.getClass()}.
      */
     public final <T> Future<T> sendEvent(Event<T> e) {
-
+    String whichEvent = e.getClass().toString();
+    Future<T> fut;
+    switch(whichEvent){
+        case "MissionReceivedEvent" :
+            fut = mb.sendEvent((MissionReceivedEvent) e);
+            return fut;
+        case "AgentsAvailableEvent":
+            fut = mb.sendEvent((AgentsAvailableEvent) e);
+            return fut;
+        case "GadgetAvailableEvent":
+            fut = mb.sendEvent((GadgetAvailableEvent) e);
+            return fut;
+        case "SendThemAgentsEvent":
+            fut = mb.sendEvent((SendThemAgentsEvent) e);
+            return fut;
+    }
+    return null;
     }
 
     /**
@@ -33,7 +63,6 @@ public final class SimplePublisher {
      * @param b The broadcast message to send
      */
     public final void sendBroadcast(Broadcast b) {
-        MessageBroker MB=MessageBrokerImpl.getInstance();
-        MB.sendBroadcast(b);
+        mb.sendBroadcast(b);
     }
 }

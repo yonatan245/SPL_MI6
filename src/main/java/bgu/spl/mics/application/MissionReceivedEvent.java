@@ -10,7 +10,7 @@ import bgu.spl.mics.application.subscribers.M;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MissionReceivedEvent implements Event {
+public class MissionReceivedEvent<T> implements Event<T> {
 
     private MissionInfo m;
     enum Status

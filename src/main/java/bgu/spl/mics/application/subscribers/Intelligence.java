@@ -6,8 +6,11 @@ import bgu.spl.mics.application.TickBroadcast;
 import bgu.spl.mics.application.passiveObjects.MissionInfo;
 import bgu.spl.mics.application.passiveObjects.Report;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.ListIterator;
+import java.util.concurrent.locks.Lock;
 
 /**
  * A Publisher\Subscriber.
@@ -17,23 +20,40 @@ import java.util.concurrent.TimeUnit;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class Intelligence extends Subscriber {
-    private Future<Report> fut;
-    private MissionInfo[] missions;
+    private List<MissionInfo> missions;
     private long CurrentTime;
+    private Future<MissionInfo> fut;
 
-    public Intelligence(String name,MissionInfo[] missions) {
+    public Intelligence(String name, ArrayList<MissionInfo> missions) {
         super(name);
         this.missions=missions;
         CurrentTime=0;
+        missions.sort(Comparator.comparing(MissionInfo::getTimeIssued));
+        fut=null;
     }
 
     @Override
     protected void initialize() {
         this.subscribeBroadcast(TickBroadcast.class, c -> CurrentTime=c.getCurrentTime());
-        for(MissionInfo m:missions) {
-            Event<MissionInfo> toPublish = new MissionReceivedEvent(m);
+        ListIterator<MissionInfo> iter = missions.listIterator();
+        while(iter.hasNext()){
+              if(CurrentTime==((MissionInfo) iter).getTimeIssued())  {
+                  Event<MissionInfo> toSend = new MissionReceivedEvent((MissionInfo)iter);
+                  fut=this.getSimplePublisher().sendEvent(toSend);
+                  fut.resolve((MissionInfo) iter);
+                  iter.next();
+              }
+              else
+              {
+                  try {
+                      wait();
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+              }
+              }
 
-        }
+
     }
 
 }

@@ -20,7 +20,6 @@ public class M extends Subscriber {
 
 	@Override
 	protected void initialize() {
-		this
 		// TODO Implement this
 		
 	}
