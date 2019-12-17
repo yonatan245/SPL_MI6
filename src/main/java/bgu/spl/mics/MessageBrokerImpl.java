@@ -9,7 +9,9 @@ import bgu.spl.mics.application.TickBroadcast;
  * Only private fields and methods can be added to this class.
  */
 public class MessageBrokerImpl implements MessageBroker {
-private long CurrentTime;
+
+	//Fields
+	private long CurrentTime;
 
 
 

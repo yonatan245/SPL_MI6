@@ -17,7 +17,7 @@ public class Topic {
     }
 
     //Methods
-    public void add(SimplePublisher toAdd){
+    public void add(Subscriber toAdd){
         TopicNode newNode = new TopicNode(toAdd);
 
         if(isEmpty()){
@@ -34,13 +34,13 @@ public class Topic {
         }
     }
 
-    public void remove(SimplePublisher toRemove){
+    public void remove(Subscriber toRemove){
         if(!isEmpty()){
             TopicNode nodeToRemove = null;
             TopicNode toCheck = firstSubscriber;
 
             do{
-                if(toCheck.getPublisher().equals(toRemove)) nodeToRemove = toCheck;
+                if(toCheck.getSubscriber().equals(toRemove)) nodeToRemove = toCheck;
             } while(nodeToRemove != null && toCheck.getNext() != firstSubscriber);
 
 
@@ -60,6 +60,14 @@ public class Topic {
     }
 
     public boolean isEmpty(){return firstSubscriber == null;}
+
+    public Subscriber getNextSubscriber() {
+
+        Subscriber toReturn = currentSubscriber.getSubscriber();
+        currentSubscriber = currentSubscriber.getNext();
+
+        return toReturn;
+    }
 
 
 
