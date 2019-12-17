@@ -51,7 +51,6 @@ public class TimeService extends Publisher {
 		CurrentTime=CurrentTime+1;
 		Broadcast toSend= new TickBroadcast(CurrentTime);
 		this.getSimplePublisher().sendBroadcast(toSend);
-		notifyAll();
 		try {
 			sleep(unit.toMillis(100));
 		} catch (InterruptedException e) {
