@@ -22,8 +22,16 @@ public class MissionReceivedEvent<T> implements Event<T> {
         fut=new Future<Report>();
     }
 
-    public void setStatus(Status status){
-        this.status=status;
+    public MissionInfo getMission() {
+        return mission;
+    }
+
+    public void setStatus(String status){
+        switch(status){
+            case "ABORTED": this.status=Status.ABORTED;
+            case "COMPLETED" : this.status=Status.COMPLETED;
+            case "IN_PROGRESS": this.status=Status.IN_PROGRESS;
+        };
     }
 
     public List<String> AgentsRequired(){
