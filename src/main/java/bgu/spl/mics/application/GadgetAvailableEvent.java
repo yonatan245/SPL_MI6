@@ -2,14 +2,11 @@ package bgu.spl.mics.application;
 
 import bgu.spl.mics.Event;
 import bgu.spl.mics.Future;
-import bgu.spl.mics.application.passiveObjects.Agent;
-import jdk.internal.net.http.common.Pair;
-
-import java.util.List;
+import org.javatuples.Pair;
 
 public class GadgetAvailableEvent<T> implements Event<T> {
     private String gadget;
-    private Future<String> fut;
+    private Future<Pair<String,Long>> fut;
 
     public GadgetAvailableEvent(String gadget){
         this.gadget=gadget;
@@ -19,9 +16,9 @@ public class GadgetAvailableEvent<T> implements Event<T> {
         return gadget;
     }
 
-    public void resolveFut(String result){
+    public void resolveFut(Pair<String,Long> result){
         fut.resolve(result);
     }
 
-    public Future<String> getFut(){return fut;}
+    public Future<Pair<String,Long>> getFut(){return fut;}
 }

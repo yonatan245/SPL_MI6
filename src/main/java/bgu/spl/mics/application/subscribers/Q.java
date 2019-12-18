@@ -5,6 +5,7 @@ import bgu.spl.mics.Subscriber;
 import bgu.spl.mics.application.GadgetAvailableEvent;
 import bgu.spl.mics.application.TickBroadcast;
 import bgu.spl.mics.application.passiveObjects.Inventory;
+import org.javatuples.Pair;
 
 /**
  * Q is the only Subscriber\Publisher that has access to the {@link bgu.spl.mics.application.passiveObjects.Inventory}.
@@ -26,7 +27,8 @@ public class Q extends Subscriber {
 		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
 		Callback<GadgetAvailableEvent> CBGAE = c -> {
 		if(Inventory.getInstance().getItem(c.getGadget())){
-			complete(c,c.getGadget());
+			Pair<String,Long> result = new Pair(c.getGadget(),CurrentTime);
+			complete(c,result);
 		}
 		else{
 			complete(c,null);

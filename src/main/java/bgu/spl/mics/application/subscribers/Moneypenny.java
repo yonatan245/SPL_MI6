@@ -7,6 +7,9 @@ import bgu.spl.mics.application.ReleaseAgentsEvent;
 import bgu.spl.mics.application.SendThemAgentsEvent;
 import bgu.spl.mics.application.TickBroadcast;
 import bgu.spl.mics.application.passiveObjects.Squad;
+import org.javatuples.Pair;
+
+import java.util.List;
 
 
 /**
@@ -31,7 +34,8 @@ public class Moneypenny extends Subscriber {
 		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
 		Callback<AgentsAvailableEvent> CBAAE= c -> {
 			if(Squad.getInstance().getAgents(c.getSerialAgentsNumbers())){
-				complete(c,MoneyPennyID);			}
+				Pair<List<String>,Long> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
+				complete(c,result);			}
 			else
 				complete(c,null);
 		};
