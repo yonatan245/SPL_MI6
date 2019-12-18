@@ -1,4 +1,9 @@
 package bgu.spl.mics.application.passiveObjects;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Semaphore;
 import java.util.*;
 
 /**
@@ -11,6 +16,7 @@ public class Squad {
 
 	//Fields
 	private Map<String, Agent> agents;
+	private Semaphore semaphore;
 
 	//Constructor
 	private static class SquadHolder{
@@ -22,6 +28,7 @@ public class Squad {
 	}
 	private Squad(){
 		agents = new HashMap<>();
+		semaphore = new Semaphore(1);
 	}
 
 	//Methods
@@ -48,25 +55,24 @@ public class Squad {
 	/**
 	 * Releases agents.
 	 */
-	public void releaseAgents(List<String> serials){
+	public void releaseAgents(List<String> serials) throws InterruptedException {
+		semaphore.acquire();
 		Collections.sort(serials);
+
 		for(String serial : serials){
 			Agent toRelease = agents.get(serial);
 			toRelease.release();
-			notifyAll();
 		}
+		semaphore.release();
 	}
 
 	/**
 	 * simulates executing a mission by calling sleep.
 	 * @param time   milliseconds to sleep
 	 */
-	public void sendAgents(List<String> serials, long time){
+	public void sendAgents(List<String> serials, long time) throws InterruptedException {
 		Collections.sort(serials);
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException ignored) {}
-
+		Thread.sleep(time);
 		releaseAgents(serials);
 	}
 
@@ -76,9 +82,11 @@ public class Squad {
 	 * @return ‘false’ if an agent of serialNumber ‘serial’ is missing, and ‘true’ otherwise
 	 */
 	public boolean getAgents(List<String> serials) throws InterruptedException {
-		Collections.sort(serials);
-		List<String> aquiredAgents = new ArrayList<>();
+		List<String> acquiredAgents = new ArrayList<>();
 		boolean aborted = false;
+
+		semaphore.acquire();
+		Collections.sort(serials);
 		Agent currentAgent;
 
 		for(String serial : serials){
@@ -90,15 +98,16 @@ public class Squad {
 			else if(!currentAgent.isAvailable()) {
 			wait();
 			currentAgent.acquire();
-			aquiredAgents.add(serial);
+			acquiredAgents.add(serial);
 			}
 			else{
 				currentAgent.acquire();
-				aquiredAgents.add(serial);
+				acquiredAgents.add(serial);
 			}
 		}
 
-		if(aborted) releaseAgents(aquiredAgents);
+		if(aborted) releaseAgents(acquiredAgents);
+		semaphore.release();
 
 		return !aborted;
 	}
@@ -108,15 +117,19 @@ public class Squad {
      * @param serials the serial numbers of the agents
      * @return a list of the names of the agents with the specified serials.
      */
-    public List<String> getAgentsNames(List<String> serials){
+    public List<String> getAgentsNames(List<String> serials) throws InterruptedException {
+
+		List<String> agentNames = new ArrayList<>();
+
+		semaphore.acquire();
 		Collections.sort(serials);
-        List<String> agentNames = new ArrayList<>();
-        Agent currentAgent;
+		Agent currentAgent;
 
         for(String serial : serials){
         	currentAgent = agents.get(serial);
         	if(currentAgent != null) agentNames.add(currentAgent.getName());
 		}
+        semaphore.release();
 
         return agentNames;
     }

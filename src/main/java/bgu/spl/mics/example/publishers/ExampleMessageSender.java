@@ -22,7 +22,7 @@ public class ExampleMessageSender extends Subscriber {
     }
 
     @Override
-    protected void initialize() throws InterruptedException {
+    protected void initialize() throws InterruptedException, ClassNotFoundException {
         System.out.println("Sender " + getName() + " started");
         if (broadcast) {
             getSimplePublisher().sendBroadcast(new ExampleBroadcast(getName()));

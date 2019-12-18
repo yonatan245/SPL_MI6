@@ -18,14 +18,15 @@ import java.util.List;
  */
 public final class SimplePublisher {
 
+    //Fields
     private MessageBroker mb;
 
+    //Constructor
     public SimplePublisher(){
-        mb=MessageBrokerImpl.getInstance();
+        mb = MessageBrokerImpl.getInstance();
     }
 
-
-
+    //Methods
     /**
      * Sends the event {@code e} using the MessageBroker and receive a {@link Future<T>}
      * object that may be resolved to hold a result. This method must be Non-Blocking since
@@ -39,26 +40,32 @@ public final class SimplePublisher {
      * 	       			null in case no Subscriber has subscribed to {@code e.getClass()}.
      */
     public final <T> Future<T> sendEvent(Event<T> e) throws ClassNotFoundException {
-    String whichEvent = e.getClass().getName();
-    Future<T> fut;
-    switch(whichEvent){
-        case "bgu.spl.mics.MissionReceivedEvent":
-            fut = mb.sendEvent((MissionReceivedEvent) e);
-            return fut;
-        case "bgu.spl.mics.AgentsAvailableEvent":
-            fut = mb.sendEvent((AgentsAvailableEvent) e);
-            return fut;
-        case "bgu.spl.mics.GadgetAvailableEvent":
-            fut = mb.sendEvent((GadgetAvailableEvent) e);
-            return fut;
-        case "bgu.spl.mics.SendThemAgentsEvent":
-            fut = mb.sendEvent((SendThemAgentsEvent) e);
-            return fut;
-        case "bgu.spl.mics.ReleaseAgentsEvent":
-            fut = mb.sendEvent((ReleaseAgentsEvent)e);
-           return fut;
-    }
-    return null;
+        String whichEvent = e.getClass().getName();
+        Future<T> fut = null;
+
+        switch (whichEvent) {
+            case "bgu.spl.mics.MissionReceivedEvent":
+                fut = mb.sendEvent((MissionReceivedEvent) e);
+                break;
+
+            case "bgu.spl.mics.AgentsAvailableEvent":
+                fut = mb.sendEvent((AgentsAvailableEvent) e);
+                break;
+
+            case "bgu.spl.mics.GadgetAvailableEvent":
+                fut = mb.sendEvent((GadgetAvailableEvent) e);
+                break;
+
+            case "bgu.spl.mics.SendThemAgentsEvent":
+                fut = mb.sendEvent((SendThemAgentsEvent) e);
+                break;
+
+            case "bgu.spl.mics.ReleaseAgentsEvent":
+                fut = mb.sendEvent((ReleaseAgentsEvent) e);
+                break;
+        }
+
+        return fut;
     }
 
     /**

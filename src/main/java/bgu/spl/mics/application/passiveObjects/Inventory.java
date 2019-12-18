@@ -19,13 +19,19 @@ import java.util.ListIterator;
  * You can add ONLY private fields and methods to this class as you see fit.
  */
 public class Inventory {
+
+	//Fields
+	private List<String> gadgets;
+
+	//Constructor
 	private static class InventoryHolder{
 		private static Inventory instance= new Inventory();
 	}
 	private Inventory(){
 		gadgets = new ArrayList<String>();
 	}
-	private List<String> gadgets;
+
+	//Methods
 	/**
      * Retrieves the single instance of this class.
      */

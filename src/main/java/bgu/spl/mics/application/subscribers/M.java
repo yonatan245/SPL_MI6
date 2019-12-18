@@ -8,7 +8,7 @@ import bgu.spl.mics.application.*;
 import bgu.spl.mics.application.passiveObjects.Diary;
 import bgu.spl.mics.application.passiveObjects.MissionInfo;
 import bgu.spl.mics.application.passiveObjects.Report;
-import jdk.internal.net.http.common.Pair;
+import org.javatuples.Pair;
 
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class M extends Subscriber {
 				}
 				else{
 					Future<Boolean> SendThem = getSimplePublisher().sendEvent(new SendThemAgentsEvent<>(CurrentMission.getSerialAgentsNumbers(),CurrentMission.getDuration()));
-					Report toAdd = new Report(CurrentMission.getMissionName(), MID, agentsAndMPID.get().second, CurrentMission.getSerialAgentsNumbers(), agentsAndMPID.get().first, CurrentMission.getGadget(), CurrentMission.getTimeIssued(), GadgetAndQTime.get().second, CurrentTime);
+					Report toAdd = new Report(CurrentMission.getMissionName(), MID, agentsAndMPID.get().getValue1(), CurrentMission.getSerialAgentsNumbers(), agentsAndMPID.get().getValue0(), CurrentMission.getGadget(), CurrentMission.getTimeIssued(), GadgetAndQTime.get().getValue1(), CurrentTime);
 					Diary.getInstance().addReport(toAdd);
 					c.setStatus("COMPLETED");
 				}

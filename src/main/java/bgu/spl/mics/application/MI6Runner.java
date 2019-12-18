@@ -1,13 +1,16 @@
 package bgu.spl.mics.application;
 import bgu.spl.mics.application.passiveObjects.Agent;
 import bgu.spl.mics.application.passiveObjects.Inventory;
-import com.google.gson.Gson;
+import bgu.spl.mics.application.passiveObjects.Squad;
+import bgu.spl.mics.application.subscribers.M;
+import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import java.io.FileReader;
-import java.io.FileWriter;
+import org.json.simple.parser.ParseException;
+
+import java.io.*;
 import java.util.Iterator;
 
 /** This is the Main class of the application. You should parse the input file,
@@ -16,10 +19,58 @@ import java.util.Iterator;
  */
 public class MI6Runner {
     public static void main(String[] args) {
+
+        String filePath = "src/input201 - 2.json";
         Gson gson = new Gson();
 
-        Gson gson = new Gson();
-        JsonReader reader = new JsonReader(new FileReader(filename));
-        List<> data = gson.fromJson(reader, String[].class); // contains the whole reviews list
-        data.toScreen(); // prints to screen some values
+        try {
+            JsonReader reader = new JsonReader(new FileReader(filePath));
+            JsonElement e = JsonParser.parseReader(reader);
+
+            //Initialize Inventory
+            Inventory inventory = Inventory.getInstance();
+            JsonArray inventoryJson = e.getAsJsonObject().get("inventory").getAsJsonArray();
+            String[] gadgetsToLoad = new String[inventoryJson.size()];
+            int i = 0;
+
+            for(JsonElement gadgetJson : inventoryJson){
+                gadgetsToLoad[i] = gadgetJson.toString();
+                i++;
+            }
+
+            inventory.load(gadgetsToLoad);
+
+            //Initialize Squad
+            Squad squad = Squad.getInstance();
+            JsonArray squadJson = e.getAsJsonObject().get("squad").getAsJsonArray();
+            Agent[] agentsToLoad = new Agent[squadJson.size()];
+            i = 0;
+
+            for(JsonElement agentJson : squadJson){
+                Agent toAdd = gson.fromJson(agentJson, Agent.class);
+                agentsToLoad[i] = toAdd;
+                i++;
+            }
+
+            squad.load(agentsToLoad);
+
+            //Initialize Services
+            JsonObject services = e.getAsJsonObject().get("services").getAsJsonObject();
+
+            //Initialize M
+
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
+
+
 }

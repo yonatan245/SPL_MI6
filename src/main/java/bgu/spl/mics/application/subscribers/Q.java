@@ -24,18 +24,19 @@ public class Q extends Subscriber {
 
 	@Override
 	protected void initialize() {
-		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
-		Callback<GadgetAvailableEvent> CBGAE = c -> {
-		if(Inventory.getInstance().getItem(c.getGadget())){
-			Pair<String,Long> result = new Pair(c.getGadget(),CurrentTime);
-			complete(c,result);
-		}
-		else{
-			complete(c,null);
-		}
+		Callback<TickBroadcast> CBTickBroadcast= c -> CurrentTime = c.getCurrentTime();
+
+		Callback<GadgetAvailableEvent> CBGadgetAvailableEvent = call -> {
+			if(Inventory.getInstance().getItem(call.getGadget())){
+			Pair<String,Long> result = new Pair(call.getGadget(),CurrentTime);
+			complete(call,result);
+			}
+			else{
+				complete(call,null);
+			}
 		};
-		subscribeBroadcast(TickBroadcast.class, CBTB);
-		subscribeEvent(GadgetAvailableEvent.class,CBGAE);
+		subscribeBroadcast(TickBroadcast.class, CBTickBroadcast);
+		subscribeEvent(GadgetAvailableEvent.class,CBGadgetAvailableEvent);
 	}
 
 }

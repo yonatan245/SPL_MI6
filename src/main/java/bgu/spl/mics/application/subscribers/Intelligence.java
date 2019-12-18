@@ -16,10 +16,13 @@ import java.util.*;
  * You MAY change constructor signatures and even add new public constructors.
  */
 public class Intelligence extends Subscriber {
+
+    //Fields
     private Map<Long, MissionInfo> missions;
     private long CurrentTime;
     private Future<MissionInfo> fut;
 
+    //Constructor
     public Intelligence(String name, TreeMap<Long, MissionInfo> missions) {
         super(name);
         this.missions=missions;
@@ -27,7 +30,7 @@ public class Intelligence extends Subscriber {
         fut=null;
     }
 
-
+    //Methods
     @Override
     protected void initialize() {
         this.subscribeBroadcast(TickBroadcast.class, c -> {

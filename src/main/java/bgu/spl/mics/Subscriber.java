@@ -3,7 +3,7 @@ package bgu.spl.mics;
 import bgu.spl.mics.application.*;
 import bgu.spl.mics.application.passiveObjects.Agent;
 import bgu.spl.mics.application.passiveObjects.Report;
-import jdk.internal.net.http.common.Pair;
+
 
 import java.util.List;
 import java.util.Map;
@@ -116,38 +116,50 @@ public abstract class Subscriber extends RunnableSubPub {
     public final void run() {
         try {
             initialize();
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         while (!terminated) {
             try {
                 Message received = MessageBrokerImpl.getInstance().awaitMessage(this);
                 String whichType = received.getClass().getName();
+
                 switch (whichType) {
                     case "bgu.spl.mics.MissionReceivedEvent":
                        Callback<MissionReceivedEvent> MRECB=map.get(MissionReceivedEvent.class);
                        MRECB.call((MissionReceivedEvent)received);
+                       break;
+
                     case "bgu.spl.mics.AgentsAvailableEvent":
                         Callback<AgentsAvailableEvent> AAECB=map.get(AgentsAvailableEvent.class);
                         AAECB.call((AgentsAvailableEvent)received);
+                        break;
+
                     case "bgu.spl.mics.GadgetAvailableEvent":
                         Callback<GadgetAvailableEvent> GAECB=map.get(GadgetAvailableEvent.class);
                         GAECB.call((GadgetAvailableEvent) received);
+                        break;
+
                     case "bgu.spl.mics.SendThemAgentsEvent":
                         Callback<SendThemAgentsEvent> STAECB=map.get(SendThemAgentsEvent.class);
                         STAECB.call((SendThemAgentsEvent)received);
+                        break;
+
                     case "bgu.spl.mics.ReleaseAgentsEvent":
                         Callback<ReleaseAgentsEvent> RAECB=map.get(ReleaseAgentsEvent.class);
                         RAECB.call((ReleaseAgentsEvent) received);
+                        break;
+
                     case "bgu.spl.mics.TickBroadcast":
                         Callback<TickBroadcast> TBCB=map.get(TickBroadcast.class);
                         TBCB.call((TickBroadcast) received);
-            }
+                        break;
+                    }
 
-        } catch (InterruptedException | ClassNotFoundException e) {
+            } catch (InterruptedException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
 
-}
+    }
 }

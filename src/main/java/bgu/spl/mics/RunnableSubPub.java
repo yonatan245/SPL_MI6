@@ -1,22 +1,26 @@
 package bgu.spl.mics;
 
 abstract class RunnableSubPub implements Runnable {
+
+    //Fields
     private final String name;
     private final SimplePublisher simplePublisher;
 
-    /**
-     * this method is called once when the event loop starts.
-     */
-    protected abstract void initialize() throws InterruptedException;
-
+    //Constructor
     /**
      * @param name the Publisher/Subscriber name (used mainly for debugging purposes -
      *             does not have to be unique)
      */
-    RunnableSubPub(String name) {
+    public RunnableSubPub(String name) {
         this.name = name;
         simplePublisher = new SimplePublisher();
     }
+
+    //Methods
+    /**
+     * this method is called once when the event loop starts.
+     */
+    protected abstract void initialize() throws InterruptedException, ClassNotFoundException;
 
     /**
      * @return the name of the Publisher/Subscriber - the Publisher/Subscriber name is given to it in the
@@ -27,7 +31,7 @@ abstract class RunnableSubPub implements Runnable {
     }
 
     /**
-     * The entry point of the publisher/subscriber. TODO: you must complete this code
+     * The entry point of the publisher/subscriber.
      * otherwise you will end up in an infinite loop.
      */
     @Override
