@@ -3,9 +3,11 @@ package bgu.spl.mics;
 import bgu.spl.mics.application.*;
 import bgu.spl.mics.application.passiveObjects.Agent;
 import bgu.spl.mics.application.passiveObjects.Report;
-import jdk.internal.net.http.common.Pair;
+import org.javatuples.Pair;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -23,6 +25,9 @@ public class MessageBrokerImpl implements MessageBroker {
 	private Map<String, List<Subscriber>> broadcastTopics;
 	private Map<Subscriber, Queue<Message>> personalQueues;
 
+	//Lock
+	private Object messageLock;
+
 	//Constructor
 	public static class MessageBrokerImplHolder{
 		static private MessageBroker instance = new MessageBrokerImpl();
@@ -31,17 +36,20 @@ public class MessageBrokerImpl implements MessageBroker {
 	}
 	private MessageBrokerImpl(){
 
-		eventTopics = new HashMap<>();
-		eventTopics.put(MissionReceivedEvent.class.getName(), new EventTopic());
-		eventTopics.put(AgentsAvailableEvent.class.getName(), new EventTopic());
-		eventTopics.put(GadgetAvailableEvent.class.getName(), new EventTopic());
-		eventTopics.put(ReleaseAgentsEvent.class.getName(), new EventTopic());
-		eventTopics.put(SendThemAgentsEvent.class.getName(), new EventTopic());
+		eventTopics = new ConcurrentHashMap<>();
+		eventTopics.put(MISSION_RECEIVED_EVENT, new EventTopic());
+		eventTopics.put(AGENTS_AVAILABLE_EVENT, new EventTopic());
+		eventTopics.put(GADGET_AVAILABLE_EVENT, new EventTopic());
+		eventTopics.put(RELEASE_AGENTS_EVENT, new EventTopic());
+		eventTopics.put(SEND_THEM_AGENTS, new EventTopic());
 
-		broadcastTopics = new HashMap<>();
-		broadcastTopics.put(TickBroadcast.class.getName(), new ArrayList<>());
+		broadcastTopics = new ConcurrentHashMap<>();
+		broadcastTopics.put(TICK_BROADCAST, new CopyOnWriteArrayList<>());
 
-		personalQueues = new HashMap<>();
+		personalQueues = new ConcurrentHashMap<>();
+
+		//Lock for all who those wait for new messages
+		messageLock = new Object();
 	}
 
 	//Methods
@@ -54,14 +62,16 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public <T> void subscribeEvent(Class<? extends Event<T>> type, Subscriber m) {
-		assureEventType(type);
-		eventTopics.get(type.getName()).add(m);
+		synchronized (eventTopics.get(type.getName())) {
+			eventTopics.get(type.getName()).add(m);
+		}
 	}
 
 	@Override
 	public void subscribeBroadcast(Class<? extends Broadcast> type, Subscriber m) {
-		assureBroadcastType(type);
-		broadcastTopics.get(type.getName()).add(m);
+		synchronized (broadcastTopics.get(type.getName())) {
+			broadcastTopics.get(type.getName()).add(m);
+		}
 	}
 
 	@Override
@@ -70,41 +80,54 @@ public class MessageBrokerImpl implements MessageBroker {
 		switch (whichEvent) {
 			case "bgu.spl.mics.MissionReceivedEvent":
 				((MissionReceivedEvent) e).resolveFuture((Report) result);
+				break;
+
 			case "bgu.spl.mics.AgentsAvailableEvent":
 				((AgentsAvailableEvent) e).resolveFut((Pair<List<Agent>, Long>) result);
+				break;
+
 			case "bgu.spl.mics.GadgetAvailableEvent":
-				((GadgetAvailableEvent) e).resolveFut((String) result);
+				((GadgetAvailableEvent) e).resolveFut((Pair<String,Long>) result);
+				break;
+
 			case "bgu.spl.mics.SendThemAgentsEvent":
 				((SendThemAgentsEvent) e).resolveFut((boolean) result);
+				break;
+
 			case "bgu.spl.mics.ReleaseAgentsEvent":
 				((ReleaseAgentsEvent) e).resolveFut((boolean) result);
+				break;
+
 		}
 	}
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
-		assureBroadcastType(b.getClass());
-		for(Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))
+		for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))
 			personalQueues.get(subscriber).add(b);
+		messageLock.notifyAll();
 	}
 	
 	@Override
-	public <T> Future<T> sendEvent(Event<T> e) throws ClassNotFoundException {
+	public <T> Future<T> sendEvent(Event<T> e){
 		String type = e.getClass().getName();
-		Future<T> future = null;
+		Future<T> future;
 
-		if(eventTopics.containsKey(type) && !eventTopics.get(type).isEmpty()){
+		synchronized (eventTopics.get(type)) {
 			Subscriber receiver = eventTopics.get(type).getNextSubscriber();
 			personalQueues.get(receiver).add(e);
 			future = getEventFuture(e);
 		}
+
+		eventTopics.get(type).notifyAll();
+		messageLock.notifyAll();
 
 		return future;
 	}
 
 	@Override
 	public void register(Subscriber m) {
-		personalQueues.put(m, new LinkedBlockingQueue<>());
+			personalQueues.put(m, new LinkedBlockingQueue<>());
 	}
 
 	@Override
@@ -117,16 +140,13 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public Message awaitMessage(Subscriber m) throws InterruptedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		while(personalQueues.get(m).isEmpty() && !Thread.currentThread().isInterrupted()){
+			messageLock.wait();
+		}
 
-	private <T> void assureEventType(Class<? extends Event> type) {
-		if(!eventTopics.containsKey(type.getName())) eventTopics.put(type.getName(), new EventTopic());
-	}
+		if(Thread.currentThread().isInterrupted()) throw new InterruptedException();
 
-	private <T> void assureBroadcastType(Class<? extends Broadcast> type) {
-		if(!broadcastTopics.containsKey(type)) broadcastTopics.put(type.getName(), new ArrayList<>());
+		return personalQueues.get(m).element();
 	}
 
 	private <T> Future getEventFuture(Event<T> event){
@@ -171,6 +191,7 @@ public class MessageBrokerImpl implements MessageBroker {
 	private static final String MISSION_RECEIVED_EVENT = "bgu.spl.mics.application.MissionReceivedEvent";
 	private static final String RELEASE_AGENTS_EVENT = "bgu.spl.mics.application.ReleaseAgentsEvent";
 	private static final String SEND_THEM_AGENTS = "bgu.spl.mics.application.SendThemAgents";
+	private static final String TICK_BROADCAST = "bgu.spl.mics.application.TickBroadcast";
 
 
 
