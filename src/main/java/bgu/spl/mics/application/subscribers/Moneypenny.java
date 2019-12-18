@@ -34,7 +34,7 @@ public class Moneypenny extends Subscriber {
 		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
 		Callback<AgentsAvailableEvent> CBAAE= c -> {
 			if(Squad.getInstance().getAgents(c.getSerialAgentsNumbers())){
-				Pair<List<String>,Long> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
+				Pair<List<String>,Integer> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
 				complete(c,result);			}
 			else
 				complete(c,null);

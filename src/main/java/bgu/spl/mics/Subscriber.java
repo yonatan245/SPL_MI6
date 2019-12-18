@@ -144,7 +144,7 @@ public abstract class Subscriber extends RunnableSubPub {
                         TBCB.call((TickBroadcast) received);
             }
 
-        } catch (InterruptedException e) {
+        } catch (InterruptedException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

@@ -10,7 +10,7 @@ import java.util.List;
 public class AgentsAvailableEvent<T> implements Event<T> {
 
     private List<String> serialAgentsNumbers;
-    private Future<Pair<List<String>,Long>> fut;
+    private Future<Pair<List<String>,Integer>> fut;
 
     public AgentsAvailableEvent(List<String> serialAgentsNumbers) {
         this.serialAgentsNumbers=serialAgentsNumbers;
@@ -20,11 +20,11 @@ public class AgentsAvailableEvent<T> implements Event<T> {
         return serialAgentsNumbers;
     }
 
-    public Future<Pair<List<String>,Long>> getFut(){
+    public Future<Pair<List<String>,Integer>> getFut(){
         return fut;
     }
 
-    public void resolveFut(Pair<List<String>,Long> result){ // Moneypenny will acquire the agents, send her own ID.
+    public void resolveFut(Pair<List<String>,Integer> result){ // Moneypenny will acquire the agents, send her own ID.
         fut.resolve(result);
     }
 
