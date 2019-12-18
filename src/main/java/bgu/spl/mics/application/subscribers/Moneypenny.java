@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.subscribers;
 
 import bgu.spl.mics.Callback;
+import bgu.spl.mics.MessageBrokerImpl;
 import bgu.spl.mics.Subscriber;
 import bgu.spl.mics.application.AgentsAvailableEvent;
 import bgu.spl.mics.application.ReleaseAgentsEvent;
@@ -31,6 +32,7 @@ public class Moneypenny extends Subscriber {
 
 	@Override
 	protected void initialize() {
+		MessageBrokerImpl.getInstance().register(this);
 		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
 		Callback<AgentsAvailableEvent> CBAAE= c -> {
 			if(Squad.getInstance().getAgents(c.getSerialAgentsNumbers())){

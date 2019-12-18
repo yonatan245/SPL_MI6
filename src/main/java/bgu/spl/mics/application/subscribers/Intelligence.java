@@ -33,6 +33,7 @@ public class Intelligence extends Subscriber {
     //Methods
     @Override
     protected void initialize() {
+        MessageBrokerImpl.getInstance().register(this);
         this.subscribeBroadcast(TickBroadcast.class, c -> {
             CurrentTime = c.getCurrentTime();
             if(missions.containsKey(CurrentTime)){

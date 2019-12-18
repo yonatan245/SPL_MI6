@@ -1,6 +1,7 @@
 package bgu.spl.mics.application.subscribers;
 
 import bgu.spl.mics.Callback;
+import bgu.spl.mics.MessageBrokerImpl;
 import bgu.spl.mics.Subscriber;
 import bgu.spl.mics.application.GadgetAvailableEvent;
 import bgu.spl.mics.application.TickBroadcast;
@@ -24,8 +25,8 @@ public class Q extends Subscriber {
 
 	@Override
 	protected void initialize() {
+		MessageBrokerImpl.getInstance().register(this);
 		Callback<TickBroadcast> CBTickBroadcast= c -> CurrentTime = c.getCurrentTime();
-
 		Callback<GadgetAvailableEvent> CBGadgetAvailableEvent = call -> {
 			if(Inventory.getInstance().getItem(call.getGadget())){
 			Pair<String,Long> result = new Pair(call.getGadget(),CurrentTime);
