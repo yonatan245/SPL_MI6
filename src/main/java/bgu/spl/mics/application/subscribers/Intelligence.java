@@ -23,11 +23,11 @@ public class Intelligence extends Subscriber {
     private Future<MissionInfo> fut;
 
     //Constructor
-    public Intelligence(String name, TreeMap<Long, MissionInfo> missions) {
+    public Intelligence(String name, Map<Long, MissionInfo> missions) {
         super(name);
-        this.missions=missions;
-        CurrentTime=0;
-        fut=null;
+        this.missions = missions;
+        CurrentTime = 0;
+        fut = null;
     }
 
     //Methods
