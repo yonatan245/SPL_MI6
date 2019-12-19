@@ -45,13 +45,11 @@ public class Moneypenny extends Subscriber {
 			Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers());
 			complete(c,true);
 		};
-		Callback<SendThemAgentsEvent> CBSTAE = new Callback<SendThemAgentsEvent>() {
-			@Override
-			public void call(SendThemAgentsEvent c) throws InterruptedException {
-				Squad.getInstance().sendAgents(c.getSerialAgentsNumbers(),c.getDuration());
-				complete(c,true);
-			}
+		Callback<SendThemAgentsEvent> CBSTAE = c-> {
+			Squad.getInstance().sendAgents(c.getSerialAgentsNumbers(), c.getDuration());
+			complete(c, true);
 		};
+
 		subscribeBroadcast(TickBroadcast.class, CBTB);
 		subscribeEvent(AgentsAvailableEvent.class,CBAAE);
 		subscribeEvent(ReleaseAgentsEvent.class,CBRAE);

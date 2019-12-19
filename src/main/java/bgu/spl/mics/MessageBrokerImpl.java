@@ -104,9 +104,11 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
-		for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))
-			personalQueues.get(subscriber).add(b);
-		messageLock.notifyAll();
+		synchronized (messageLock) {
+			for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))
+				personalQueues.get(subscriber).add(b);
+			messageLock.notifyAll();
+		}
 	}
 	
 	@Override
@@ -193,7 +195,7 @@ public class MessageBrokerImpl implements MessageBroker {
 	private static final String GADGET_AVAILABLE_EVENT = "bgu.spl.mics.application.GadgetAvailableEvent";
 	private static final String MISSION_RECEIVED_EVENT = "bgu.spl.mics.application.MissionReceivedEvent";
 	private static final String RELEASE_AGENTS_EVENT = "bgu.spl.mics.application.ReleaseAgentsEvent";
-	private static final String SEND_THEM_AGENTS = "bgu.spl.mics.application.SendThemAgents";
+	private static final String SEND_THEM_AGENTS = "bgu.spl.mics.application.SendThemAgentsEvent";
 	private static final String TICK_BROADCAST = "bgu.spl.mics.application.TickBroadcast";
 
 
