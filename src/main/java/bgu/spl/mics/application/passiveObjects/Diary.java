@@ -72,7 +72,9 @@ public class Diary {
 		try{
 			FileWriter file = new FileWriter(filename);
 			file.write(reports.toJSONString());
-		} catch(Exception ignored){}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 
 	}
 

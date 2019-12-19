@@ -7,6 +7,7 @@ import bgu.spl.mics.application.passiveObjects.Report;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The Subscriber is an abstract class that any subscriber in the system
@@ -33,6 +34,7 @@ public abstract class Subscriber extends RunnableSubPub {
      */
     public Subscriber(String name) {
         super(name);
+        map = new ConcurrentHashMap<>();
     }
 
     /**

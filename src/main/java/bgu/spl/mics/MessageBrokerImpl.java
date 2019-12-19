@@ -62,7 +62,8 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public <T> void subscribeEvent(Class<? extends Event<T>> type, Subscriber m) {
-		synchronized (eventTopics.get(type.getName())) {
+		EventTopic toSync = eventTopics.get(type.getName());
+		synchronized (toSync) {
 			eventTopics.get(type.getName()).add(m);
 		}
 	}
@@ -140,8 +141,10 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public Message awaitMessage(Subscriber m) throws InterruptedException {
-		while(personalQueues.get(m).isEmpty() && !Thread.currentThread().isInterrupted()){
-			messageLock.wait();
+		synchronized (messageLock) {
+			while (personalQueues.get(m).isEmpty() && !Thread.currentThread().isInterrupted()) {
+				messageLock.wait();
+			}
 		}
 
 		if(Thread.currentThread().isInterrupted()) throw new InterruptedException();
