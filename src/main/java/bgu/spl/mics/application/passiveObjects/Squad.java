@@ -28,7 +28,7 @@ public class Squad {
 	}
 	private Squad(){
 		agents = new HashMap<>();
-		semaphore = new Semaphore(1);
+		semaphore = new Semaphore(1, true);
 	}
 
 	//Methods

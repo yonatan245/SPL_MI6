@@ -20,13 +20,19 @@ public class MissionInfo {
 	private int duration;
 
 	//Constructor
-	public MissionInfo(String missionName, List<String> serialAgentsNumbers, String gadget, int timeIssued, int timeExpired){
+	public MissionInfo(String missionName,
+					   List<String> serialAgentsNumbers,
+					   String gadget,
+					   int timeIssued,
+					   int timeExpired,
+					   int duration){
+
 		this.missionName = missionName;
 		this.serialAgentsNumbers = serialAgentsNumbers;
 		this.gadget = gadget;
 		this.timeIssued = timeIssued;
 		this.timeExpired = timeExpired;
-		duration = 0;
+		this.duration = duration;
 	}
 
 	public MissionInfo(){
