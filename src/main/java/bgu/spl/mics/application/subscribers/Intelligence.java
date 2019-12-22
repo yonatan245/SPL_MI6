@@ -33,6 +33,7 @@ public class Intelligence extends Subscriber {
     //Methods
     @Override
     protected void initialize() {
+        Thread.currentThread().setName(getName());
         MessageBrokerImpl.getInstance().register(this);
         this.subscribeBroadcast(TickBroadcast.class, c -> {
             CurrentTime = c.getCurrentTime();

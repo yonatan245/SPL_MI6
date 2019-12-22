@@ -32,6 +32,7 @@ public class Moneypenny extends Subscriber {
 
 	@Override
 	protected void initialize() {
+		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
 		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
 		Callback<AgentsAvailableEvent> CBAAE= c -> {

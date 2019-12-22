@@ -25,6 +25,7 @@ public class Q extends Subscriber {
 
 	@Override
 	protected void initialize() {
+		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
 		Callback<TickBroadcast> CBTickBroadcast= c -> CurrentTime = c.getCurrentTime();
 		Callback<GadgetAvailableEvent> CBGadgetAvailableEvent = call -> {

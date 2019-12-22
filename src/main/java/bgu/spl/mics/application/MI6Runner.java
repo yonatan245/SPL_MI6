@@ -15,6 +15,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 /** This is the Main class of the application. You should parse the input file,
  * create the different instances of the objects, and run the system.
@@ -24,21 +25,23 @@ public class MI6Runner {
     public static void main(String[] args) {
 
         String filePath = "src/input201 - 2.json";
-        ExecutorService threadPool = Executors.newCachedThreadPool();
+        ThreadFactory threadFactory = new NamedThreadFactory();
+        ExecutorService threadPool = Executors.newCachedThreadPool(threadFactory);
+        Thread timeService = null;
 
         MessageBroker messageBroker = MessageBrokerImpl.getInstance();
         Inventory inventory = Inventory.getInstance();
         Squad squad = Squad.getInstance();
 
         try {
-            initialize(filePath, threadPool);
+            initialize(filePath, threadPool, timeService);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         threadPool.shutdown();
     }
 
-    static private void initialize(String filePath, ExecutorService threadPool) throws FileNotFoundException {
+    static private void initialize(String filePath, ExecutorService threadPool, Thread timeService) throws FileNotFoundException {
 
         JsonReader reader = new JsonReader(new FileReader(filePath));
         JsonElement e = JsonParser.parseReader(reader);
@@ -54,6 +57,10 @@ public class MI6Runner {
         //Initialize Services
         JsonObject services = e.getAsJsonObject().get("services").getAsJsonObject();
 
+        //Initializing Time Service
+        long timeTicks = services.get("time").getAsLong();
+        initTimeService(timeTicks, timeService);
+
         //Initialize M
         int numberOfMs = services.get("M").getAsInt();
         initM(numberOfMs, threadPool);
@@ -65,10 +72,6 @@ public class MI6Runner {
         //Initialize Intelligence
         JsonArray intelligenceJson = services.get("intelligence").getAsJsonArray();
         initIntelligence(intelligenceJson, threadPool);
-
-        //Initializing Time Service
-        long timeTicks = services.get("time").getAsLong();
-        initTimeService(timeTicks, threadPool);
     }
 
     static private void initInventory(JsonArray inventoryJson){
@@ -145,8 +148,15 @@ public class MI6Runner {
         }
     }
 
-    static private void initTimeService(long timeTicks, ExecutorService threadPool){
-        threadPool.execute(new TimeService(timeTicks));
+    static private void initTimeService(long timeTicks, Thread timeService){
+        timeService = new Thread(new TimeService(timeTicks));
+        timeService.run();
+    }
+
+    static class NamedThreadFactory implements ThreadFactory {
+        public Thread newThread(Runnable r) {
+            return new Thread(r, "Your name");
+        }
     }
 }
 
