@@ -1,5 +1,6 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,11 +67,12 @@ public class Diary {
 	 */
 	public void printToFile(String filename){
 
+		File diaryTxt = new File(filename);
 		JSONArray reports = new JSONArray();
 		for(Report report : this.reports) reports.add(reportToJSON(report));
 
 		try{
-			FileWriter file = new FileWriter(filename);
+			FileWriter file = new FileWriter(diaryTxt);
 			file.write(reports.toJSONString());
 		} catch(Exception e){
 			e.printStackTrace();
@@ -86,7 +88,6 @@ public class Diary {
 		return total.get();
 	}
 
-	//TODO: change writing to json format
 	private JSONObject reportToJSON(Report report){
 		JSONObject jsonReport = new JSONObject();
 

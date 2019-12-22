@@ -1,9 +1,6 @@
 package bgu.spl.mics.application.subscribers;
 
-import bgu.spl.mics.Callback;
-import bgu.spl.mics.Future;
-import bgu.spl.mics.MessageBrokerImpl;
-import bgu.spl.mics.Subscriber;
+import bgu.spl.mics.*;
 import bgu.spl.mics.application.*;
 import bgu.spl.mics.application.passiveObjects.Diary;
 import bgu.spl.mics.application.passiveObjects.MissionInfo;
@@ -13,6 +10,8 @@ import org.javatuples.Pair;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * M handles ReadyEvent - fills a report and sends agents to mission.
@@ -22,21 +21,23 @@ import java.util.concurrent.TimeUnit;
  */
 public class M extends Subscriber {
 
-	private long CurrentTime;
 	private Integer MID;
 	private MissionInfo CurrentMission;
 	private TimeUnit unit;
+	private AtomicLong currentTime;
+
 
 	public M(Integer NMID) {
 		super("M"+NMID);
 		MID=NMID;
+		currentTime = new AtomicLong(0);
 	}
 
 	@Override
 	protected void initialize() {
 		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
-		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
+		Callback<TickBroadcast> CBTB= c -> currentTime.set(c.getCurrentTime());
 		Callback<MissionReceivedEvent> CBMRE= c -> {
 			CurrentMission=c.getMission();
 			c.setStatus("IN_PROGRESS");
@@ -51,14 +52,14 @@ public class M extends Subscriber {
 					c.setStatus("ABORTED");
 					Diary.getInstance().incrementTotal();
 				}
-				else if(CurrentTime>CurrentMission.getTimeExpired()){
+				else if(currentTime.get()>CurrentMission.getTimeExpired()){
 					c.setStatus("ABORTED");
 					Future<Boolean> Release = getSimplePublisher().sendEvent(new ReleaseAgentsEvent<>(CurrentMission.getSerialAgentsNumbers()));
 					Diary.getInstance().incrementTotal();
 				}
 				else{
 					Future<Boolean> SendThem = getSimplePublisher().sendEvent(new SendThemAgentsEvent<>(CurrentMission.getSerialAgentsNumbers(),CurrentMission.getDuration()));
-					Report toAdd = new Report(CurrentMission.getMissionName(), MID, agentsAndMPID.get().getValue1(), CurrentMission.getSerialAgentsNumbers(), agentsAndMPID.get().getValue0(), CurrentMission.getGadget(), CurrentMission.getTimeIssued(), GadgetAndQTime.get().getValue1(), CurrentTime);
+					Report toAdd = new Report(CurrentMission.getMissionName(), MID, agentsAndMPID.get().getValue1(), CurrentMission.getSerialAgentsNumbers(), agentsAndMPID.get().getValue0(), CurrentMission.getGadget(), CurrentMission.getTimeIssued(), GadgetAndQTime.get().getValue1(), currentTime.get());
 					Diary.getInstance().addReport(toAdd);
 					c.setStatus("COMPLETED");
 				}
@@ -67,6 +68,13 @@ public class M extends Subscriber {
 			};
 		subscribeBroadcast(TickBroadcast.class,CBTB);
 		subscribeEvent(MissionReceivedEvent.class,CBMRE);
+		this.subscribeBroadcast(TerminateAllBroadcast.class, new Callback<TerminateAllBroadcast>() {
+			@Override
+			public void call(TerminateAllBroadcast c) throws InterruptedException, ClassNotFoundException {
+				Diary.getInstance().printToFile(Names.OUTPUT_DIARY);
+				terminate();
+			}
+		});
 	}
 
 }

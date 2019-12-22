@@ -3,16 +3,17 @@ package bgu.spl.mics.application;
 import bgu.spl.mics.Broadcast;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class TickBroadcast implements Broadcast {
 
-    private long CurrentTime;
+    private AtomicLong currentTime;
 
     public TickBroadcast(long CurrentTime){
-        this.CurrentTime=CurrentTime;
+        currentTime = new AtomicLong(CurrentTime);
     }
 
     public long getCurrentTime() {
-        return CurrentTime;
+        return currentTime.get();
     }
 }

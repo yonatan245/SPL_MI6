@@ -10,6 +10,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 /**
@@ -20,7 +22,7 @@ import java.util.concurrent.Semaphore;
 public class MessageBrokerImpl implements MessageBroker {
 
 	//Fields
-	private long currentTime;
+	private AtomicInteger currentTime;
 
 	private Map<String, EventTopic> eventTopics;
 	private Map<String, List<Subscriber>> broadcastTopics;
@@ -37,15 +39,18 @@ public class MessageBrokerImpl implements MessageBroker {
 	}
 	private MessageBrokerImpl(){
 
+		currentTime = new AtomicInteger(0);
+
 		eventTopics = new ConcurrentHashMap<>();
-		eventTopics.put(MISSION_RECEIVED_EVENT, new EventTopic());
-		eventTopics.put(AGENTS_AVAILABLE_EVENT, new EventTopic());
-		eventTopics.put(GADGET_AVAILABLE_EVENT, new EventTopic());
-		eventTopics.put(RELEASE_AGENTS_EVENT, new EventTopic());
-		eventTopics.put(SEND_THEM_AGENTS, new EventTopic());
+		eventTopics.put(Names.MISSION_RECEIVED_EVENT, new EventTopic());
+		eventTopics.put(Names.AGENTS_AVAILABLE_EVENT, new EventTopic());
+		eventTopics.put(Names.GADGET_AVAILABLE_EVENT, new EventTopic());
+		eventTopics.put(Names.RELEASE_AGENTS_EVENT, new EventTopic());
+		eventTopics.put(Names.SEND_THEM_AGENTS, new EventTopic());
 
 		broadcastTopics = new ConcurrentHashMap<>();
-		broadcastTopics.put(TICK_BROADCAST, new CopyOnWriteArrayList<>());
+		broadcastTopics.put(Names.TICK_BROADCAST, new CopyOnWriteArrayList<>());
+		broadcastTopics.put(Names.TERMINATE_ALL_BROADCAST, new CopyOnWriteArrayList<>());
 
 		personalQueues = new ConcurrentHashMap<>();
 
@@ -106,10 +111,14 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
+
+		if(b.getClass().getName().equals(Names.TICK_BROADCAST)) currentTime.incrementAndGet();
+
 		for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName())) {
 			synchronized (personalQueues.get(subscriber)) {
 				personalQueues.get(subscriber).add(b);
-			} personalQueues.get(subscriber).notifyAll();
+				personalQueues.get(subscriber).notifyAll();
+			}
 		}
 	}
 	@Override
@@ -154,7 +163,9 @@ public class MessageBrokerImpl implements MessageBroker {
 
 		if(Thread.currentThread().isInterrupted()) throw new InterruptedException();
 
-		return personalQueues.get(m).element();
+		Message recieved = personalQueues.get(m).element();
+		personalQueues.get(m).remove();
+		return recieved;
 	}
 
 	private <T> Future getEventFuture(Event<T> event){
@@ -162,27 +173,27 @@ public class MessageBrokerImpl implements MessageBroker {
 		Future output;
 
 		switch(type){
-			case AGENTS_AVAILABLE_EVENT:
+			case Names.AGENTS_AVAILABLE_EVENT:
 				AgentsAvailableEvent agentsAvailableEvent = (AgentsAvailableEvent)event;
 				output = agentsAvailableEvent.getFut();
 				break;
 
-			case GADGET_AVAILABLE_EVENT:
+			case Names.GADGET_AVAILABLE_EVENT:
 				GadgetAvailableEvent gadgetAvailableEvent = (GadgetAvailableEvent)event;
 				output = gadgetAvailableEvent.getFut();
 				break;
 
-			case MISSION_RECEIVED_EVENT:
+			case Names.MISSION_RECEIVED_EVENT:
 				MissionReceivedEvent missionReceivedEvent = (MissionReceivedEvent)event;
 				output = missionReceivedEvent.getFut();
 				break;
 
-			case RELEASE_AGENTS_EVENT:
+			case Names.RELEASE_AGENTS_EVENT:
 				ReleaseAgentsEvent releaseAgentsEvent = (ReleaseAgentsEvent)event;
 				output = releaseAgentsEvent.getFut();
 				break;
 
-			case SEND_THEM_AGENTS:
+			case Names.SEND_THEM_AGENTS:
 				SendThemAgentsEvent sendThemAgentsEvent = (SendThemAgentsEvent)event;
 				output = sendThemAgentsEvent.getFut();
 				break;
@@ -194,12 +205,6 @@ public class MessageBrokerImpl implements MessageBroker {
 		return output;
 	}
 
-	private static final String AGENTS_AVAILABLE_EVENT = "bgu.spl.mics.application.AgentsAvailableEvent";
-	private static final String GADGET_AVAILABLE_EVENT = "bgu.spl.mics.application.GadgetAvailableEvent";
-	private static final String MISSION_RECEIVED_EVENT = "bgu.spl.mics.application.MissionReceivedEvent";
-	private static final String RELEASE_AGENTS_EVENT = "bgu.spl.mics.application.ReleaseAgentsEvent";
-	private static final String SEND_THEM_AGENTS = "bgu.spl.mics.application.SendThemAgentsEvent";
-	private static final String TICK_BROADCAST = "bgu.spl.mics.application.TickBroadcast";
 
 
 

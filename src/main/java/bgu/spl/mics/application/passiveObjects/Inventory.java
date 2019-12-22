@@ -3,6 +3,7 @@ package bgu.spl.mics.application.passiveObjects;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,11 +78,12 @@ public class Inventory {
 	 */
 	public void printToFile(String filename){
 
+		File inventoryTxt = new File(filename);
 		JSONArray gadgetsJson = new JSONArray();
 		gadgetsJson.addAll(gadgets);
 
 		try{
-			FileWriter file = new FileWriter(filename);
+			FileWriter file = new FileWriter(inventoryTxt);
 			file.write(gadgetsJson.toJSONString());
 		} catch (IOException e) {}
 	}

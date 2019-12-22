@@ -58,10 +58,6 @@ public class MI6Runner {
         //Initialize Services
         JsonObject services = e.getAsJsonObject().get("services").getAsJsonObject();
 
-        //Initializing Time Service
-        long timeTicks = services.get("time").getAsLong();
-        initTimeService(timeTicks, timeService);
-
         //Initialize Q
         threadPool.execute(new Q());
 
@@ -76,6 +72,10 @@ public class MI6Runner {
         //Initialize Intelligence
         JsonArray intelligenceJson = services.get("intelligence").getAsJsonArray();
         initIntelligence(intelligenceJson, threadPool);
+
+        //Initializing Time Service
+        long timeTicks = services.get("time").getAsLong();
+        initTimeService(timeTicks, timeService);
     }
 
     static private void initInventory(JsonArray inventoryJson){

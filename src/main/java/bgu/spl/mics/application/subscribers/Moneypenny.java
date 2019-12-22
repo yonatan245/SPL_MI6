@@ -3,14 +3,13 @@ package bgu.spl.mics.application.subscribers;
 import bgu.spl.mics.Callback;
 import bgu.spl.mics.MessageBrokerImpl;
 import bgu.spl.mics.Subscriber;
-import bgu.spl.mics.application.AgentsAvailableEvent;
-import bgu.spl.mics.application.ReleaseAgentsEvent;
-import bgu.spl.mics.application.SendThemAgentsEvent;
-import bgu.spl.mics.application.TickBroadcast;
+import bgu.spl.mics.application.*;
 import bgu.spl.mics.application.passiveObjects.Squad;
 import org.javatuples.Pair;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 /**
@@ -22,19 +21,21 @@ import java.util.List;
  */
 public class Moneypenny extends Subscriber {
 
-	private long CurrentTime;
 	private Integer MoneyPennyID;
+	private AtomicLong currentTime;
+
 
 	public Moneypenny(Integer MPID) {
 		super("Moneypenny"+MPID);
 		MoneyPennyID=MPID;
+		currentTime = new AtomicLong(0);
 	}
 
 	@Override
 	protected void initialize() {
 		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
-		Callback<TickBroadcast> CBTB= c -> CurrentTime = c.getCurrentTime();
+		Callback<TickBroadcast> CBTB= c -> currentTime.set(c.getCurrentTime());
 		Callback<AgentsAvailableEvent> CBAAE= c -> {
 			if(Squad.getInstance().getAgents(c.getSerialAgentsNumbers())){
 				Pair<List<String>,Integer> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
@@ -50,7 +51,12 @@ public class Moneypenny extends Subscriber {
 			Squad.getInstance().sendAgents(c.getSerialAgentsNumbers(), c.getDuration());
 			complete(c, true);
 		};
-
+		this.subscribeBroadcast(TerminateAllBroadcast.class, new Callback<TerminateAllBroadcast>() {
+			@Override
+			public void call(TerminateAllBroadcast c) throws InterruptedException, ClassNotFoundException {
+				terminate();
+			}
+		});
 		subscribeBroadcast(TickBroadcast.class, CBTB);
 		subscribeEvent(AgentsAvailableEvent.class,CBAAE);
 		subscribeEvent(ReleaseAgentsEvent.class,CBRAE);

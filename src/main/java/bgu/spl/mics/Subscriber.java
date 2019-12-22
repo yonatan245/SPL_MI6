@@ -8,6 +8,7 @@ import bgu.spl.mics.application.passiveObjects.Report;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The Subscriber is an abstract class that any subscriber in the system
@@ -25,6 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p>
  */
 public abstract class Subscriber extends RunnableSubPub {
+
+    //Fields
     private boolean terminated = false;
     private Map<Class,Callback> map;
 
@@ -107,6 +110,7 @@ public abstract class Subscriber extends RunnableSubPub {
      * message.
      */
     protected final void terminate() {
+        MessageBrokerImpl.getInstance().unregister(this);
         this.terminated = true;
     }
 
@@ -127,32 +131,32 @@ public abstract class Subscriber extends RunnableSubPub {
                 String whichType = received.getClass().getName();
 
                 switch (whichType) {
-                    case "bgu.spl.mics.MissionReceivedEvent":
+                    case Names.MISSION_RECEIVED_EVENT:
                        Callback<MissionReceivedEvent> MRECB=map.get(MissionReceivedEvent.class);
                        MRECB.call((MissionReceivedEvent)received);
                        break;
 
-                    case "bgu.spl.mics.AgentsAvailableEvent":
+                    case Names.AGENTS_AVAILABLE_EVENT:
                         Callback<AgentsAvailableEvent> AAECB=map.get(AgentsAvailableEvent.class);
                         AAECB.call((AgentsAvailableEvent)received);
                         break;
 
-                    case "bgu.spl.mics.GadgetAvailableEvent":
+                    case Names.GADGET_AVAILABLE_EVENT:
                         Callback<GadgetAvailableEvent> GAECB=map.get(GadgetAvailableEvent.class);
                         GAECB.call((GadgetAvailableEvent) received);
                         break;
 
-                    case "bgu.spl.mics.SendThemAgentsEvent":
+                    case Names.SEND_THEM_AGENTS:
                         Callback<SendThemAgentsEvent> STAECB=map.get(SendThemAgentsEvent.class);
                         STAECB.call((SendThemAgentsEvent)received);
                         break;
 
-                    case "bgu.spl.mics.ReleaseAgentsEvent":
+                    case Names.RELEASE_AGENTS_EVENT:
                         Callback<ReleaseAgentsEvent> RAECB=map.get(ReleaseAgentsEvent.class);
                         RAECB.call((ReleaseAgentsEvent) received);
                         break;
 
-                    case "bgu.spl.mics.TickBroadcast":
+                    case Names.TICK_BROADCAST:
                         Callback<TickBroadcast> TBCB=map.get(TickBroadcast.class);
                         TBCB.call((TickBroadcast) received);
                         break;

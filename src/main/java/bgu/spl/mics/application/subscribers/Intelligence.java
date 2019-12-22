@@ -2,10 +2,12 @@ package bgu.spl.mics.application.subscribers;
 
 import bgu.spl.mics.*;
 import bgu.spl.mics.application.MissionReceivedEvent;
+import bgu.spl.mics.application.TerminateAllBroadcast;
 import bgu.spl.mics.application.TickBroadcast;
 import bgu.spl.mics.application.passiveObjects.MissionInfo;
 import java.util.*;
-
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 
 /**
@@ -19,15 +21,16 @@ public class Intelligence extends Subscriber {
 
     //Fields
     private Map<Long, MissionInfo> missions;
-    private long CurrentTime;
     private Future<MissionInfo> fut;
+    private AtomicLong currentTime;
+
 
     //Constructor
     public Intelligence(String name, Map<Long, MissionInfo> missions) {
         super(name);
         this.missions = missions;
-        CurrentTime = 0;
         fut = null;
+        currentTime = new AtomicLong(0);
     }
 
     //Methods
@@ -35,12 +38,20 @@ public class Intelligence extends Subscriber {
     protected void initialize() {
         Thread.currentThread().setName(getName());
         MessageBrokerImpl.getInstance().register(this);
+        this.subscribeBroadcast(TerminateAllBroadcast.class, new Callback<TerminateAllBroadcast>() {
+            @Override
+            public void call(TerminateAllBroadcast c) throws InterruptedException, ClassNotFoundException {
+                terminate();
+            }
+        });
         this.subscribeBroadcast(TickBroadcast.class, c -> {
-            CurrentTime = c.getCurrentTime();
-            if(missions.containsKey(CurrentTime)){
-                Event<MissionInfo> toSend = new MissionReceivedEvent(missions.get(CurrentTime));
+            currentTime.set(c.getCurrentTime());
+            if(missions.containsKey(currentTime.get())){
+                Event<MissionInfo> toSend = new MissionReceivedEvent(missions.get(currentTime.get()));
                 fut=this.getSimplePublisher().sendEvent(toSend);
             }
         });
+
+
     }
 }
