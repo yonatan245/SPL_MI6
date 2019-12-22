@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="">
+    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="Work on main. Needs fixations.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/MessageBrokerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/MessageBrokerImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/Subscriber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/Subscriber.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Diary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/passiveObjects/Diary.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/bgu/spl/mics/Subscriber.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bgu/spl/mics/Subscriber.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -25,7 +30,6 @@
     </option>
   </component>
   <component name="ProjectId" id="1UyRGbeMdlmZ8NFoCpxtS4B2v2w" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -44,7 +48,7 @@
   <component name="RunManager">
     <configuration name="MI6Runner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="bgu.spl.mics.application.MI6Runner" />
-      <module name="MI6" />
+      <module name="SPL_MI6" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="bgu.spl.mics.application.*" />
@@ -85,155 +89,229 @@
       <updated>1576326753819</updated>
       <workItem from="1576326756862" duration="383000" />
       <workItem from="1576345770138" duration="2390000" />
-      <workItem from="1576516012641" duration="82000" />
-      <workItem from="1576759812125" duration="7998000" />
+      <workItem from="1576515991903" duration="8361000" />
+      <workItem from="1576587743088" duration="20240000" />
+      <workItem from="1576682539748" duration="4686000" />
+      <workItem from="1577016757727" duration="16790000" />
     </task>
-    <task id="LOCAL-00001" summary="s">
-      <created>1576416241229</created>
+    <task id="LOCAL-00001" summary="Finish SquadTest">
+      <created>1576418664856</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1576416241229</updated>
+      <updated>1576418664856</updated>
     </task>
-    <task id="LOCAL-00002" summary="start of work on passive objects. not yet threads friendly">
-      <created>1576429969225</created>
+    <task id="LOCAL-00002" summary="json write to file in diary fix">
+      <created>1576518355024</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1576429969225</updated>
+      <updated>1576518355024</updated>
     </task>
-    <task id="LOCAL-00003" summary="start of work on passive objects. not yet threads friendly">
-      <created>1576516038843</created>
+    <task id="LOCAL-00003" summary="json write to file in inventory fix">
+      <created>1576519113734</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1576516038843</updated>
+      <updated>1576519113734</updated>
     </task>
-    <task id="LOCAL-00004" summary="Finish of Json reading and initializing in MI6Runner.java">
-      <created>1576765417426</created>
+    <task id="LOCAL-00004" summary="Topic and TopicNode finish">
+      <created>1576589610791</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1576765417426</updated>
+      <updated>1576589610791</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Topic and TopicNode finish">
+      <created>1576606839022</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1576606839022</updated>
+    </task>
+    <task id="LOCAL-00006" summary="time service fix">
+      <created>1577018460718</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1577018460719</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixing Thread naming">
+      <created>1577019845199</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1577019845199</updated>
+    </task>
+    <task id="LOCAL-00008" summary="zfc">
+      <created>1577025931399</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1577025931399</updated>
+    </task>
+    <task id="LOCAL-00009" summary="g">
+      <created>1577032319848</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1577032319848</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="s" />
-    <MESSAGE value="start of work on passive objects. not yet threads friendly" />
-    <MESSAGE value="Finish of Json reading and initializing in MI6Runner.java" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finish of Json reading and initializing in MI6Runner.java" />
+    <MESSAGE value="Finish SquadTest" />
+    <MESSAGE value="json write to file in diary fix" />
+    <MESSAGE value="json write to file in inventory fix" />
+    <MESSAGE value="Topic and TopicNode finish" />
+    <MESSAGE value="Work on main. Needs fixations." />
+    <MESSAGE value="time service fix" />
+    <MESSAGE value="Fixing Thread naming" />
+    <MESSAGE value="zfc" />
+    <MESSAGE value="g" />
+    <option name="LAST_COMMIT_MESSAGE" value="g" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2018" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1576761292688">
-      <screen x="1600" y="0" width="1920" height="1080" />
-    </state>
-    <state x="2018" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576761292688" />
-    <state x="801" y="445" width="308" height="223" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1576432120830">
+    <state x="555" y="214" width="800" height="677" key="#Inspections" timestamp="1576606315602">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="801" y="445" width="308" height="223" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576432120830" />
-    <state x="2109" y="124" width="860" height="823" key="CommitChangelistDialog2" timestamp="1576765417326">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state x="555" y="214" width="800" height="677" key="#Inspections/0.27.1920.1053@0.27.1920.1053" timestamp="1576606315602" />
+    <state x="693" y="310" width="524" height="484" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1576606536668">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="509" y="148" width="860" height="823" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1576516038673" />
-    <state x="2109" y="124" key="CommitChangelistDialog2/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576765417326" />
+    <state x="693" y="310" width="524" height="484" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576606536668" />
+    <state x="768" y="227" width="374" height="592" key="#com.intellij.ide.util.MemberChooser" timestamp="1577021730893">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="768" y="227" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1044@0.0.1920.1044" timestamp="1577021730893" />
+    <state x="768" y="256" width="374" height="592" key="#com.intellij.ide.util.MemberChooser/0.27.1920.1053@0.27.1920.1053" timestamp="1576588511145" />
+    <state x="801" y="444" width="308" height="216" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1576416303091">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="801" y="444" width="308" height="216" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576416303091" />
+    <state x="694" y="269" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1577023167743">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="694" y="269" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1577023167743" />
+    <state x="577" y="127" width="860" height="811" key="CommitChangelistDialog2" timestamp="1577032317874">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="577" y="127" key="CommitChangelistDialog2/0.0.1920.1044@0.0.1920.1044" timestamp="1577032317874" />
+    <state x="577" y="155" width="860" height="811" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1576760793490" />
     <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2/70.27.1850.1053@70.27.1850.1053" timestamp="1576413751661" />
-    <state x="100" y="127" width="1720" height="853" key="DiffContextDialog" timestamp="1576416048620">
+    <state x="100" y="127" width="1720" height="853" key="DiffContextDialog" timestamp="1576416009600">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="100" y="127" width="1720" height="853" key="DiffContextDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576416048620" />
-    <state width="1874" height="305" key="GridCell.Tab.0.bottom" timestamp="1576768337391">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state x="100" y="127" width="1720" height="853" key="DiffContextDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576416009600" />
+    <state width="1874" height="253" key="GridCell.Tab.0.bottom" timestamp="1577033450212">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="305" key="GridCell.Tab.0.bottom/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576768337391" />
-    <state width="1874" height="305" key="GridCell.Tab.0.center" timestamp="1576768337390">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state width="1874" height="253" key="GridCell.Tab.0.bottom/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450212" />
+    <state width="1874" height="344" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
+    <state width="1874" height="275" key="GridCell.Tab.0.bottom/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
+    <state width="1874" height="253" key="GridCell.Tab.0.center" timestamp="1577033450210">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="305" key="GridCell.Tab.0.center/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576768337390" />
-    <state width="1874" height="305" key="GridCell.Tab.0.left" timestamp="1576768337390">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state width="1874" height="253" key="GridCell.Tab.0.center/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450210" />
+    <state width="1874" height="344" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209912" />
+    <state width="1874" height="275" key="GridCell.Tab.0.center/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
+    <state width="1874" height="253" key="GridCell.Tab.0.left" timestamp="1577033450209">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="305" key="GridCell.Tab.0.left/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576768337390" />
-    <state width="1874" height="305" key="GridCell.Tab.0.right" timestamp="1576768337390">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state width="1874" height="253" key="GridCell.Tab.0.left/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450209" />
+    <state width="1874" height="344" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209912" />
+    <state width="1874" height="275" key="GridCell.Tab.0.left/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
+    <state width="1874" height="253" key="GridCell.Tab.0.right" timestamp="1577033450211">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="305" key="GridCell.Tab.0.right/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576768337390" />
-    <state width="1600" height="835" key="GridCell.Tab.1.bottom" timestamp="1576768232425">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state width="1874" height="253" key="GridCell.Tab.0.right/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450211" />
+    <state width="1874" height="344" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209912" />
+    <state width="1874" height="275" key="GridCell.Tab.0.right/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
+    <state width="1874" height="253" key="GridCell.Tab.1.bottom" timestamp="1577033450215">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1600" height="835" key="GridCell.Tab.1.bottom/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576768232425" />
-    <state width="1600" height="835" key="GridCell.Tab.1.center" timestamp="1576768232425">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state width="1874" height="253" key="GridCell.Tab.1.bottom/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450215" />
+    <state width="1874" height="344" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
+    <state width="1874" height="253" key="GridCell.Tab.1.center" timestamp="1577033450214">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1600" height="835" key="GridCell.Tab.1.center/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576768232425" />
-    <state width="1600" height="835" key="GridCell.Tab.1.left" timestamp="1576768232425">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state width="1874" height="253" key="GridCell.Tab.1.center/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450214" />
+    <state width="1874" height="344" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
+    <state width="1874" height="253" key="GridCell.Tab.1.left" timestamp="1577033450213">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1600" height="835" key="GridCell.Tab.1.left/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576768232425" />
-    <state width="1600" height="835" key="GridCell.Tab.1.right" timestamp="1576768232425">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state width="1874" height="253" key="GridCell.Tab.1.left/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450213" />
+    <state width="1874" height="344" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
+    <state width="1874" height="253" key="GridCell.Tab.1.right" timestamp="1577033450214">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1600" height="835" key="GridCell.Tab.1.right/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576768232425" />
-    <state x="182" y="121" width="1536" height="879" key="MergeDialog" timestamp="1576423485412">
+    <state width="1874" height="253" key="GridCell.Tab.1.right/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450214" />
+    <state width="1874" height="344" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
+    <state x="493" y="210" width="924" height="684" key="Maven.ArtifactSearchDialog" timestamp="1576604163630">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="182" y="121" width="1536" height="879" key="MergeDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576423485412" />
-    <state x="2265" y="250" width="580" height="571" key="MultipleFileMergeDialog" timestamp="1576761167995">
-      <screen x="1600" y="0" width="1920" height="1080" />
-    </state>
-    <state x="665" y="271" width="580" height="571" key="MultipleFileMergeDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576516337741" />
-    <state x="2265" y="250" width="580" height="571" key="MultipleFileMergeDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576761167995" />
-    <state x="782" y="266" width="346" height="581" key="RollbackChangesDialog" timestamp="1576416179058">
+    <state x="493" y="210" width="924" height="684" key="Maven.ArtifactSearchDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576604163630" />
+    <state x="182" y="116" width="1536" height="872" key="MergeDialog" timestamp="1576524470846">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="782" y="266" width="346" height="581" key="RollbackChangesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576416179058" />
-    <state x="449" y="210" width="1022" height="737" key="SettingsEditor" timestamp="1576432100778">
+    <state x="182" y="116" width="1536" height="872" key="MergeDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576524470846" />
+    <state x="665" y="241" width="580" height="564" key="MultipleFileMergeDialog" timestamp="1577016772606">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="665" y="241" key="MultipleFileMergeDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1577016772606" />
+    <state x="665" y="270" width="580" height="564" key="MultipleFileMergeDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576606784550" />
+    <state x="775" y="265" width="360" height="574" key="RollbackChangesDialog" timestamp="1576604855907">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="449" y="210" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1576432100778" />
+    <state x="775" y="265" width="360" height="574" key="RollbackChangesDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576604855907" />
+    <state x="449" y="210" width="1022" height="737" key="SettingsEditor" timestamp="1576603849820">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="449" y="210" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1576603849820" />
     <state x="2049" y="188" width="1022" height="737" key="SettingsEditor/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327139121" />
-    <state x="2155" y="269" width="800" height="535" key="Vcs.Push.Dialog.v2" timestamp="1576765421799">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state x="555" y="259" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1577032321837">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="555" y="289" width="800" height="535" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576516042285" />
-    <state x="2155" y="269" key="Vcs.Push.Dialog.v2/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576765421799" />
-    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog" timestamp="1576759817124">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state x="555" y="259" key="Vcs.Push.Dialog.v2/0.0.1920.1044@0.0.1920.1044" timestamp="1577032321837" />
+    <state x="555" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576760795768" />
+    <state x="616" y="368" key="com.intellij.ide.util.TipDialog" timestamp="1577016757736">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="616" y="398" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576516014564" />
-    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576759817124" />
-    <state x="2319" y="457" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1576761160265">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state x="616" y="368" key="com.intellij.ide.util.TipDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1577016757736" />
+    <state x="616" y="398" key="com.intellij.ide.util.TipDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576760745522" />
+    <state x="2216" y="381" key="com.intellij.ide.util.TipDialog/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327157601" />
+    <state x="719" y="442" width="454" height="163" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1577016760705">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="719" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576429897998" />
-    <state x="2319" y="457" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576761160265" />
+    <state x="719" y="442" width="454" height="163" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1044@0.0.1920.1044" timestamp="1577016760705" />
+    <state x="719" y="473" width="454" height="160" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576760750973" />
     <state x="763" y="473" width="464" height="167" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/70.27.1850.1053@70.27.1850.1053" timestamp="1576413757462" />
-    <state x="-39" y="0" width="1639" height="546" key="dock-window-1" timestamp="1576764934618">
-      <screen x="0" y="27" width="1600" height="873" />
+    <state x="656" y="181" width="598" height="743" key="refactoring.ChangeSignatureDialog" timestamp="1576600236715">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
-    <state x="-39" y="0" width="1639" height="546" key="dock-window-1/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576764934618" />
-    <state x="2205" y="157" width="710" height="792" key="find.popup" timestamp="1576767999186">
-      <screen x="1600" y="0" width="1920" height="1080" />
+    <state x="656" y="181" width="598" height="743" key="refactoring.ChangeSignatureDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576600236715" />
+    <state x="624" y="224" key="run.anything.popup" timestamp="1577027229807">
+      <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="2205" y="157" width="710" height="792" key="find.popup/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576767999186" />
+    <state x="624" y="224" key="run.anything.popup/0.0.1920.1044@0.0.1920.1044" timestamp="1577027229807" />
+    <state x="624" y="253" key="run.anything.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1576523267168" />
+    <state x="623" y="228" width="672" height="673" key="search.everywhere.popup" timestamp="1577017680332">
+      <screen x="0" y="0" width="1920" height="1044" />
+    </state>
+    <state x="623" y="228" width="672" height="673" key="search.everywhere.popup/0.0.1920.1044@0.0.1920.1044" timestamp="1577017680332" />
+    <state x="623" y="257" width="672" height="678" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1576517591185" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/MI6Runner.java</url>
-          <line>37</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bgu/spl/mics/MessageBrokerImpl.java</url>
-          <line>65</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
