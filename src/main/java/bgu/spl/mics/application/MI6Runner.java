@@ -100,7 +100,9 @@ public class MI6Runner {
     }
 
     static private void initM(int numberOfMs, ExecutorService threadPool){
-        for(int i = 0 ; i <= numberOfMs ; i++) threadPool.execute(new M(i));
+        for(int i = 0 ; i <= numberOfMs ; i++){
+            threadPool.execute(new M(i));
+        }
     }
 
     static private void initMoneyPenny(int numberOfMoneyPennies, ExecutorService threadPool){
