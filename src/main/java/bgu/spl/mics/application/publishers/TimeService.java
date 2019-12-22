@@ -7,6 +7,8 @@ import bgu.spl.mics.application.TickBroadcast;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static java.lang.Thread.sleep;
 
@@ -22,7 +24,7 @@ import static java.lang.Thread.sleep;
 public class TimeService extends Publisher {
 
 
-	private long CurrentTime;
+	private AtomicInteger currentTime;
 	private TimerTask task;
 	private long TimeTicks;
 	private Timer timer;
@@ -31,11 +33,13 @@ public class TimeService extends Publisher {
 	public TimeService(long TimeTicks) {
 		super("The One And Only TimeService");
 		timer = new Timer("The One And Only TimeService");
+		currentTime = new AtomicInteger(0);
+
 		task = new TimerTask() {
 			@Override
 			public void run() {
-				CurrentTime = CurrentTime + 1;
-				Broadcast toSend = new TickBroadcast(CurrentTime);
+				currentTime.getAndIncrement();
+				Broadcast toSend = new TickBroadcast(currentTime.get());
 				TimeService.super.getSimplePublisher().sendBroadcast(toSend);
 			}
 		};
@@ -49,29 +53,28 @@ public class TimeService extends Publisher {
 
 	@Override
 	protected void initialize() {
-	CurrentTime=0;
 	}
 
 	@Override
 	public void run() {
-	while(CurrentTime<TimeTicks){
-		timer.schedule(getNewTimerTask(), 100);
-	}
-	timer.cancel();
+		while(currentTime.get()<TimeTicks){
+			timer.schedule(getNewTimerTask(), 100);
+		}
+
+		timer.cancel();
 	}
 
 	private TimerTask getNewTimerTask(){
-		TimerTask lastTask = task;
 		task = new TimerTask() {
 			@Override
 			public void run() {
-				CurrentTime = CurrentTime + 1;
-				Broadcast toSend = new TickBroadcast(CurrentTime);
+				currentTime.getAndIncrement();
+				Broadcast toSend = new TickBroadcast(currentTime.get());
 				TimeService.super.getSimplePublisher().sendBroadcast(toSend);
 			}
 		};
 
-		return lastTask;
+		return task;
 	}
 
 }

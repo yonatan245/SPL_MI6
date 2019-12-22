@@ -9,6 +9,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.Semaphore;
 
 
 /**
@@ -50,6 +51,7 @@ public class MessageBrokerImpl implements MessageBroker {
 
 		//Lock for all who those wait for new messages
 		messageLock = new Object();
+
 	}
 
 	//Methods
@@ -104,13 +106,12 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
-		synchronized (messageLock) {
-			for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))
+		for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName())) {
+			synchronized (personalQueues.get(subscriber)) {
 				personalQueues.get(subscriber).add(b);
-			messageLock.notifyAll();
+			} personalQueues.get(subscriber).notifyAll();
 		}
 	}
-	
 	@Override
 	public <T> Future<T> sendEvent(Event<T> e){
 		String type = e.getClass().getName();
@@ -118,7 +119,9 @@ public class MessageBrokerImpl implements MessageBroker {
 
 		synchronized (eventTopics.get(type)) {
 			Subscriber receiver = eventTopics.get(type).getNextSubscriber();
-			personalQueues.get(receiver).add(e);
+			synchronized (personalQueues.get(receiver)) {
+				personalQueues.get(receiver).add(e);
+			} personalQueues.get(receiver).notifyAll();
 			future = getEventFuture(e);
 		}
 
@@ -143,9 +146,9 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public Message awaitMessage(Subscriber m) throws InterruptedException {
-		synchronized (messageLock) {
+		synchronized (personalQueues.get(m)) {
 			while (personalQueues.get(m).isEmpty() && !Thread.currentThread().isInterrupted()) {
-				messageLock.wait();
+				personalQueues.get(m).wait();
 			}
 		}
 

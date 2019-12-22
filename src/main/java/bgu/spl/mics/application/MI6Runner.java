@@ -9,6 +9,7 @@ import bgu.spl.mics.application.publishers.TimeService;
 import bgu.spl.mics.application.subscribers.Intelligence;
 import bgu.spl.mics.application.subscribers.M;
 import bgu.spl.mics.application.subscribers.Moneypenny;
+import bgu.spl.mics.application.subscribers.Q;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import java.io.*;
@@ -60,6 +61,9 @@ public class MI6Runner {
         //Initializing Time Service
         long timeTicks = services.get("time").getAsLong();
         initTimeService(timeTicks, timeService);
+
+        //Initialize Q
+        threadPool.execute(new Q());
 
         //Initialize M
         int numberOfMs = services.get("M").getAsInt();
