@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="Work on main. Needs fixations.">
+    <list default="true" id="22dcbedd-60d8-4696-922e-d1a74b96de03" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/MessageBrokerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/MessageBrokerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/SimplePublisher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/SimplePublisher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/AgentsAvailableEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/AgentsAvailableEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/GadgetAvailableEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/GadgetAvailableEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/MI6Runner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/MI6Runner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/MissionReceivedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/MissionReceivedEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/ReleaseAgentsEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/ReleaseAgentsEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/SendThemAgentsEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/SendThemAgentsEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/subscribers/Intelligence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/subscribers/Intelligence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/bgu/spl/mics/application/MI6Runner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/bgu/spl/mics/application/MI6Runner.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +101,7 @@
       <workItem from="1576515991903" duration="8361000" />
       <workItem from="1576587743088" duration="20240000" />
       <workItem from="1576682539748" duration="4686000" />
-      <workItem from="1577016757727" duration="16790000" />
+      <workItem from="1577016757727" duration="20258000" />
     </task>
     <task id="LOCAL-00001" summary="Finish SquadTest">
       <created>1576418664856</created>
@@ -157,7 +166,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577032319848</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Work on main. Needs fixations.">
+      <created>1577033559545</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1577033559545</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,12 +184,12 @@
     <MESSAGE value="json write to file in diary fix" />
     <MESSAGE value="json write to file in inventory fix" />
     <MESSAGE value="Topic and TopicNode finish" />
-    <MESSAGE value="Work on main. Needs fixations." />
     <MESSAGE value="time service fix" />
     <MESSAGE value="Fixing Thread naming" />
     <MESSAGE value="zfc" />
     <MESSAGE value="g" />
-    <option name="LAST_COMMIT_MESSAGE" value="g" />
+    <MESSAGE value="Work on main. Needs fixations." />
+    <option name="LAST_COMMIT_MESSAGE" value="Work on main. Needs fixations." />
   </component>
   <component name="WindowStateProjectService">
     <state x="555" y="214" width="800" height="677" key="#Inspections" timestamp="1576606315602">
@@ -197,59 +213,59 @@
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
     <state x="694" y="269" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1044@0.0.1920.1044" timestamp="1577023167743" />
-    <state x="577" y="127" width="860" height="811" key="CommitChangelistDialog2" timestamp="1577032317874">
+    <state x="577" y="127" width="860" height="811" key="CommitChangelistDialog2" timestamp="1577033558716">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="577" y="127" key="CommitChangelistDialog2/0.0.1920.1044@0.0.1920.1044" timestamp="1577032317874" />
+    <state x="577" y="127" key="CommitChangelistDialog2/0.0.1920.1044@0.0.1920.1044" timestamp="1577033558716" />
     <state x="577" y="155" width="860" height="811" key="CommitChangelistDialog2/0.27.1920.1053@0.27.1920.1053" timestamp="1576760793490" />
     <state x="560" y="148" width="860" height="818" key="CommitChangelistDialog2/70.27.1850.1053@70.27.1850.1053" timestamp="1576413751661" />
     <state x="100" y="127" width="1720" height="853" key="DiffContextDialog" timestamp="1576416009600">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="100" y="127" width="1720" height="853" key="DiffContextDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576416009600" />
-    <state width="1874" height="253" key="GridCell.Tab.0.bottom" timestamp="1577033450212">
+    <state width="1874" height="253" key="GridCell.Tab.0.bottom" timestamp="1577036920093">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="253" key="GridCell.Tab.0.bottom/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450212" />
+    <state width="1874" height="253" key="GridCell.Tab.0.bottom/0.0.1920.1044@0.0.1920.1044" timestamp="1577036920093" />
     <state width="1874" height="344" key="GridCell.Tab.0.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
     <state width="1874" height="275" key="GridCell.Tab.0.bottom/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
-    <state width="1874" height="253" key="GridCell.Tab.0.center" timestamp="1577033450210">
+    <state width="1874" height="253" key="GridCell.Tab.0.center" timestamp="1577036920093">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="253" key="GridCell.Tab.0.center/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450210" />
+    <state width="1874" height="253" key="GridCell.Tab.0.center/0.0.1920.1044@0.0.1920.1044" timestamp="1577036920093" />
     <state width="1874" height="344" key="GridCell.Tab.0.center/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209912" />
     <state width="1874" height="275" key="GridCell.Tab.0.center/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
-    <state width="1874" height="253" key="GridCell.Tab.0.left" timestamp="1577033450209">
+    <state width="1874" height="253" key="GridCell.Tab.0.left" timestamp="1577036920093">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="253" key="GridCell.Tab.0.left/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450209" />
+    <state width="1874" height="253" key="GridCell.Tab.0.left/0.0.1920.1044@0.0.1920.1044" timestamp="1577036920093" />
     <state width="1874" height="344" key="GridCell.Tab.0.left/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209912" />
     <state width="1874" height="275" key="GridCell.Tab.0.left/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
-    <state width="1874" height="253" key="GridCell.Tab.0.right" timestamp="1577033450211">
+    <state width="1874" height="253" key="GridCell.Tab.0.right" timestamp="1577036920093">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="253" key="GridCell.Tab.0.right/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450211" />
+    <state width="1874" height="253" key="GridCell.Tab.0.right/0.0.1920.1044@0.0.1920.1044" timestamp="1577036920093" />
     <state width="1874" height="344" key="GridCell.Tab.0.right/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209912" />
     <state width="1874" height="275" key="GridCell.Tab.0.right/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327202725" />
-    <state width="1874" height="253" key="GridCell.Tab.1.bottom" timestamp="1577033450215">
+    <state width="1874" height="253" key="GridCell.Tab.1.bottom" timestamp="1577036920094">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="253" key="GridCell.Tab.1.bottom/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450215" />
+    <state width="1874" height="253" key="GridCell.Tab.1.bottom/0.0.1920.1044@0.0.1920.1044" timestamp="1577036920094" />
     <state width="1874" height="344" key="GridCell.Tab.1.bottom/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
-    <state width="1874" height="253" key="GridCell.Tab.1.center" timestamp="1577033450214">
+    <state width="1874" height="253" key="GridCell.Tab.1.center" timestamp="1577036920094">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="253" key="GridCell.Tab.1.center/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450214" />
+    <state width="1874" height="253" key="GridCell.Tab.1.center/0.0.1920.1044@0.0.1920.1044" timestamp="1577036920094" />
     <state width="1874" height="344" key="GridCell.Tab.1.center/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
-    <state width="1874" height="253" key="GridCell.Tab.1.left" timestamp="1577033450213">
+    <state width="1874" height="253" key="GridCell.Tab.1.left" timestamp="1577036920094">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="253" key="GridCell.Tab.1.left/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450213" />
+    <state width="1874" height="253" key="GridCell.Tab.1.left/0.0.1920.1044@0.0.1920.1044" timestamp="1577036920094" />
     <state width="1874" height="344" key="GridCell.Tab.1.left/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
-    <state width="1874" height="253" key="GridCell.Tab.1.right" timestamp="1577033450214">
+    <state width="1874" height="253" key="GridCell.Tab.1.right" timestamp="1577036920094">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state width="1874" height="253" key="GridCell.Tab.1.right/0.0.1920.1044@0.0.1920.1044" timestamp="1577033450214" />
+    <state width="1874" height="253" key="GridCell.Tab.1.right/0.0.1920.1044@0.0.1920.1044" timestamp="1577036920094" />
     <state width="1874" height="344" key="GridCell.Tab.1.right/0.27.1920.1053@0.27.1920.1053" timestamp="1576687209913" />
     <state x="493" y="210" width="924" height="684" key="Maven.ArtifactSearchDialog" timestamp="1576604163630">
       <screen x="0" y="27" width="1920" height="1053" />
@@ -273,10 +289,10 @@
     </state>
     <state x="449" y="210" key="SettingsEditor/0.27.1920.1053@0.27.1920.1053" timestamp="1576603849820" />
     <state x="2049" y="188" width="1022" height="737" key="SettingsEditor/1600.0.1920.1080/0.27.1600.873@1600.0.1920.1080" timestamp="1576327139121" />
-    <state x="555" y="259" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1577032321837">
+    <state x="555" y="259" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1577033565322">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="555" y="259" key="Vcs.Push.Dialog.v2/0.0.1920.1044@0.0.1920.1044" timestamp="1577032321837" />
+    <state x="555" y="259" key="Vcs.Push.Dialog.v2/0.0.1920.1044@0.0.1920.1044" timestamp="1577033565322" />
     <state x="555" y="288" width="800" height="528" key="Vcs.Push.Dialog.v2/0.27.1920.1053@0.27.1920.1053" timestamp="1576760795768" />
     <state x="616" y="368" key="com.intellij.ide.util.TipDialog" timestamp="1577016757736">
       <screen x="0" y="0" width="1920" height="1044" />
@@ -294,10 +310,10 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="656" y="181" width="598" height="743" key="refactoring.ChangeSignatureDialog/0.27.1920.1053@0.27.1920.1053" timestamp="1576600236715" />
-    <state x="624" y="224" key="run.anything.popup" timestamp="1577027229807">
+    <state x="624" y="224" key="run.anything.popup" timestamp="1577036556681">
       <screen x="0" y="0" width="1920" height="1044" />
     </state>
-    <state x="624" y="224" key="run.anything.popup/0.0.1920.1044@0.0.1920.1044" timestamp="1577027229807" />
+    <state x="624" y="224" key="run.anything.popup/0.0.1920.1044@0.0.1920.1044" timestamp="1577036556681" />
     <state x="624" y="253" key="run.anything.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1576523267168" />
     <state x="623" y="228" width="672" height="673" key="search.everywhere.popup" timestamp="1577017680332">
       <screen x="0" y="0" width="1920" height="1044" />
@@ -309,9 +325,9 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/bgu/spl/mics/application/publishers/TimeService.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="43" />
+          <url>file://$PROJECT_DIR$/src/main/java/bgu/spl/mics/Subscriber.java</url>
+          <line>129</line>
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

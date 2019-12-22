@@ -6,7 +6,7 @@ import org.javatuples.Pair;
 
 public class GadgetAvailableEvent<T> implements Event<T> {
     private String gadget;
-    private Future<Pair<String,Long>> fut;
+    private Future<T> fut;
 
     public GadgetAvailableEvent(String gadget){
         this.gadget=gadget;
@@ -16,9 +16,9 @@ public class GadgetAvailableEvent<T> implements Event<T> {
         return gadget;
     }
 
-    public void resolveFut(Pair<String,Long> result){
+    public void resolveFut(T result){
         fut.resolve(result);
     }
 
-    public Future<Pair<String,Long>> getFut(){return fut;}
+    public Future<T> getFut(){return fut;}
 }

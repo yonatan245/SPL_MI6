@@ -44,23 +44,23 @@ public final class SimplePublisher {
         Future<T> fut = null;
 
         switch (whichEvent) {
-            case "bgu.spl.mics.MissionReceivedEvent":
+            case Names.MISSION_RECEIVED_EVENT:
                 fut = mb.sendEvent((MissionReceivedEvent) e);
                 break;
 
-            case "bgu.spl.mics.AgentsAvailableEvent":
+            case Names.AGENTS_AVAILABLE_EVENT:
                 fut = mb.sendEvent((AgentsAvailableEvent) e);
                 break;
 
-            case "bgu.spl.mics.GadgetAvailableEvent":
+            case Names.GADGET_AVAILABLE_EVENT:
                 fut = mb.sendEvent((GadgetAvailableEvent) e);
                 break;
 
-            case "bgu.spl.mics.SendThemAgentsEvent":
+            case Names.SEND_THEM_AGENTS:
                 fut = mb.sendEvent((SendThemAgentsEvent) e);
                 break;
 
-            case "bgu.spl.mics.ReleaseAgentsEvent":
+            case Names.RELEASE_AGENTS_EVENT:
                 fut = mb.sendEvent((ReleaseAgentsEvent) e);
                 break;
         }

@@ -47,8 +47,7 @@ public class Intelligence extends Subscriber {
         this.subscribeBroadcast(TickBroadcast.class, c -> {
             currentTime.set(c.getCurrentTime());
             if(missions.containsKey(currentTime.get())){
-                Event<MissionInfo> toSend = new MissionReceivedEvent(missions.get(currentTime.get()));
-                fut=this.getSimplePublisher().sendEvent(toSend);
+                fut=this.getSimplePublisher().sendEvent(new MissionReceivedEvent<>(missions.get(currentTime.get())));
             }
         });
 

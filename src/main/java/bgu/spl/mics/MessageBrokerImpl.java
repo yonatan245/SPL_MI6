@@ -130,7 +130,7 @@ public class MessageBrokerImpl implements MessageBroker {
 			Subscriber receiver = eventTopics.get(type).getNextSubscriber();
 			synchronized (personalQueues.get(receiver)) {
 				personalQueues.get(receiver).add(e);
-			} personalQueues.get(receiver).notifyAll();
+			personalQueues.get(receiver).notifyAll();}
 			future = getEventFuture(e);
 		}
 
@@ -159,18 +159,17 @@ public class MessageBrokerImpl implements MessageBroker {
 			while (personalQueues.get(m).isEmpty() && !Thread.currentThread().isInterrupted()) {
 				personalQueues.get(m).wait();
 			}
+			if(Thread.currentThread().isInterrupted()) throw new InterruptedException();
+			Message recieved = personalQueues.get(m).element();
+			personalQueues.get(m).remove();
+			personalQueues.get(m).notifyAll();
+			return recieved;
 		}
-
-		if(Thread.currentThread().isInterrupted()) throw new InterruptedException();
-
-		Message recieved = personalQueues.get(m).element();
-		personalQueues.get(m).remove();
-		return recieved;
 	}
 
-	private <T> Future getEventFuture(Event<T> event){
+	private <T> Future<T> getEventFuture(Event<T> event){
 		String type = event.getClass().getName();
-		Future output;
+		Future<T> output;
 
 		switch(type){
 			case Names.AGENTS_AVAILABLE_EVENT:

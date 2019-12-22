@@ -8,7 +8,7 @@ import java.util.List;
 public class ReleaseAgentsEvent<T> implements Event<T> {
 
     private List<String> serialAgentsNumbers;
-    private Future<Boolean> fut;
+    private Future<T> fut;
 
     public ReleaseAgentsEvent(List<String> serialAgentsNumbers){
         this.serialAgentsNumbers=serialAgentsNumbers;
@@ -19,9 +19,9 @@ public class ReleaseAgentsEvent<T> implements Event<T> {
         return serialAgentsNumbers;
     }
 
-    public void resolveFut(boolean result){ //Moneypenny will release the agents and return true.
+    public void resolveFut(T result){ //Moneypenny will release the agents and return true.
         fut.resolve(result);
     }
 
-    public Future<Boolean> getFut(){return fut;}
+    public Future<T> getFut(){return fut;}
 }

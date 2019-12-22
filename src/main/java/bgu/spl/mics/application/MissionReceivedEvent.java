@@ -15,11 +15,11 @@ public class MissionReceivedEvent<T> implements Event<T> {
         COMPLETED,ABORTED,IN_PROGRESS, PENDING;
     }
     private Status status;
-    private Future<Report> fut;
+    private Future<T> fut;
     public MissionReceivedEvent(MissionInfo m){
         this.mission = m;
         status=Status.PENDING;
-        fut=new Future<Report>();
+        fut=new Future<T>();
     }
 
     public MissionInfo getMission() {
@@ -46,11 +46,11 @@ public class MissionReceivedEvent<T> implements Event<T> {
         return mission.getTimeIssued();
     }
 
-    public Future<Report> getFut() {
+    public Future<T> getFut() {
         return fut;
     }
 
-    public void resolveFuture(Report result){
+    public void resolveFuture(T result){
         fut.resolve(result);
     }
 

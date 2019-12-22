@@ -11,7 +11,7 @@ public class SendThemAgentsEvent<T> implements Event<T> {
 
     private List<String> serialAgentsNumbers;
     private long duration;
-    private Future<Boolean> fut;
+    private Future<T> fut;
 
     public SendThemAgentsEvent(List<String> serialAgentsNumbers, long duration){
         this.serialAgentsNumbers=serialAgentsNumbers;
@@ -26,10 +26,10 @@ public class SendThemAgentsEvent<T> implements Event<T> {
         return serialAgentsNumbers;
     }
 
-    public void resolveFut(boolean result){ //Moneypenny will put the agents to sleep and return true;
+    public void resolveFut(T result){ //Moneypenny will put the agents to sleep and return true;
         fut.resolve(result);
     }
 
-    public Future<Boolean> getFut(){return fut;}
+    public Future<T> getFut(){return fut;}
 }
 
