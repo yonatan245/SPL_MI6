@@ -112,6 +112,7 @@ public class MessageBrokerImpl implements MessageBroker {
 
 		for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))	personalQueues.get(subscriber).add(b);
 	}
+
 	@Override
 	public <T> Future<T> sendEvent(Event<T> e){
 		String type = e.getClass().getName();

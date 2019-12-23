@@ -43,7 +43,8 @@ public class EventTopic {
 
             do{
                 if(toCheck.getSubscriber().equals(toRemove)) nodeToRemove = toCheck;
-            } while(nodeToRemove != null && toCheck.getNext() != firstSubscriber);
+                else toCheck = toCheck.getNext();
+            } while(nodeToRemove == null && toCheck.getNext() != firstSubscriber);
 
 
             if(nodeToRemove != null){

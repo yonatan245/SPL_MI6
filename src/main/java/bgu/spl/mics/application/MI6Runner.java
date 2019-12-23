@@ -1,10 +1,8 @@
 package bgu.spl.mics.application;
 import bgu.spl.mics.MessageBroker;
 import bgu.spl.mics.MessageBrokerImpl;
-import bgu.spl.mics.application.passiveObjects.Agent;
-import bgu.spl.mics.application.passiveObjects.Inventory;
-import bgu.spl.mics.application.passiveObjects.MissionInfo;
-import bgu.spl.mics.application.passiveObjects.Squad;
+import bgu.spl.mics.Names;
+import bgu.spl.mics.application.passiveObjects.*;
 import bgu.spl.mics.application.publishers.TimeService;
 import bgu.spl.mics.application.subscribers.Intelligence;
 import bgu.spl.mics.application.subscribers.M;
@@ -28,29 +26,34 @@ public class MI6Runner {
 
         String filePath = "src/input201 - 2.json";
         ThreadFactory threadFactory = new NamedThreadFactory();
-        ExecutorService threadPool = Executors.newCachedThreadPool(threadFactory);
+//        ExecutorService threadPool = Executors.newCachedThreadPool(threadFactory);
+        List<Thread> threadList = new ArrayList<>();
+
 
         MessageBroker messageBroker = MessageBrokerImpl.getInstance();
         Inventory inventory = Inventory.getInstance();
         Squad squad = Squad.getInstance();
 
         try {
-            initialize(filePath, threadPool);
+            initialize(filePath, threadList);
+            for(Thread thread : threadList) thread.start();
             Thread timeService = new Thread(new TimeService(getTimeTicks(filePath)));
 
-            timeService.run();
+            timeService.start();
             timeService.join();
-
-
+            for(Thread thread : threadList) thread.join();
 
         } catch (FileNotFoundException | InterruptedException e) {
             e.printStackTrace();
         }
 
-        threadPool.shutdown();
+//        threadPool.shutdown();
+
+        Diary.getInstance().printToFile(Names.OUTPUT_DIARY);
+        Inventory.getInstance().printToFile(Names.OUTPUT_INVENTORY);
     }
 
-    static private void initialize(String filePath, ExecutorService threadPool) throws FileNotFoundException {
+    static private void initialize(String filePath, List<Thread> threadList) throws FileNotFoundException {
 
         JsonReader reader = new JsonReader(new FileReader(filePath));
         JsonElement e = JsonParser.parseReader(reader);
@@ -67,19 +70,19 @@ public class MI6Runner {
         JsonObject services = e.getAsJsonObject().get("services").getAsJsonObject();
 
         //Initialize Q
-        threadPool.execute(new Q());
+        threadList.add(new Thread(new Q()));
 
         //Initialize M
         int numberOfMs = services.get("M").getAsInt();
-        initM(numberOfMs, threadPool);
+        initM(numberOfMs, threadList);
 
         //Initialize Money Penny
         int numberOfMoneyPennies = services.get("Moneypenny").getAsInt();
-        initMoneyPenny(numberOfMoneyPennies, threadPool);
+        initMoneyPenny(numberOfMoneyPennies, threadList);
 
         //Initialize Intelligence
         JsonArray intelligenceJson = services.get("intelligence").getAsJsonArray();
-        initIntelligence(intelligenceJson, threadPool);
+        initIntelligence(intelligenceJson, threadList);
 
     }
 
@@ -111,17 +114,17 @@ public class MI6Runner {
         squad.load(agentsToLoad);
     }
 
-    static private void initM(int numberOfMs, ExecutorService threadPool){
+    static private void initM(int numberOfMs, List<Thread> threadList){
         for(int i = 0 ; i <= numberOfMs ; i++){
-            threadPool.execute(new M(i));
+            threadList.add(new Thread(new M(i)));
         }
     }
 
-    static private void initMoneyPenny(int numberOfMoneyPennies, ExecutorService threadPool){
-        for(int i = 0 ; i <= numberOfMoneyPennies ; i++) threadPool.execute(new Moneypenny(i+1));
+    static private void initMoneyPenny(int numberOfMoneyPennies, List<Thread> threadList){
+        for(int i = 0 ; i <= numberOfMoneyPennies ; i++) threadList.add(new Thread(new Moneypenny(i+1)));
     }
 
-    static private void initIntelligence(JsonArray intelligenceJson, ExecutorService threadPool){
+    static private void initIntelligence(JsonArray intelligenceJson, List<Thread> threadList){
         Iterator<JsonElement> intelligenceIter = intelligenceJson.iterator();
         int i = 0;
 
@@ -129,8 +132,7 @@ public class MI6Runner {
         while(intelligenceIter.hasNext()){
             JsonArray missionsJson = intelligenceIter.next().getAsJsonObject().get("missions").getAsJsonArray();
             Iterator<JsonElement> missionsIter = missionsJson.iterator();
-            Map<Long, MissionInfo> missions = new HashMap<>();
-            Long missionID = 1L;
+            Map<Integer, List<MissionInfo>> missions = new HashMap<>();
 
             //iterating on all of the missions for the specific intelligence
             while(missionsIter.hasNext()){
@@ -149,11 +151,11 @@ public class MI6Runner {
                 MissionInfo newMission = new MissionInfo(
                         name, serialAgentNumbers, gadget, timeIssued, timeExpired, duration);
 
-                missions.put(missionID, newMission);
-                missionID++;
+                if(missions.get(timeIssued) == null) missions.put(timeIssued, new ArrayList<>());
+                missions.get(timeIssued).add(newMission);
             }
 
-            threadPool.execute(new Intelligence(String.valueOf(i), missions));
+            threadList.add(new Thread(new Intelligence(String.valueOf(i), missions)));
         }
     }
 

@@ -35,19 +35,19 @@ public class Moneypenny extends Subscriber {
 	protected void initialize() {
 		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
-		Callback<TickBroadcast> CBTB= c -> currentTime.set(c.getCurrentTime());
-		Callback<AgentsAvailableEvent> CBAAE= c -> {
-			if(Squad.getInstance().getAgents(c.getSerialAgentsNumbers())){
-				Pair<List<String>,Integer> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
-				complete(c,result);			}
-			else
-				complete(c,null);
+		Callback<TickBroadcast> CBTB = c -> currentTime.set(c.getCurrentTime());
+		Callback<AgentsAvailableEvent> CBAAE = c -> {
+			if (Squad.getInstance().getAgents(c.getSerialAgentsNumbers())) {
+				Pair<List<String>, Integer> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
+				complete(c, result);
+			} else
+				complete(c, null);
 		};
 		Callback<ReleaseAgentsEvent> CBRAE = c -> {
 			Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers());
-			complete(c,true);
+			complete(c, true);
 		};
-		Callback<SendThemAgentsEvent> CBSTAE = c-> {
+		Callback<SendThemAgentsEvent> CBSTAE = c -> {
 			Squad.getInstance().sendAgents(c.getSerialAgentsNumbers(), c.getDuration());
 			complete(c, true);
 		};
@@ -58,9 +58,12 @@ public class Moneypenny extends Subscriber {
 			}
 		});
 		subscribeBroadcast(TickBroadcast.class, CBTB);
-		subscribeEvent(AgentsAvailableEvent.class,CBAAE);
-		subscribeEvent(ReleaseAgentsEvent.class,CBRAE);
-		subscribeEvent(SendThemAgentsEvent.class,CBSTAE);
+		if (MoneyPennyID % 2 == 0) {
+			subscribeEvent(AgentsAvailableEvent.class, CBAAE);
+		}
+		if (MoneyPennyID % 2 != 0) {
+			subscribeEvent(ReleaseAgentsEvent.class, CBRAE);
+			subscribeEvent(SendThemAgentsEvent.class, CBSTAE);
+		}
 	}
-
 }

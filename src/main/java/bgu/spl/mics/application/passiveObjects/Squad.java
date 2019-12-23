@@ -122,9 +122,7 @@ public class Squad {
         for(String serial : serials){
         	currentAgent = agents.get(serial);
 			if(currentAgent != null) {
-				semaphoreMap.get(currentAgent).acquire();
 				agentNames.add(currentAgent.getName());
-				semaphoreMap.get(currentAgent).release();
 			}
 		}
 

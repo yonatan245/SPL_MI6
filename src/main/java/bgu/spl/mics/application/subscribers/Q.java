@@ -47,7 +47,6 @@ public class Q extends Subscriber {
 		this.subscribeBroadcast(TerminateAllBroadcast.class, new Callback<TerminateAllBroadcast>() {
 			@Override
 			public void call(TerminateAllBroadcast c) throws InterruptedException, ClassNotFoundException {
-				Inventory.getInstance().printToFile(Names.OUTPUT_INVENTORY);
 				terminate();
 			}
 		});

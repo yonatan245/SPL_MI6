@@ -1,5 +1,6 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import com.google.gson.Gson;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -79,12 +80,14 @@ public class Inventory {
 	public void printToFile(String filename){
 
 		File inventoryTxt = new File(filename);
+
 		JSONArray gadgetsJson = new JSONArray();
 		gadgetsJson.addAll(gadgets);
 
-		try{
-			FileWriter file = new FileWriter(inventoryTxt);
+		try(FileWriter file = new FileWriter(inventoryTxt)) {
 			file.write(gadgetsJson.toJSONString());
-		} catch (IOException e) {}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

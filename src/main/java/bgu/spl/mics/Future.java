@@ -65,7 +65,7 @@ public class Future<T> {
      *         elapsed, return null.
      */
 	public synchronized T get(long timeout, TimeUnit unit) throws InterruptedException {
-		while(!isDone() && !Thread.interrupted()) wait(unit.toMillis(timeout));
+		if(!isDone()) wait(unit.toMillis(timeout));
 
 		if(Thread.interrupted()) throw new InterruptedException();
 

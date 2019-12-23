@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.json.simple.*;
@@ -23,6 +24,7 @@ public class Diary {
 	//Fields
 	private List<Report> reports;
 	private AtomicInteger total;
+	private AtomicBoolean wasPrinted;
 
 
 	//Constructor
@@ -71,13 +73,11 @@ public class Diary {
 		JSONArray reports = new JSONArray();
 		for(Report report : this.reports) reports.add(reportToJSON(report));
 
-		try{
-			FileWriter file = new FileWriter(diaryTxt);
+		try(FileWriter file = new FileWriter(diaryTxt)){
 			file.write(reports.toJSONString());
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-
 	}
 
 	/**

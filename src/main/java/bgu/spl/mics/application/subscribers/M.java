@@ -77,7 +77,6 @@ public class M extends Subscriber {
 		this.subscribeBroadcast(TerminateAllBroadcast.class, new Callback<TerminateAllBroadcast>() {
 			@Override
 			public void call(TerminateAllBroadcast c) throws InterruptedException, ClassNotFoundException {
-				Diary.getInstance().printToFile(Names.OUTPUT_DIARY);
 				terminate();
 			}
 		});

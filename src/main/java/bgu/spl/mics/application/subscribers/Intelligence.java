@@ -20,13 +20,13 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Intelligence extends Subscriber {
 
     //Fields
-    private Map<Long, MissionInfo> missions;
+    private Map<Integer, List<MissionInfo>> missions;
     private Future<MissionInfo> fut;
     private AtomicLong currentTime;
 
 
     //Constructor
-    public Intelligence(String name, Map<Long, MissionInfo> missions) {
+    public Intelligence(String name, Map<Integer, List<MissionInfo>> missions) {
         super(name);
         this.missions = missions;
         fut = null;
@@ -47,7 +47,11 @@ public class Intelligence extends Subscriber {
         this.subscribeBroadcast(TickBroadcast.class, c -> {
             currentTime.set(c.getCurrentTime());
             if(missions.containsKey(currentTime.get())){
-                fut=this.getSimplePublisher().sendEvent(new MissionReceivedEvent<>(missions.get(currentTime.get())));
+
+                for(MissionInfo mission : missions.get(currentTime.get())){
+                    Event newEvent = new MissionReceivedEvent(mission);
+                    this.getSimplePublisher().sendEvent(newEvent);
+                }
             }
         });
 
