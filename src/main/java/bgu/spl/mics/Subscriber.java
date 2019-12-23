@@ -160,7 +160,14 @@ public abstract class Subscriber extends RunnableSubPub {
                         Callback<TickBroadcast> TBCB=map.get(TickBroadcast.class);
                         TBCB.call((TickBroadcast) received);
                         break;
+
+                    case Names.TERMINATE_ALL_BROADCAST:
+                        Callback<TerminateAllBroadcast> terminateAllBroadcastCallback = map.get(TerminateAllBroadcast.class);
+                        terminateAllBroadcastCallback.call((TerminateAllBroadcast) received);
                     }
+
+
+
 
             } catch (InterruptedException | ClassNotFoundException e) {
                 e.printStackTrace();

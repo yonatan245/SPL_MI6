@@ -52,10 +52,11 @@ public class EventTopic {
                     lastSubscriber = null;
                     currentSubscriber = null;
                 }
-                if(firstSubscriber.equals(nodeToRemove)) firstSubscriber = nodeToRemove.getNext();
-                if(currentSubscriber.equals(nodeToRemove)) currentSubscriber = nodeToRemove.getNext();
-                if(lastSubscriber.equals(nodeToRemove)) lastSubscriber = nodeToRemove.getPrev();
-
+                else {
+                    if (firstSubscriber.equals(nodeToRemove)) firstSubscriber = nodeToRemove.getNext();
+                    if (currentSubscriber.equals(nodeToRemove)) currentSubscriber = nodeToRemove.getNext();
+                    if (lastSubscriber.equals(nodeToRemove)) lastSubscriber = nodeToRemove.getPrev();
+                }
                 nodeToRemove.remove();
             }
         }

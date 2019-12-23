@@ -29,15 +29,20 @@ public class MI6Runner {
         String filePath = "src/input201 - 2.json";
         ThreadFactory threadFactory = new NamedThreadFactory();
         ExecutorService threadPool = Executors.newCachedThreadPool(threadFactory);
-        Thread timeService = null;
 
         MessageBroker messageBroker = MessageBrokerImpl.getInstance();
         Inventory inventory = Inventory.getInstance();
         Squad squad = Squad.getInstance();
 
         try {
-            initialize(filePath, threadPool, timeService);
+            initialize(filePath, threadPool);
+            Thread timeService = new Thread(new TimeService(getTimeTicks(filePath)));
+
+            timeService.run();
             timeService.join();
+
+
+
         } catch (FileNotFoundException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -45,7 +50,7 @@ public class MI6Runner {
         threadPool.shutdown();
     }
 
-    static private void initialize(String filePath, ExecutorService threadPool, Thread timeService) throws FileNotFoundException {
+    static private void initialize(String filePath, ExecutorService threadPool) throws FileNotFoundException {
 
         JsonReader reader = new JsonReader(new FileReader(filePath));
         JsonElement e = JsonParser.parseReader(reader);
@@ -76,9 +81,6 @@ public class MI6Runner {
         JsonArray intelligenceJson = services.get("intelligence").getAsJsonArray();
         initIntelligence(intelligenceJson, threadPool);
 
-        //Initializing Time Service
-        long timeTicks = services.get("time").getAsLong();
-        initTimeService(timeTicks, timeService);
     }
 
     static private void initInventory(JsonArray inventoryJson){
@@ -155,9 +157,12 @@ public class MI6Runner {
         }
     }
 
-    static private void initTimeService(long timeTicks, Thread timeService){
-        timeService = new Thread(new TimeService(timeTicks));
-        timeService.run();
+    static private long getTimeTicks(String filePath) throws FileNotFoundException {
+
+        JsonReader reader = new JsonReader(new FileReader(filePath));
+        JsonElement e = JsonParser.parseReader(reader);
+
+        return e.getAsJsonObject().get("services").getAsJsonObject().get("time").getAsLong();
     }
 
     static class NamedThreadFactory implements ThreadFactory {
@@ -165,5 +170,6 @@ public class MI6Runner {
             return new Thread(r, "Your name");
         }
     }
+
 }
 
