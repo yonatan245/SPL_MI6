@@ -24,13 +24,13 @@ public class M extends Subscriber {
 	private Integer MID;
 	private MissionInfo CurrentMission;
 	private TimeUnit unit;
-	private AtomicLong currentTime;
+	private AtomicInteger currentTime;
 
 
 	public M(Integer NMID) {
 		super("M"+NMID);
 		MID=NMID;
-		currentTime = new AtomicLong(0);
+		currentTime = new AtomicInteger(0);
 		unit = TimeUnit.MILLISECONDS;
 	}
 

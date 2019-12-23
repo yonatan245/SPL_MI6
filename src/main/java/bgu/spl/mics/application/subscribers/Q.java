@@ -23,11 +23,11 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 public class Q extends Subscriber {
 
-	private AtomicLong currentTime;
+	private AtomicInteger currentTime;
 
 	public Q() {
 		super("I'm not fond of the actor Ben Whishaw");
-		currentTime = new AtomicLong(0);
+		currentTime = new AtomicInteger(0);
 	}
 
 	@Override

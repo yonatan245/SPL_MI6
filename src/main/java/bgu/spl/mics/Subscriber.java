@@ -128,6 +128,9 @@ public abstract class Subscriber extends RunnableSubPub {
         while (!terminated) {
             try {
                 Message received = MessageBrokerImpl.getInstance().awaitMessage(this);
+
+                if(received instanceof Event)
+                    System.out.println("ziv adayin homo");
                 String whichType = received.getClass().getName();
 
                 switch (whichType) {
@@ -166,12 +169,12 @@ public abstract class Subscriber extends RunnableSubPub {
                         terminateAllBroadcastCallback.call((TerminateAllBroadcast) received);
                     }
 
-
-
-
-            } catch (InterruptedException | ClassNotFoundException e) {
+            } catch (InterruptedException e) {
+                terminate();
+            } catch (ClassNotFoundException e){
                 e.printStackTrace();
             }
+
         }
 
     }

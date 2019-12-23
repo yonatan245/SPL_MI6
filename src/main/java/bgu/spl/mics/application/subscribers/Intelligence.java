@@ -22,7 +22,7 @@ public class Intelligence extends Subscriber {
     //Fields
     private Map<Integer, List<MissionInfo>> missions;
     private Future<MissionInfo> fut;
-    private AtomicLong currentTime;
+    private AtomicInteger currentTime;
 
 
     //Constructor
@@ -30,7 +30,7 @@ public class Intelligence extends Subscriber {
         super(name);
         this.missions = missions;
         fut = null;
-        currentTime = new AtomicLong(0);
+        currentTime = new AtomicInteger(0);
     }
 
     //Methods
@@ -45,7 +45,7 @@ public class Intelligence extends Subscriber {
             }
         });
         this.subscribeBroadcast(TickBroadcast.class, c -> {
-            currentTime.set(c.getCurrentTime());
+            currentTime.getAndIncrement();
             if(missions.containsKey(currentTime.get())){
 
                 for(MissionInfo mission : missions.get(currentTime.get())){

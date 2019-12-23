@@ -26,28 +26,22 @@ public class MI6Runner {
 
         String filePath = "src/input201 - 2.json";
         ThreadFactory threadFactory = new NamedThreadFactory();
-//        ExecutorService threadPool = Executors.newCachedThreadPool(threadFactory);
         List<Thread> threadList = new ArrayList<>();
-
-
-        MessageBroker messageBroker = MessageBrokerImpl.getInstance();
-        Inventory inventory = Inventory.getInstance();
-        Squad squad = Squad.getInstance();
 
         try {
             initialize(filePath, threadList);
+
+
             for(Thread thread : threadList) thread.start();
             Thread timeService = new Thread(new TimeService(getTimeTicks(filePath)));
-
             timeService.start();
+
             timeService.join();
             for(Thread thread : threadList) thread.join();
 
         } catch (FileNotFoundException | InterruptedException e) {
             e.printStackTrace();
         }
-
-//        threadPool.shutdown();
 
         Diary.getInstance().printToFile(Names.OUTPUT_DIARY);
         Inventory.getInstance().printToFile(Names.OUTPUT_INVENTORY);
@@ -159,12 +153,12 @@ public class MI6Runner {
         }
     }
 
-    static private long getTimeTicks(String filePath) throws FileNotFoundException {
+    static private int getTimeTicks(String filePath) throws FileNotFoundException {
 
         JsonReader reader = new JsonReader(new FileReader(filePath));
         JsonElement e = JsonParser.parseReader(reader);
 
-        return e.getAsJsonObject().get("services").getAsJsonObject().get("time").getAsLong();
+        return e.getAsJsonObject().get("services").getAsJsonObject().get("time").getAsInt();
     }
 
     static class NamedThreadFactory implements ThreadFactory {

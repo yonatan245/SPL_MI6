@@ -22,13 +22,13 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Moneypenny extends Subscriber {
 
 	private Integer MoneyPennyID;
-	private AtomicLong currentTime;
+	private AtomicInteger currentTime;
 
 
 	public Moneypenny(Integer MPID) {
 		super("Moneypenny"+MPID);
 		MoneyPennyID=MPID;
-		currentTime = new AtomicLong(0);
+		currentTime = new AtomicInteger(0);
 	}
 
 	@Override

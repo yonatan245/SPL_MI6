@@ -34,6 +34,8 @@ public class EventTopic {
             newNode.insert(lastSubscriber, firstSubscriber);
             lastSubscriber = newNode;
         }
+
+        System.out.println("Subscriber " +toAdd.getName() +" has subscribed");
     }
 
     public void remove(Subscriber toRemove){

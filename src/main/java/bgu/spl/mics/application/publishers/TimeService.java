@@ -26,15 +26,15 @@ public class TimeService extends Publisher {
 
 
 	private AtomicInteger currentTime;
-	private long TimeTicks;
+	private int TimeTicks;
 	private Timer timer;
 	private TimeUnit unit;
 
-	public TimeService(long TimeTicks) {
+	public TimeService(int TimeTicks) {
 		super("The One And Only TimeService");
 		timer = new Timer("The One And Only TimeService");
 		currentTime = new AtomicInteger(0);
-		this.TimeTicks=TimeTicks;
+		this.TimeTicks = TimeTicks;
 	}
 
 	/**
@@ -52,6 +52,7 @@ public class TimeService extends Publisher {
 		while(currentTime.get() < TimeTicks);
 
 		TimeService.super.getSimplePublisher().sendBroadcast(new TerminateAllBroadcast());
+
 		timer.cancel();
 	}
 

@@ -23,7 +23,7 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	private Map<String, EventTopic> eventTopics;
 	private Map<String, List<Subscriber>> broadcastTopics;
-	private Map<Subscriber, BlockingQueue<Message>> personalQueues;
+	private ConcurrentMap<Subscriber, BlockingQueue<Message>> personalQueues;
 
 	//Lock
 	private Object messageLock;
@@ -119,6 +119,7 @@ public class MessageBrokerImpl implements MessageBroker {
 		Future<T> future;
 
 		Subscriber receiver = eventTopics.get(type).getNextSubscriber();
+
 		personalQueues.get(receiver).add(e);
 		future = getEventFuture(e);
 
@@ -140,7 +141,6 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public Message awaitMessage(Subscriber m) throws InterruptedException {
-
 		if(Thread.currentThread().isInterrupted()) throw new InterruptedException();
 		return personalQueues.get(m).take();
 	}
