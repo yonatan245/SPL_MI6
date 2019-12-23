@@ -50,9 +50,7 @@ public class Future<T> {
      * @return true if this object has been resolved, false otherwise
      */
 	public boolean isDone() {
-		if(t!=null) {
-		 return true;}
-		return false;
+		return t != null;
 	}
 	
 	/**
@@ -66,15 +64,13 @@ public class Future<T> {
      * 	       wait for {@code timeout} TimeUnits {@code unit}. If time has
      *         elapsed, return null.
      */
-	public T get(long timeout, TimeUnit unit) throws InterruptedException {
-		while(!isDone()){
-			wait(unit.toMillis(timeout));
-			if(!isDone()) {
-				return null;
-			}
-		}
+	public synchronized T get(long timeout, TimeUnit unit) throws InterruptedException {
+		while(!isDone()) wait(unit.toMillis(timeout));
+		if(!isDone())
+			return null;
+
 		return t;
 	}
-	}
+}
 
 

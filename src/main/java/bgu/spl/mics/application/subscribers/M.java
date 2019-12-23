@@ -31,18 +31,24 @@ public class M extends Subscriber {
 		super("M"+NMID);
 		MID=NMID;
 		currentTime = new AtomicLong(0);
+		unit = TimeUnit.MILLISECONDS;
 	}
 
 	@Override
 	protected void initialize() {
 		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
-		Callback<TickBroadcast> CBTB= c -> currentTime.set(c.getCurrentTime());
-		Callback<MissionReceivedEvent> CBMRE= c -> {
+
+		Callback<TickBroadcast> tickBroadcastCallBack = c -> currentTime.set(c.getCurrentTime());
+
+		Callback<MissionReceivedEvent> missionReceivedCallBack= c -> {
 			CurrentMission=c.getMission();
 			c.setStatus("IN_PROGRESS");
-		Future<Pair<List<String>,Integer>> agentsAndMPID = getSimplePublisher().sendEvent(new AgentsAvailableEvent<>(CurrentMission.getSerialAgentsNumbers()));
-			if(agentsAndMPID.get(CurrentMission.getTimeExpired(),unit)==null){
+
+			Event agentsAndMoneypennyIDEvent = new AgentsAvailableEvent<>(CurrentMission.getSerialAgentsNumbers());
+			Future<Pair<List<String>,Integer>> agentsAndMPID = getSimplePublisher().sendEvent(agentsAndMoneypennyIDEvent);
+
+			if(agentsAndMPID.get(CurrentMission.getTimeExpired(),unit) == null){
 				c.setStatus("ABORTED");
 				Diary.getInstance().incrementTotal();
 			}
@@ -63,11 +69,11 @@ public class M extends Subscriber {
 					Diary.getInstance().addReport(toAdd);
 					c.setStatus("COMPLETED");
 				}
+			}
+		};
 
-				}
-			};
-		subscribeBroadcast(TickBroadcast.class,CBTB);
-		subscribeEvent(MissionReceivedEvent.class,CBMRE);
+		subscribeBroadcast(TickBroadcast.class,tickBroadcastCallBack);
+		subscribeEvent(MissionReceivedEvent.class,missionReceivedCallBack);
 		this.subscribeBroadcast(TerminateAllBroadcast.class, new Callback<TerminateAllBroadcast>() {
 			@Override
 			public void call(TerminateAllBroadcast c) throws InterruptedException, ClassNotFoundException {

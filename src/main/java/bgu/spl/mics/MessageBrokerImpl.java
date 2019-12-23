@@ -6,10 +6,7 @@ import bgu.spl.mics.application.passiveObjects.Report;
 import org.javatuples.Pair;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -26,7 +23,7 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	private Map<String, EventTopic> eventTopics;
 	private Map<String, List<Subscriber>> broadcastTopics;
-	private Map<Subscriber, Queue<Message>> personalQueues;
+	private Map<Subscriber, BlockingQueue<Message>> personalQueues;
 
 	//Lock
 	private Object messageLock;
@@ -111,31 +108,18 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public void sendBroadcast(Broadcast b) {
-
 		if(b.getClass().getName().equals(Names.TICK_BROADCAST)) currentTime.incrementAndGet();
 
-		for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName())) {
-			synchronized (personalQueues.get(subscriber)) {
-				personalQueues.get(subscriber).add(b);
-				personalQueues.get(subscriber).notifyAll();
-			}
-		}
+		for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))	personalQueues.get(subscriber).add(b);
 	}
 	@Override
 	public <T> Future<T> sendEvent(Event<T> e){
 		String type = e.getClass().getName();
 		Future<T> future;
 
-		synchronized (eventTopics.get(type)) {
-			Subscriber receiver = eventTopics.get(type).getNextSubscriber();
-			synchronized (personalQueues.get(receiver)) {
-				personalQueues.get(receiver).add(e);
-			personalQueues.get(receiver).notifyAll();}
-			future = getEventFuture(e);
-		}
-
-		eventTopics.get(type).notifyAll();
-		messageLock.notifyAll();
+		Subscriber receiver = eventTopics.get(type).getNextSubscriber();
+		personalQueues.get(receiver).add(e);
+		future = getEventFuture(e);
 
 		return future;
 	}
@@ -155,16 +139,9 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public Message awaitMessage(Subscriber m) throws InterruptedException {
-		synchronized (personalQueues.get(m)) {
-			while (personalQueues.get(m).isEmpty() && !Thread.currentThread().isInterrupted()) {
-				personalQueues.get(m).wait();
-			}
-			if(Thread.currentThread().isInterrupted()) throw new InterruptedException();
-			Message recieved = personalQueues.get(m).element();
-			personalQueues.get(m).remove();
-			personalQueues.get(m).notifyAll();
-			return recieved;
-		}
+
+		if(Thread.currentThread().isInterrupted()) throw new InterruptedException();
+		return personalQueues.get(m).take();
 	}
 
 	private <T> Future<T> getEventFuture(Event<T> event){

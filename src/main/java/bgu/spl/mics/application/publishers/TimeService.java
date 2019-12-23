@@ -48,7 +48,6 @@ public class TimeService extends Publisher {
 
 	@Override
 	public void run() {
-
 		timer.scheduleAtFixedRate(getNewTimerTask(), 0, 100);
 		while(currentTime.get() < TimeTicks);
 

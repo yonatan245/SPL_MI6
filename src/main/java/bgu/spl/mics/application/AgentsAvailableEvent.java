@@ -14,6 +14,7 @@ public class AgentsAvailableEvent<T> implements Event<T> {
 
     public AgentsAvailableEvent(List<String> serialAgentsNumbers) {
         this.serialAgentsNumbers=serialAgentsNumbers;
+        this.fut = new Future<>();
     }
 
     public List<String> getSerialAgentsNumbers() {

@@ -16,7 +16,7 @@ public class Squad {
 
 	//Fields
 	private Map<String, Agent> agents;
-	private Semaphore semaphore;
+	private Map<Agent, Semaphore> semaphoreMap;
 
 	//Constructor
 	private static class SquadHolder{
@@ -28,7 +28,7 @@ public class Squad {
 	}
 	private Squad(){
 		agents = new HashMap<>();
-		semaphore = new Semaphore(1, true);
+		semaphoreMap = new HashMap<>();
 	}
 
 	//Methods
@@ -49,6 +49,7 @@ public class Squad {
 		for(Agent agent : agents){
 			String serialNumber = agent.getSerialNumber();
 			this.agents.put(serialNumber, agent);
+			this.semaphoreMap.put(agent, new Semaphore(1,true));
 		}
 	}
 
@@ -56,14 +57,14 @@ public class Squad {
 	 * Releases agents.
 	 */
 	public void releaseAgents(List<String> serials) throws InterruptedException {
-		semaphore.acquire();
 		Collections.sort(serials);
 
 		for(String serial : serials){
 			Agent toRelease = agents.get(serial);
 			toRelease.release();
+
+			semaphoreMap.get(toRelease).release();
 		}
-		semaphore.release();
 	}
 
 	/**
@@ -84,30 +85,24 @@ public class Squad {
 	public boolean getAgents(List<String> serials) throws InterruptedException {
 		List<String> acquiredAgents = new ArrayList<>();
 		boolean aborted = false;
-
-		semaphore.acquire();
 		Collections.sort(serials);
 		Agent currentAgent;
 
 		for(String serial : serials){
 			currentAgent = agents.get(serial);
+			semaphoreMap.get(currentAgent).acquire();
+
 			if(currentAgent == null){
 				aborted = true;
 				break;
 			}
-			else if(!currentAgent.isAvailable()) {
-			wait();
-			currentAgent.acquire();
-			acquiredAgents.add(serial);
-			}
-			else{
+			else {
 				currentAgent.acquire();
 				acquiredAgents.add(serial);
 			}
 		}
 
 		if(aborted) releaseAgents(acquiredAgents);
-		semaphore.release();
 
 		return !aborted;
 	}
@@ -121,15 +116,17 @@ public class Squad {
 
 		List<String> agentNames = new ArrayList<>();
 
-		semaphore.acquire();
 		Collections.sort(serials);
 		Agent currentAgent;
 
         for(String serial : serials){
         	currentAgent = agents.get(serial);
-        	if(currentAgent != null) agentNames.add(currentAgent.getName());
+			if(currentAgent != null) {
+				semaphoreMap.get(currentAgent).acquire();
+				agentNames.add(currentAgent.getName());
+				semaphoreMap.get(currentAgent).release();
+			}
 		}
-        semaphore.release();
 
         return agentNames;
     }
