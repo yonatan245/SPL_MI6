@@ -6,19 +6,27 @@ import bgu.spl.mics.application.passiveObjects.Agent;
 import bgu.spl.mics.application.passiveObjects.MissionInfo;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SendThemAgentsEvent<T> implements Event<T> {
 
     private List<String> serialAgentsNumbers;
-    private long duration;
+    private int duration;
     private Future<T> fut;
+    private AtomicInteger time;
 
-    public SendThemAgentsEvent(List<String> serialAgentsNumbers, long duration){
+    public SendThemAgentsEvent(List<String> serialAgentsNumbers, int duration, int time){
         this.serialAgentsNumbers=serialAgentsNumbers;
         this.duration=duration;
+        fut = new Future<>();
+        this.time = new AtomicInteger(time);
     }
 
-    public long getDuration(){
+    public int getTime() {
+        return time.get();
+    }
+
+    public int getDuration(){
         return duration;
     }
 

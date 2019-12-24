@@ -25,18 +25,27 @@ public class MI6Runner {
     public static void main(String[] args) {
 
         String filePath = "src/input201 - 2.json";
-        ThreadFactory threadFactory = new NamedThreadFactory();
+        List<Thread> intelligences = new ArrayList<>();
         List<Thread> threadList = new ArrayList<>();
 
-        try {
-            initialize(filePath, threadList);
+        MessageBroker messageBroker = MessageBrokerImpl.getInstance();
+        Squad squad = Squad.getInstance();
+        Inventory inventory = Inventory.getInstance();
 
+        try {
+            initialize(filePath, threadList, intelligences);
 
             for(Thread thread : threadList) thread.start();
+            for(Thread thread : intelligences) thread.start();
+
             Thread timeService = new Thread(new TimeService(getTimeTicks(filePath)));
             timeService.start();
 
             timeService.join();
+
+            for(Thread thread : intelligences) if(thread.isAlive()) thread.interrupt();
+            for(Thread thread : threadList) if(thread.isAlive()) thread.interrupt();
+            for(Thread thread : intelligences) thread.join();
             for(Thread thread : threadList) thread.join();
 
         } catch (FileNotFoundException | InterruptedException e) {
@@ -47,10 +56,11 @@ public class MI6Runner {
         Inventory.getInstance().printToFile(Names.OUTPUT_INVENTORY);
     }
 
-    static private void initialize(String filePath, List<Thread> threadList) throws FileNotFoundException {
+    static private void initialize(String filePath, List<Thread> threadList, List<Thread> intelligences) throws FileNotFoundException {
 
         JsonReader reader = new JsonReader(new FileReader(filePath));
         JsonElement e = JsonParser.parseReader(reader);
+        int timeTicks = getTimeTicks(filePath);
 
         //Initialize Inventory
         JsonArray inventoryJson = e.getAsJsonObject().get("inventory").getAsJsonArray();
@@ -64,19 +74,19 @@ public class MI6Runner {
         JsonObject services = e.getAsJsonObject().get("services").getAsJsonObject();
 
         //Initialize Q
-        threadList.add(new Thread(new Q()));
+        threadList.add(new Thread(new Q(timeTicks)));
 
         //Initialize M
         int numberOfMs = services.get("M").getAsInt();
-        initM(numberOfMs, threadList);
+        initM(numberOfMs, threadList, timeTicks);
 
         //Initialize Money Penny
         int numberOfMoneyPennies = services.get("Moneypenny").getAsInt();
-        initMoneyPenny(numberOfMoneyPennies, threadList);
+        initMoneyPenny(numberOfMoneyPennies, threadList, timeTicks);
 
         //Initialize Intelligence
         JsonArray intelligenceJson = services.get("intelligence").getAsJsonArray();
-        initIntelligence(intelligenceJson, threadList);
+        initIntelligence(intelligenceJson, intelligences, timeTicks);
 
     }
 
@@ -108,17 +118,17 @@ public class MI6Runner {
         squad.load(agentsToLoad);
     }
 
-    static private void initM(int numberOfMs, List<Thread> threadList){
+    static private void initM(int numberOfMs, List<Thread> threadList, int timeTicks){
         for(int i = 0 ; i <= numberOfMs ; i++){
-            threadList.add(new Thread(new M(i)));
+            threadList.add(new Thread(new M(i, timeTicks)));
         }
     }
 
-    static private void initMoneyPenny(int numberOfMoneyPennies, List<Thread> threadList){
-        for(int i = 0 ; i <= numberOfMoneyPennies ; i++) threadList.add(new Thread(new Moneypenny(i+1)));
+    static private void initMoneyPenny(int numberOfMoneyPennies, List<Thread> threadList, int timeTicks){
+        for(int i = 0 ; i <= numberOfMoneyPennies ; i++) threadList.add(new Thread(new Moneypenny(i+1, timeTicks)));
     }
 
-    static private void initIntelligence(JsonArray intelligenceJson, List<Thread> threadList){
+    static private void initIntelligence(JsonArray intelligenceJson, List<Thread> threadList, int timeTicks){
         Iterator<JsonElement> intelligenceIter = intelligenceJson.iterator();
         int i = 0;
 
@@ -149,7 +159,7 @@ public class MI6Runner {
                 missions.get(timeIssued).add(newMission);
             }
 
-            threadList.add(new Thread(new Intelligence(String.valueOf(i), missions)));
+            threadList.add(new Thread(new Intelligence(String.valueOf(i), missions, timeTicks)));
         }
     }
 
@@ -159,12 +169,6 @@ public class MI6Runner {
         JsonElement e = JsonParser.parseReader(reader);
 
         return e.getAsJsonObject().get("services").getAsJsonObject().get("time").getAsInt();
-    }
-
-    static class NamedThreadFactory implements ThreadFactory {
-        public Thread newThread(Runnable r) {
-            return new Thread(r, "Your name");
-        }
     }
 
 }

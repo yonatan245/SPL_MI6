@@ -71,9 +71,9 @@ public class Squad {
 	 * simulates executing a mission by calling sleep.
 	 * @param time   milliseconds to sleep
 	 */
-	public void sendAgents(List<String> serials, long time) throws InterruptedException {
+	public void sendAgents(List<String> serials, int time) throws InterruptedException {
 		Collections.sort(serials);
-		Thread.sleep(time);
+		Thread.currentThread().sleep(time * 100);
 		releaseAgents(serials);
 	}
 
@@ -88,15 +88,16 @@ public class Squad {
 		Collections.sort(serials);
 		Agent currentAgent;
 
+
 		for(String serial : serials){
 			currentAgent = agents.get(serial);
-			semaphoreMap.get(currentAgent).acquire();
 
 			if(currentAgent == null){
 				aborted = true;
 				break;
 			}
 			else {
+				semaphoreMap.get(currentAgent).acquire();
 				currentAgent.acquire();
 				acquiredAgents.add(serial);
 			}

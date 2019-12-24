@@ -23,14 +23,16 @@ public class Intelligence extends Subscriber {
     private Map<Integer, List<MissionInfo>> missions;
     private Future<MissionInfo> fut;
     private AtomicInteger currentTime;
+    private int timeTicks;
 
 
     //Constructor
-    public Intelligence(String name, Map<Integer, List<MissionInfo>> missions) {
+    public Intelligence(String name, Map<Integer, List<MissionInfo>> missions, int timeTicks) {
         super(name);
         this.missions = missions;
         fut = null;
         currentTime = new AtomicInteger(0);
+        this.timeTicks = timeTicks;
     }
 
     //Methods
@@ -44,17 +46,23 @@ public class Intelligence extends Subscriber {
                 terminate();
             }
         });
+
         this.subscribeBroadcast(TickBroadcast.class, c -> {
-            currentTime.getAndIncrement();
-            if(missions.containsKey(currentTime.get())){
+            //try {
+            if(c.getCurrentTime()>=timeTicks) terminate();
+                if (currentTime.get() < c.getCurrentTime())
+                    currentTime.set(c.getCurrentTime());
 
-                for(MissionInfo mission : missions.get(currentTime.get())){
-                    Event newEvent = new MissionReceivedEvent(mission);
-                    this.getSimplePublisher().sendEvent(newEvent);
+                if (missions.containsKey(currentTime.get())) {
+
+                    for (MissionInfo mission : missions.get(currentTime.get())) {
+                       // Event newEvent = new MissionReceivedEvent(mission);
+                        System.out.println("Intelligence, Mission received event sent");
+                        this.getSimplePublisher().sendEvent(new MissionReceivedEvent(mission));
+                    }
                 }
-            }
+            //} catch(InterruptedException e) {terminate();}
         });
-
-
     }
+
 }

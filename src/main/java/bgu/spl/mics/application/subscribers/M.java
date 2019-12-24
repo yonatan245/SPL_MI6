@@ -22,16 +22,18 @@ import java.util.concurrent.atomic.AtomicLong;
 public class M extends Subscriber {
 
 	private Integer MID;
-	private MissionInfo CurrentMission;
+	private MissionInfo currentMission;
 	private TimeUnit unit;
 	private AtomicInteger currentTime;
+	private int timeTicks;
 
 
-	public M(Integer NMID) {
+	public M(Integer NMID, int timeTicks) {
 		super("M"+NMID);
 		MID=NMID;
 		currentTime = new AtomicInteger(0);
 		unit = TimeUnit.MILLISECONDS;
+		this.timeTicks = timeTicks;
 	}
 
 	@Override
@@ -39,37 +41,50 @@ public class M extends Subscriber {
 		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
 
-		Callback<TickBroadcast> tickBroadcastCallBack = c -> currentTime.set(c.getCurrentTime());
+		Callback<TickBroadcast> tickBroadcastCallBack = c -> {
+			if(c.getCurrentTime()>=timeTicks) terminate();
+			if (currentTime.get() < c.getCurrentTime())
+				currentTime.set(c.getCurrentTime());
+		};
 
 		Callback<MissionReceivedEvent> missionReceivedCallBack= c -> {
-			CurrentMission=c.getMission();
-			c.setStatus("IN_PROGRESS");
-
-			Event agentsAndMoneypennyIDEvent = new AgentsAvailableEvent<>(CurrentMission.getSerialAgentsNumbers());
-			Future<Pair<List<String>,Integer>> agentsAndMPID = getSimplePublisher().sendEvent(agentsAndMoneypennyIDEvent);
-
-			if(agentsAndMPID.get(CurrentMission.getTimeExpired(),unit) == null){
-				c.setStatus("ABORTED");
 				Diary.getInstance().incrementTotal();
-			}
-			else{
-				Future<Pair<String,Long>> GadgetAndQTime = getSimplePublisher().sendEvent(new GadgetAvailableEvent<>(CurrentMission.getGadget()));
-				if(GadgetAndQTime.get()==null){
+			if(c.getTimeIssued()>=timeTicks) terminate();
+				if (currentTime.get() < c.getTimeIssued()) currentTime.set(c.getTimeIssued());
+
+				currentMission = c.getMission();
+				c.setStatus("IN_PROGRESS");
+
+				if (currentTime.get() < currentMission.getTimeIssued())
+					currentTime.set(currentMission.getTimeIssued());
+
+				Event agentsAndMoneypennyIDEvent = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get());
+				Future<Pair<List<String>, Integer>> agentsAndMPID = getSimplePublisher().sendEvent(agentsAndMoneypennyIDEvent);
+
+				if (agentsAndMPID.get(currentMission.getTimeExpired(), unit) == null) {
 					c.setStatus("ABORTED");
-					Diary.getInstance().incrementTotal();
+				} else {
+					Future<Pair<String, AtomicInteger>> GadgetAndQTime = getSimplePublisher().sendEvent(new GadgetAvailableEvent<>(currentMission.getGadget(), currentTime.get()));
+					if (GadgetAndQTime.get(currentMission.getTimeExpired(), unit) == null) {
+						c.setStatus("ABORTED");
+					} else if (currentTime.get() > currentMission.getTimeExpired()) {
+						c.setStatus("ABORTED");
+						getSimplePublisher().sendEvent(new ReleaseAgentsEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get()));
+					} else {
+						getSimplePublisher().sendEvent(new SendThemAgentsEvent<>(currentMission.getSerialAgentsNumbers(), currentMission.getDuration(), currentTime.get()));
+						Report toAdd = new Report(currentMission.getMissionName(),
+								MID,
+								agentsAndMPID.get().getValue1(),
+								currentMission.getSerialAgentsNumbers(),
+								agentsAndMPID.get().getValue0(),
+								currentMission.getGadget(),
+								currentMission.getTimeIssued(),
+								GadgetAndQTime.get().getValue1().get(),
+								currentTime.get());
+						Diary.getInstance().addReport(toAdd);
+						c.setStatus("COMPLETED");
+					}
 				}
-				else if(currentTime.get()>CurrentMission.getTimeExpired()){
-					c.setStatus("ABORTED");
-					Future<Boolean> Release = getSimplePublisher().sendEvent(new ReleaseAgentsEvent<>(CurrentMission.getSerialAgentsNumbers()));
-					Diary.getInstance().incrementTotal();
-				}
-				else{
-					Future<Boolean> SendThem = getSimplePublisher().sendEvent(new SendThemAgentsEvent<>(CurrentMission.getSerialAgentsNumbers(),CurrentMission.getDuration()));
-					Report toAdd = new Report(CurrentMission.getMissionName(), MID, agentsAndMPID.get().getValue1(), CurrentMission.getSerialAgentsNumbers(), agentsAndMPID.get().getValue0(), CurrentMission.getGadget(), CurrentMission.getTimeIssued(), GadgetAndQTime.get().getValue1(), currentTime.get());
-					Diary.getInstance().addReport(toAdd);
-					c.setStatus("COMPLETED");
-				}
-			}
 		};
 
 		subscribeBroadcast(TickBroadcast.class,tickBroadcastCallBack);

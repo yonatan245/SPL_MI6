@@ -24,26 +24,39 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Q extends Subscriber {
 
 	private AtomicInteger currentTime;
+	private int timeTicks;
 
-	public Q() {
+	public Q(int timeTicks) {
 		super("I'm not fond of the actor Ben Whishaw");
 		currentTime = new AtomicInteger(0);
+		this.timeTicks = timeTicks;
 	}
 
 	@Override
 	protected void initialize() {
 		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
-		Callback<TickBroadcast> CBTickBroadcast= c -> currentTime.set(c.getCurrentTime());
-		Callback<GadgetAvailableEvent> CBGadgetAvailableEvent = call -> {
-			if(Inventory.getInstance().getItem(call.getGadget())){
-			Pair<String,Long> result = new Pair(call.getGadget(),currentTime);
-			complete(call,result);
-			}
-			else{
-				complete(call,null);
-			}
+
+		Callback<TickBroadcast> CBTickBroadcast= c -> {
+			if(c.getCurrentTime()>=timeTicks) terminate();
+			if(currentTime.get() < c.getCurrentTime())
+				currentTime.set(c.getCurrentTime());
 		};
+
+		Callback<GadgetAvailableEvent> CBGadgetAvailableEvent = call -> {
+			try {
+				if(call.getMTime()>=timeTicks) terminate();
+				if (currentTime.get() < call.getMTime()) currentTime.set(call.getMTime());
+
+				if (Inventory.getInstance().getItem(call.getGadget())) {
+					Pair<String, Long> result = new Pair(call.getGadget(), currentTime);
+					complete(call, result);
+				} else {
+					complete(call, null);
+				}
+			} catch(NullPointerException e) {terminate();}
+		};
+
 		this.subscribeBroadcast(TerminateAllBroadcast.class, new Callback<TerminateAllBroadcast>() {
 			@Override
 			public void call(TerminateAllBroadcast c) throws InterruptedException, ClassNotFoundException {

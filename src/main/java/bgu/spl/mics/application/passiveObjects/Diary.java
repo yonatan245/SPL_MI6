@@ -2,12 +2,17 @@ package bgu.spl.mics.application.passiveObjects;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.*;
 
 
@@ -37,7 +42,7 @@ public class Diary {
 	}
 	private Diary() {
 		reports = new ArrayList<>();
-		total = new AtomicInteger();
+		total = new AtomicInteger(0);
 	}
 	//Methods
 	/**
@@ -57,7 +62,6 @@ public class Diary {
 	 */
 	public void addReport(Report reportToAdd){
 		reports.add(reportToAdd);
-		incrementTotal();
 	}
 
 	/**
@@ -69,13 +73,12 @@ public class Diary {
 	 */
 	public void printToFile(String filename){
 
-		File diaryTxt = new File(filename);
-		JSONArray reports = new JSONArray();
-		for(Report report : this.reports) reports.add(reportToJSON(report));
+		Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).setPrettyPrinting().create();
+		String diaryJson = gson.toJson(Diary.getInstance());
 
-		try(FileWriter file = new FileWriter(diaryTxt)){
-			file.write(reports.toJSONString());
-		} catch(Exception e){
+		try(Writer writer = new FileWriter(filename)){
+			writer.write(diaryJson);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

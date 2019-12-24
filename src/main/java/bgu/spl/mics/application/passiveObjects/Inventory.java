@@ -1,12 +1,15 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -79,13 +82,11 @@ public class Inventory {
 	 */
 	public void printToFile(String filename){
 
-		File inventoryTxt = new File(filename);
+		Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).setPrettyPrinting().create();
+		String inventoryJson = gson.toJson(Inventory.getInstance());
 
-		JSONArray gadgetsJson = new JSONArray();
-		gadgetsJson.addAll(gadgets);
-
-		try(FileWriter file = new FileWriter(inventoryTxt)) {
-			file.write(gadgetsJson.toJSONString());
+		try(Writer writer = new FileWriter(filename)){
+			writer.write(inventoryJson);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

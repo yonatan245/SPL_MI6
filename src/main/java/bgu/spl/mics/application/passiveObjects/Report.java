@@ -18,13 +18,13 @@ public class Report {
 	private List<String> agentsSerialNumbers;
 	private List<String> agentsNames;
 	private String gadgetName;
-	private long timeIssued;
-	private long QTime;
-	private long timeCreated;
+	private int timeIssued;
+	private int QTime;
+	private int timeCreated;
 
 	//Constructors
 	public Report(String missionName, int mId, int moneyPennyId, List<String> agentsSerialNumbers,
-				  List<String> agentsNames, String gadgetName, int timeIssued, long QTime, long timeCreated){
+				  List<String> agentsNames, String gadgetName, int timeIssued, int QTime, int timeCreated){
 		this.missionName = missionName;
 		this.mId = mId;
 		this.moneyPennyId = moneyPennyId;
@@ -149,7 +149,7 @@ public class Report {
 	/**
 	 * Sets the time-tick in which Q Received the GadgetAvailableEvent for that mission.
 	 */
-	public void setQTime(long qTime) {
+	public void setQTime(int qTime) {
 		QTime = qTime;
 	}
 
@@ -177,7 +177,7 @@ public class Report {
 	/**
 	 * Sets the time-tick when the report has been created.
 	 */
-	public void setTimeCreated(long timeCreated) {
+	public void setTimeCreated(int timeCreated) {
 		this.timeCreated = timeCreated;
 	}
 }

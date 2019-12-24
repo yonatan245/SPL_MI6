@@ -28,7 +28,7 @@ public class TimeService extends Publisher {
 	private AtomicInteger currentTime;
 	private int TimeTicks;
 	private Timer timer;
-	private TimeUnit unit;
+
 
 	public TimeService(int TimeTicks) {
 		super("The One And Only TimeService");
@@ -52,6 +52,7 @@ public class TimeService extends Publisher {
 		while(currentTime.get() < TimeTicks);
 
 		TimeService.super.getSimplePublisher().sendBroadcast(new TerminateAllBroadcast());
+		System.out.println("Termination has started");
 
 		timer.cancel();
 	}
@@ -62,6 +63,7 @@ public class TimeService extends Publisher {
 			public void run() {
 				if(currentTime.get() < TimeTicks ) {
 					Broadcast toSend = new TickBroadcast(currentTime.getAndIncrement());
+					System.out.println("Time Service - current time: " +currentTime.get());
 					TimeService.super.getSimplePublisher().sendBroadcast(toSend);
 				}
 			}

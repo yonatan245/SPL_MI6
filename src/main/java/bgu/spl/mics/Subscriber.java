@@ -110,8 +110,7 @@ public abstract class Subscriber extends RunnableSubPub {
      * message.
      */
     protected final void terminate() {
-        MessageBrokerImpl.getInstance().unregister(this);
-        this.terminated = true;
+        terminated = true;
     }
 
     /**
@@ -125,57 +124,76 @@ public abstract class Subscriber extends RunnableSubPub {
         } catch (InterruptedException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
         while (!terminated) {
+            Message received = null;
             try {
-                Message received = MessageBrokerImpl.getInstance().awaitMessage(this);
+                received = MessageBrokerImpl.getInstance().awaitMessage(this);
+                executeMessage(received);
 
-                if(received instanceof Event)
-                    System.out.println("ziv adayin homo");
-                String whichType = received.getClass().getName();
-
-                switch (whichType) {
-                    case Names.MISSION_RECEIVED_EVENT:
-                       Callback<MissionReceivedEvent> MRECB=map.get(MissionReceivedEvent.class);
-                       MRECB.call((MissionReceivedEvent)received);
-                       break;
-
-                    case Names.AGENTS_AVAILABLE_EVENT:
-                        Callback<AgentsAvailableEvent> AAECB=map.get(AgentsAvailableEvent.class);
-                        AAECB.call((AgentsAvailableEvent)received);
-                        break;
-
-                    case Names.GADGET_AVAILABLE_EVENT:
-                        Callback<GadgetAvailableEvent> GAECB=map.get(GadgetAvailableEvent.class);
-                        GAECB.call((GadgetAvailableEvent) received);
-                        break;
-
-                    case Names.SEND_THEM_AGENTS:
-                        Callback<SendThemAgentsEvent> STAECB=map.get(SendThemAgentsEvent.class);
-                        STAECB.call((SendThemAgentsEvent)received);
-                        break;
-
-                    case Names.RELEASE_AGENTS_EVENT:
-                        Callback<ReleaseAgentsEvent> RAECB=map.get(ReleaseAgentsEvent.class);
-                        RAECB.call((ReleaseAgentsEvent) received);
-                        break;
-
-                    case Names.TICK_BROADCAST:
-                        Callback<TickBroadcast> TBCB=map.get(TickBroadcast.class);
-                        TBCB.call((TickBroadcast) received);
-                        break;
-
-                    case Names.TERMINATE_ALL_BROADCAST:
-                        Callback<TerminateAllBroadcast> terminateAllBroadcastCallback = map.get(TerminateAllBroadcast.class);
-                        terminateAllBroadcastCallback.call((TerminateAllBroadcast) received);
-                    }
-
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | NullPointerException e) {
                 terminate();
-            } catch (ClassNotFoundException e){
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+            } finally{
+                while(received != null ){
+                    try {
+                        executeMessage(received);
+                        received = MessageBrokerImpl.getInstance().awaitMessage(this);
+                    } catch (ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    } catch (InterruptedException | NullPointerException ignored) {
+                        break;
+                    }
+                }
             }
+        }
 
+        MessageBrokerImpl.getInstance().unregister(this);
+    }
+
+    private void executeMessage(Message received) throws ClassNotFoundException, InterruptedException, NullPointerException {
+        String whichType = received.getClass().getName();
+
+        if(received instanceof Event)
+            System.out.println(Thread.currentThread().getName() +", " +whichType);
+
+        switch (whichType) {
+            case Names.MISSION_RECEIVED_EVENT:
+                Callback<MissionReceivedEvent> MRECB=map.get(MissionReceivedEvent.class);
+                MRECB.call((MissionReceivedEvent)received);
+                break;
+
+            case Names.AGENTS_AVAILABLE_EVENT:
+                Callback<AgentsAvailableEvent> AAECB=map.get(AgentsAvailableEvent.class);
+                AAECB.call((AgentsAvailableEvent)received);
+                break;
+
+            case Names.GADGET_AVAILABLE_EVENT:
+                Callback<GadgetAvailableEvent> GAECB=map.get(GadgetAvailableEvent.class);
+                GAECB.call((GadgetAvailableEvent) received);
+                break;
+
+            case Names.SEND_THEM_AGENTS:
+                Callback<SendThemAgentsEvent> STAECB=map.get(SendThemAgentsEvent.class);
+                STAECB.call((SendThemAgentsEvent)received);
+                break;
+
+            case Names.RELEASE_AGENTS_EVENT:
+                Callback<ReleaseAgentsEvent> RAECB=map.get(ReleaseAgentsEvent.class);
+                RAECB.call((ReleaseAgentsEvent) received);
+                break;
+
+            case Names.TICK_BROADCAST:
+                Callback<TickBroadcast> TBCB=map.get(TickBroadcast.class);
+                TBCB.call((TickBroadcast) received);
+                break;
+
+            case Names.TERMINATE_ALL_BROADCAST:
+                Callback<TerminateAllBroadcast> terminateAllBroadcastCallback = map.get(TerminateAllBroadcast.class);
+                terminateAllBroadcastCallback.call((TerminateAllBroadcast) received);
         }
 
     }
+
 }

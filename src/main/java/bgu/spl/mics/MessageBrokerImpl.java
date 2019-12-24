@@ -21,12 +21,10 @@ public class MessageBrokerImpl implements MessageBroker {
 	//Fields
 	private AtomicInteger currentTime;
 
-	private Map<String, EventTopic> eventTopics;
+	private Map<String, BlockingQueue<Subscriber>> eventTopics;
 	private Map<String, List<Subscriber>> broadcastTopics;
 	private ConcurrentMap<Subscriber, BlockingQueue<Message>> personalQueues;
 
-	//Lock
-	private Object messageLock;
 
 	//Constructor
 	public static class MessageBrokerImplHolder{
@@ -39,21 +37,17 @@ public class MessageBrokerImpl implements MessageBroker {
 		currentTime = new AtomicInteger(0);
 
 		eventTopics = new ConcurrentHashMap<>();
-		eventTopics.put(Names.MISSION_RECEIVED_EVENT, new EventTopic());
-		eventTopics.put(Names.AGENTS_AVAILABLE_EVENT, new EventTopic());
-		eventTopics.put(Names.GADGET_AVAILABLE_EVENT, new EventTopic());
-		eventTopics.put(Names.RELEASE_AGENTS_EVENT, new EventTopic());
-		eventTopics.put(Names.SEND_THEM_AGENTS, new EventTopic());
+		eventTopics.put(Names.MISSION_RECEIVED_EVENT, new LinkedBlockingQueue<>());
+		eventTopics.put(Names.AGENTS_AVAILABLE_EVENT, new LinkedBlockingQueue<>());
+		eventTopics.put(Names.GADGET_AVAILABLE_EVENT, new LinkedBlockingQueue<>());
+		eventTopics.put(Names.RELEASE_AGENTS_EVENT, new LinkedBlockingQueue<>());
+		eventTopics.put(Names.SEND_THEM_AGENTS, new LinkedBlockingQueue<>());
 
 		broadcastTopics = new ConcurrentHashMap<>();
 		broadcastTopics.put(Names.TICK_BROADCAST, new CopyOnWriteArrayList<>());
 		broadcastTopics.put(Names.TERMINATE_ALL_BROADCAST, new CopyOnWriteArrayList<>());
 
 		personalQueues = new ConcurrentHashMap<>();
-
-		//Lock for all who those wait for new messages
-		messageLock = new Object();
-
 	}
 
 	//Methods
@@ -66,10 +60,7 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public <T> void subscribeEvent(Class<? extends Event<T>> type, Subscriber m) {
-		EventTopic toSync = eventTopics.get(type.getName());
-		synchronized (toSync) {
-			eventTopics.get(type.getName()).add(m);
-		}
+		eventTopics.get(type.getName()).add(m);
 	}
 
 	@Override
@@ -83,23 +74,23 @@ public class MessageBrokerImpl implements MessageBroker {
 	public <T> void complete(Event<T> e, T result) {
 		String whichEvent = e.getClass().getName();
 		switch (whichEvent) {
-			case "bgu.spl.mics.MissionReceivedEvent":
+			case Names.MISSION_RECEIVED_EVENT:
 				((MissionReceivedEvent) e).resolveFuture((Report) result);
 				break;
 
-			case "bgu.spl.mics.AgentsAvailableEvent":
-				((AgentsAvailableEvent) e).resolveFut((Pair<List<Agent>, Long>) result);
+			case Names.AGENTS_AVAILABLE_EVENT:
+				((AgentsAvailableEvent) e).resolveFut((Pair<List<Agent>, Integer>) result);
 				break;
 
-			case "bgu.spl.mics.GadgetAvailableEvent":
-				((GadgetAvailableEvent) e).resolveFut((Pair<String,Long>) result);
+			case Names.GADGET_AVAILABLE_EVENT:
+				((GadgetAvailableEvent) e).resolveFut((Pair<String,Integer>) result);
 				break;
 
-			case "bgu.spl.mics.SendThemAgentsEvent":
+			case Names.SEND_THEM_AGENTS:
 				((SendThemAgentsEvent) e).resolveFut((boolean) result);
 				break;
 
-			case "bgu.spl.mics.ReleaseAgentsEvent":
+			case Names.RELEASE_AGENTS_EVENT:
 				((ReleaseAgentsEvent) e).resolveFut((boolean) result);
 				break;
 
@@ -107,23 +98,26 @@ public class MessageBrokerImpl implements MessageBroker {
 	}
 
 	@Override
-	public void sendBroadcast(Broadcast b) {
-		if(b.getClass().getName().equals(Names.TICK_BROADCAST)) currentTime.incrementAndGet();
+	public void sendBroadcast(Broadcast b) throws InterruptedException {
+		try {
+			if (b.getClass().getName().equals(Names.TICK_BROADCAST)) currentTime.incrementAndGet();
 
-		for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))	personalQueues.get(subscriber).add(b);
+			for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))
+				personalQueues.get(subscriber).put(b);
+		} catch(NullPointerException e){}
 	}
 
 	@Override
-	public <T> Future<T> sendEvent(Event<T> e){
+	public <T> Future<T> sendEvent(Event<T> e) throws InterruptedException {
 		String type = e.getClass().getName();
-		Future<T> future;
 
-		Subscriber receiver = eventTopics.get(type).getNextSubscriber();
+		Subscriber receiver;
 
-		personalQueues.get(receiver).add(e);
-		future = getEventFuture(e);
+		receiver = eventTopics.get(type).take();
+		eventTopics.get(type).put(receiver);
+		personalQueues.get(receiver).put(e);
 
-		return future;
+		return getEventFuture(e);
 	}
 
 	@Override
@@ -135,14 +129,17 @@ public class MessageBrokerImpl implements MessageBroker {
 	public void unregister(Subscriber m) {
 		personalQueues.remove(m);
 
-		for(EventTopic topic : eventTopics.values()) topic.remove(m);
-		for(List<Subscriber> topic : broadcastTopics.values()) topic.remove(m);
+		for(BlockingQueue topic : eventTopics.values()) if(topic.contains(m)) topic.remove(m);
+		for(List<Subscriber> topic : broadcastTopics.values()) if(topic.contains(m)) topic.remove(m);
 	}
 
 	@Override
-	public Message awaitMessage(Subscriber m) throws InterruptedException {
-		if(Thread.currentThread().isInterrupted()) throw new InterruptedException();
-		return personalQueues.get(m).take();
+	public Message awaitMessage(Subscriber m) {
+		try {
+			return personalQueues.get(m).take();
+		} catch (InterruptedException e) {
+			return new TerminateAllBroadcast();
+		}
 	}
 
 	private <T> Future<T> getEventFuture(Event<T> event){
@@ -181,8 +178,4 @@ public class MessageBrokerImpl implements MessageBroker {
 
 		return output;
 	}
-
-
-
-
 }

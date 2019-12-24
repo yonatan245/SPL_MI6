@@ -39,7 +39,7 @@ public final class SimplePublisher {
      *         			subscriber processing this event.
      * 	       			null in case no Subscriber has subscribed to {@code e.getClass()}.
      */
-    public final <T> Future<T> sendEvent(Event<T> e) throws ClassNotFoundException {
+    public final <T> Future<T> sendEvent(Event<T> e) throws ClassNotFoundException, InterruptedException, NullPointerException {
         String whichEvent = e.getClass().getName();
         Future<T> fut = null;
 
@@ -75,6 +75,10 @@ public final class SimplePublisher {
      * @param b The broadcast message to send
      */
     public final void sendBroadcast(Broadcast b) {
-        mb.sendBroadcast(b);
+        try {
+            mb.sendBroadcast(b);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -16,55 +16,38 @@
                             "006",
                             "007"
                         ],
-                        "duration": 7,
+                        "duration": 9,
                         "gadget": "Sky Hook",
-                        "missionName": "Thunderball",
-                        "timeExpired": 15,
-                        "timeIssued": 3
+                        "missionName": "Mission1 - should succeed",
+                        "timeExpired": 10,
+                        "timeIssued": 1
                     },
-                    {
-                        "serialAgentsNumbers": ["007"],
-                        "duration": 2,
-                        "gadget": "Dagger shoe",
-                        "missionName": "From Russia With Love",
-                        "timeExpired": 8,
-                        "timeIssued": 6
-                    },
-                    {
-                        "serialAgentsNumbers": ["007"],
-                        "duration": 2,
-                        "gadget": "Dagger shoe",
-                        "missionName": "From Russia With Love",
-                        "timeExpired": 100,
-                        "timeIssued": 15
-                    },
-                    {
-                        "serialAgentsNumbers": ["006"],
-                        "duration": 2,
-                        "gadget": "X-ray Glasses",
-                        "missionName": "The World Is Not Enough",
-                        "timeExpired": 100,
-                        "timeIssued": 16
-                    }
-                ]
-            },
-            {
-                "missions": [
                     {
                         "serialAgentsNumbers": [
-                            "007",
-                            "006"
+                            "006",
+                            "007"
                         ],
-                        "duration": 7,
+                        "duration": 5,
+                        "gadget": "Geiger counter",
+                        "missionName": "Mission2 - should fail",
+                        "timeExpired": 5,
+                        "timeIssued": 5
+                    },
+                    {
+                        "serialAgentsNumbers": [
+                            "006",
+                            "007"
+                        ],
+                        "duration": 2,
                         "gadget": "Sky Hook",
-                        "missionName": "Thunderball",
-                        "timeExpired": 15,
-                        "timeIssued": 3
+                        "missionName": "Mission3 - should fail",
+                        "timeExpired": 10,
+                        "timeIssued": 9
                     }
                 ]
             }
         ],
-        "time": 25
+        "time": 10
     },
     "squad": [
         {
