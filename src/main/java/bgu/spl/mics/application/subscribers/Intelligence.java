@@ -48,7 +48,8 @@ public class Intelligence extends Subscriber {
         });
 
         this.subscribeBroadcast(TickBroadcast.class, c -> {
-            //try {
+            System.out.println(Thread.currentThread().getName() +", tick broadcast with time: ");
+
             if(c.getCurrentTime()>=timeTicks) terminate();
                 if (currentTime.get() < c.getCurrentTime())
                     currentTime.set(c.getCurrentTime());
@@ -56,12 +57,10 @@ public class Intelligence extends Subscriber {
                 if (missions.containsKey(currentTime.get())) {
 
                     for (MissionInfo mission : missions.get(currentTime.get())) {
-                       // Event newEvent = new MissionReceivedEvent(mission);
                         System.out.println("Intelligence, Mission received event sent");
                         this.getSimplePublisher().sendEvent(new MissionReceivedEvent(mission));
                     }
                 }
-            //} catch(InterruptedException e) {terminate();}
         });
     }
 

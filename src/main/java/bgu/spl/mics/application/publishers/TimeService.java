@@ -49,7 +49,7 @@ public class TimeService extends Publisher {
 	@Override
 	public void run() {
 		timer.scheduleAtFixedRate(getNewTimerTask(), 0, 100);
-		while(currentTime.get() < TimeTicks);
+		while(currentTime.get() <= TimeTicks);
 
 		TimeService.super.getSimplePublisher().sendBroadcast(new TerminateAllBroadcast());
 		System.out.println("Termination has started");
@@ -61,7 +61,7 @@ public class TimeService extends Publisher {
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
-				if(currentTime.get() < TimeTicks ) {
+				if(currentTime.get() <= TimeTicks ) {
 					Broadcast toSend = new TickBroadcast(currentTime.getAndIncrement());
 					System.out.println("Time Service - current time: " +currentTime.get());
 					TimeService.super.getSimplePublisher().sendBroadcast(toSend);

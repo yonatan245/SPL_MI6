@@ -42,9 +42,11 @@ public class M extends Subscriber {
 		MessageBrokerImpl.getInstance().register(this);
 
 		Callback<TickBroadcast> tickBroadcastCallBack = c -> {
-			if(c.getCurrentTime()>=timeTicks) terminate();
-			if (currentTime.get() < c.getCurrentTime())
-				currentTime.set(c.getCurrentTime());
+			System.out.println(Thread.currentThread().getName() +", tick broadcast with time: " +c.getCurrentTime());
+
+			if (currentTime.get() < c.getCurrentTime()) currentTime.set(c.getCurrentTime());
+
+			if(c.getCurrentTime() >= timeTicks) terminate();
 		};
 
 		Callback<MissionReceivedEvent> missionReceivedCallBack= c -> {

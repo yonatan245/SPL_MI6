@@ -103,7 +103,8 @@ public class MessageBrokerImpl implements MessageBroker {
 			if (b.getClass().getName().equals(Names.TICK_BROADCAST)) currentTime.incrementAndGet();
 
 			for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))
-				personalQueues.get(subscriber).put(b);
+				sendMessageToSubscriber(b, subscriber);
+
 		} catch(NullPointerException e){}
 	}
 
@@ -115,7 +116,8 @@ public class MessageBrokerImpl implements MessageBroker {
 
 		receiver = eventTopics.get(type).take();
 		eventTopics.get(type).put(receiver);
-		personalQueues.get(receiver).put(e);
+
+		sendMessageToSubscriber(e, receiver);
 
 		return getEventFuture(e);
 	}
@@ -177,5 +179,9 @@ public class MessageBrokerImpl implements MessageBroker {
 		}
 
 		return output;
+	}
+
+	private void sendMessageToSubscriber(Message message, Subscriber subscriber) throws InterruptedException {
+		personalQueues.get(subscriber).put(message);
 	}
 }

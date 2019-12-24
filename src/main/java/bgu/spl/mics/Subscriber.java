@@ -135,17 +135,7 @@ public abstract class Subscriber extends RunnableSubPub {
                 terminate();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-            } finally{
-                while(received != null ){
-                    try {
-                        executeMessage(received);
-                        received = MessageBrokerImpl.getInstance().awaitMessage(this);
-                    } catch (ClassNotFoundException ex) {
-                        ex.printStackTrace();
-                    } catch (InterruptedException | NullPointerException ignored) {
-                        break;
-                    }
-                }
+
             }
         }
 
