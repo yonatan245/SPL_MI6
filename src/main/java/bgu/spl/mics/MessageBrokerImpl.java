@@ -114,6 +114,8 @@ public class MessageBrokerImpl implements MessageBroker {
 
 		Subscriber receiver;
 
+		if(eventTopics.get(type).isEmpty()) return null;
+
 		receiver = eventTopics.get(type).take();
 		eventTopics.get(type).put(receiver);
 
@@ -138,9 +140,15 @@ public class MessageBrokerImpl implements MessageBroker {
 	@Override
 	public Message awaitMessage(Subscriber m) {
 		try {
-			return personalQueues.get(m).take();
+			if(!Thread.currentThread().isInterrupted()) return personalQueues.get(m).take();
+
+			else {
+				if (personalQueues.get(m).isEmpty()) return null;
+				else return personalQueues.get(m).take();
+			}
+
 		} catch (InterruptedException e) {
-			return new TerminateAllBroadcast();
+			return null;
 		}
 	}
 

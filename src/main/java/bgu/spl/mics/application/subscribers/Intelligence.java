@@ -48,7 +48,7 @@ public class Intelligence extends Subscriber {
         });
 
         this.subscribeBroadcast(TickBroadcast.class, c -> {
-            System.out.println(Thread.currentThread().getName() +", tick broadcast with time: ");
+//            System.out.println(Thread.currentThread().getName() +", tick broadcast with time: " +c.getCurrentTime());
 
             if(c.getCurrentTime()>=timeTicks) terminate();
                 if (currentTime.get() < c.getCurrentTime())

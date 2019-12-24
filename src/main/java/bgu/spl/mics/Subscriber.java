@@ -111,6 +111,8 @@ public abstract class Subscriber extends RunnableSubPub {
      */
     protected final void terminate() {
         terminated = true;
+        Thread.currentThread().interrupt();
+        System.out.println(Thread.currentThread().getName() +" is terminating");
     }
 
     /**
@@ -126,16 +128,17 @@ public abstract class Subscriber extends RunnableSubPub {
         }
 
         while (!terminated) {
-            Message received = null;
             try {
-                received = MessageBrokerImpl.getInstance().awaitMessage(this);
+                Message received = MessageBrokerImpl.getInstance().awaitMessage(this);
                 executeMessage(received);
 
-            } catch (InterruptedException | NullPointerException e) {
+            } catch (NullPointerException e) {
+                System.out.println(Thread.currentThread().getName() +" has got a NullPointerException in Subscriber.run()");
                 terminate();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
-
+            } catch (InterruptedException e) {
+                System.out.println(Thread.currentThread().getName() +" has got a InterruptedException in Subscriber.run()");
             }
         }
 
@@ -185,5 +188,4 @@ public abstract class Subscriber extends RunnableSubPub {
         }
 
     }
-
 }

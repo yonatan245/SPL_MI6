@@ -40,7 +40,7 @@ public class Moneypenny extends Subscriber {
 		MessageBrokerImpl.getInstance().register(this);
 
 			Callback<TickBroadcast> CBTB = c -> {
-				System.out.println(Thread.currentThread().getName() +", tick broadcast with time: " +c.getCurrentTime());
+//				System.out.println(Thread.currentThread().getName() +", tick broadcast with time: " +c.getCurrentTime());
 				if(c.getCurrentTime()>=timeTicks) terminate();
 
 				if (currentTime.get() < c.getCurrentTime())

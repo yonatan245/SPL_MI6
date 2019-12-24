@@ -64,6 +64,8 @@ public class Squad {
 			toRelease.release();
 
 			semaphoreMap.get(toRelease).release();
+			System.out.println(Thread.currentThread().getName() +" has released agent " +toRelease.getSerialNumber());
+
 		}
 	}
 
@@ -83,6 +85,9 @@ public class Squad {
 	 * @return ‘false’ if an agent of serialNumber ‘serial’ is missing, and ‘true’ otherwise
 	 */
 	public boolean getAgents(List<String> serials) throws InterruptedException {
+
+		//TODO: fix agents acquiring. release agents can release them from another mission's job. we can create a map that says which mission is acquiring it.
+
 		List<String> acquiredAgents = new ArrayList<>();
 		boolean aborted = false;
 		Collections.sort(serials);
@@ -98,6 +103,7 @@ public class Squad {
 			}
 			else {
 				semaphoreMap.get(currentAgent).acquire();
+				System.out.println(Thread.currentThread().getName() +" has acquired agent " +currentAgent.getSerialNumber());
 				currentAgent.acquire();
 				acquiredAgents.add(serial);
 			}

@@ -42,51 +42,73 @@ public class M extends Subscriber {
 		MessageBrokerImpl.getInstance().register(this);
 
 		Callback<TickBroadcast> tickBroadcastCallBack = c -> {
-			System.out.println(Thread.currentThread().getName() +", tick broadcast with time: " +c.getCurrentTime());
+//			System.out.println(Thread.currentThread().getName() +", tick broadcast with time: " +c.getCurrentTime());
 
 			if (currentTime.get() < c.getCurrentTime()) currentTime.set(c.getCurrentTime());
 
 			if(c.getCurrentTime() >= timeTicks) terminate();
 		};
 
-		Callback<MissionReceivedEvent> missionReceivedCallBack= c -> {
-				Diary.getInstance().incrementTotal();
+		Callback<MissionReceivedEvent> missionReceivedCallBack = c -> {
+			Diary.getInstance().incrementTotal();
+
 			if(c.getTimeIssued()>=timeTicks) terminate();
-				if (currentTime.get() < c.getTimeIssued()) currentTime.set(c.getTimeIssued());
+			if (currentTime.get() < c.getTimeIssued()) currentTime.set(c.getTimeIssued());
 
-				currentMission = c.getMission();
-				c.setStatus("IN_PROGRESS");
+			currentMission = c.getMission();
+			if(currentMission.getTimeExpired() < timeTicks) currentMission.setTimeExpired(timeTicks);
+			boolean isAborted = false;
 
-				if (currentTime.get() < currentMission.getTimeIssued())
-					currentTime.set(currentMission.getTimeIssued());
+			if (currentTime.get() < currentMission.getTimeIssued())
+				currentTime.set(currentMission.getTimeIssued());
 
-				Event agentsAndMoneypennyIDEvent = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get());
-				Future<Pair<List<String>, Integer>> agentsAndMPID = getSimplePublisher().sendEvent(agentsAndMoneypennyIDEvent);
+			int remainingTime = currentMission.getTimeExpired() - currentTime.get() - currentMission.getDuration();
 
-				if (agentsAndMPID.get(currentMission.getTimeExpired(), unit) == null) {
-					c.setStatus("ABORTED");
-				} else {
-					Future<Pair<String, AtomicInteger>> GadgetAndQTime = getSimplePublisher().sendEvent(new GadgetAvailableEvent<>(currentMission.getGadget(), currentTime.get()));
-					if (GadgetAndQTime.get(currentMission.getTimeExpired(), unit) == null) {
-						c.setStatus("ABORTED");
-					} else if (currentTime.get() > currentMission.getTimeExpired()) {
-						c.setStatus("ABORTED");
-						getSimplePublisher().sendEvent(new ReleaseAgentsEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get()));
-					} else {
-						getSimplePublisher().sendEvent(new SendThemAgentsEvent<>(currentMission.getSerialAgentsNumbers(), currentMission.getDuration(), currentTime.get()));
-						Report toAdd = new Report(currentMission.getMissionName(),
-								MID,
-								agentsAndMPID.get().getValue1(),
-								currentMission.getSerialAgentsNumbers(),
-								agentsAndMPID.get().getValue0(),
-								currentMission.getGadget(),
-								currentMission.getTimeIssued(),
-								GadgetAndQTime.get().getValue1().get(),
-								currentTime.get());
-						Diary.getInstance().addReport(toAdd);
-						c.setStatus("COMPLETED");
-					}
-				}
+			//Check Moneypenny for agents availability
+			Event checkAgents = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get());
+			Future <Pair <List <String>, Integer>> agentsAndMPIDFuture = getSimplePublisher().sendEvent(checkAgents);
+
+			Pair <List <String>, Integer> agentsAndMPID = agentsAndMPIDFuture.get(remainingTime, unit);
+
+			if (agentsAndMPID == null) isAborted = true;
+
+			//Check Q for gadget availability
+			Event checkGadget =  new GadgetAvailableEvent<>(currentMission.getGadget(), currentTime.get());
+			Future <Pair <String, AtomicInteger>> gadgetAndQTimeFuture = getSimplePublisher().sendEvent(checkGadget);
+
+			Pair<String, AtomicInteger> gadgetAndQTime = null;
+			if(!isAborted) gadgetAndQTime = gadgetAndQTimeFuture.get(remainingTime, unit);
+
+			if(!isAborted) {
+				if (gadgetAndQTime == null)	isAborted = true;
+				else remainingTime = remainingTime - (gadgetAndQTime.getValue1().get() - currentTime.get());
+			}
+
+			if(!isAborted && remainingTime <= 0) isAborted = true;
+
+			//If the resources are available for the mission, send them agents and add a report to Diary
+			if(!isAborted) {
+				Event sendThemAgents = new SendThemAgentsEvent(currentMission.getSerialAgentsNumbers(), currentMission.getDuration(), currentTime.get());
+				getSimplePublisher().sendEvent(sendThemAgents);
+
+				Report toAdd = new Report(
+						currentMission.getMissionName(),
+						MID,
+						agentsAndMPID.getValue1(),
+						currentMission.getSerialAgentsNumbers(),
+						agentsAndMPID.getValue0(),
+						currentMission.getGadget(),
+						currentMission.getTimeIssued(),
+						gadgetAndQTime.getValue1().get(),
+						currentTime.get());
+
+				Diary.getInstance().addReport(toAdd);
+			}
+
+			else{
+				Event releaseAgents = new ReleaseAgentsEvent(currentMission.getSerialAgentsNumbers(), currentTime.get());
+				getSimplePublisher().sendEvent(releaseAgents);
+			}
 		};
 
 		subscribeBroadcast(TickBroadcast.class,tickBroadcastCallBack);
