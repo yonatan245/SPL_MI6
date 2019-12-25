@@ -64,7 +64,6 @@ public class Moneypenny extends Subscriber {
 				try {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
-
 					Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers(), c.getMissionName());
 					complete(c, true);
 				} catch(NullPointerException | InterruptedException e){terminate();}

@@ -52,63 +52,52 @@ public class M extends Subscriber {
 		Callback<MissionReceivedEvent> missionReceivedCallBack = c -> {
 			Diary.getInstance().incrementTotal();
 
-			if(c.getTimeIssued()>=timeTicks) terminate();
+			if (c.getTimeIssued() >= timeTicks) terminate();
 			if (currentTime.get() < c.getTimeIssued()) currentTime.set(c.getTimeIssued());
 
 			currentMission = c.getMission();
-			if(currentMission.getTimeExpired() < timeTicks) currentMission.setTimeExpired(timeTicks);
+			if (currentMission.getTimeExpired() < timeTicks) currentMission.setTimeExpired(timeTicks);
 			boolean isAborted = false;
+			boolean needToReleaseAgents = false;
+			Pair<List<String>, Integer> agentsAndMPID = null;
+			Pair<String, AtomicInteger> gadgetAndQTime = null;
+			boolean isPlace = false;
+
 
 			if (currentTime.get() < currentMission.getTimeIssued())
 				currentTime.set(currentMission.getTimeIssued());
 
 			int remainingTime = currentMission.getTimeExpired() - currentTime.get() - currentMission.getDuration();
 
+			if(currentMission.getMissionName().equals("Thunderball (2)"))
+				isPlace = true;
+
+
 			//Check Moneypenny for agents availability
-			Event checkAgents = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
-			Future <Pair <List <String>, Integer>> agentsAndMPIDFuture = getSimplePublisher().sendEvent(checkAgents);
-
-			Pair <List <String>, Integer> agentsAndMPID = agentsAndMPIDFuture.get(remainingTime, unit);
-
+			agentsAndMPID = getAgentsAndMPid(remainingTime);
 			if (agentsAndMPID == null) isAborted = true;
+			else needToReleaseAgents = true;
+
+			if(isPlace)
+				System.out.print("");
 
 			//Check Q for gadget availability
-			Event checkGadget =  new GadgetAvailableEvent<>(currentMission.getGadget(), currentTime.get(), currentMission.getMissionName());
-			Future <Pair <String, AtomicInteger>> gadgetAndQTimeFuture = getSimplePublisher().sendEvent(checkGadget);
+			if (!isAborted) {
+				gadgetAndQTime = getGadgetAndQtime(remainingTime);
 
-			Pair<String, AtomicInteger> gadgetAndQTime = null;
-			if(!isAborted) gadgetAndQTime = gadgetAndQTimeFuture.get(remainingTime, unit);
-
-			if(!isAborted) {
-				if (gadgetAndQTime == null)	isAborted = true;
+				if (gadgetAndQTime == null) isAborted = true;
 				else remainingTime = remainingTime - (gadgetAndQTime.getValue1().get() - currentTime.get());
 			}
 
-			if(!isAborted && remainingTime <= 0) isAborted = true;
+			//Check if there is still enough time for the mission execution
+			if (!isAborted && remainingTime <= 0) isAborted = true;
 
-			//If the resources are available for the mission, send them agents and add a report to Diary
 			if(!isAborted) {
-				Event sendThemAgents = new SendThemAgentsEvent(currentMission.getSerialAgentsNumbers(), currentMission.getDuration(), currentTime.get(), currentMission.getMissionName());
-				getSimplePublisher().sendEvent(sendThemAgents);
-
-				Report toAdd = new Report(
-						currentMission.getMissionName(),
-						MID,
-						agentsAndMPID.getValue1(),
-						currentMission.getSerialAgentsNumbers(),
-						agentsAndMPID.getValue0(),
-						currentMission.getGadget(),
-						currentMission.getTimeIssued(),
-						gadgetAndQTime.getValue1().get(),
-						currentTime.get());
-
-				Diary.getInstance().addReport(toAdd);
+				sendThemAgents();
+				reportMission(agentsAndMPID.getValue1(), agentsAndMPID.getValue0(), gadgetAndQTime.getValue1().get());
 			}
+			else if(needToReleaseAgents) releaseMissionAgents();
 
-			else{
-				Event releaseAgents = new ReleaseAgentsEvent(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
-				getSimplePublisher().sendEvent(releaseAgents);
-			}
 		};
 
 		subscribeBroadcast(TickBroadcast.class,tickBroadcastCallBack);
@@ -119,6 +108,52 @@ public class M extends Subscriber {
 				terminate();
 			}
 		});
+	}
+
+	private void releaseMissionAgents() throws InterruptedException, ClassNotFoundException {
+		Event releaseAgents = new ReleaseAgentsEvent(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
+		getSimplePublisher().sendEvent(releaseAgents);
+	}
+
+	private Pair<List<String>, Integer> getAgentsAndMPid(int remainingTime) throws InterruptedException, ClassNotFoundException {
+		Event checkAgents = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName(), currentMission.getTimeExpired()-remainingTime);
+		Future<Pair<List<String>, Integer>> agentsAndMPIDFuture = getSimplePublisher().sendEvent(checkAgents);
+
+		Pair<List<String>, Integer> agentsAndMPID = agentsAndMPIDFuture.get(remainingTime, unit);
+
+		if (currentMission.getMissionName().equals("Thunderball (2)"))
+			System.out.println("adayin");
+
+		return agentsAndMPID;
+	}
+
+	private Pair<String, AtomicInteger> getGadgetAndQtime(int remainingTime) throws InterruptedException, ClassNotFoundException {
+		Event checkGadget = new GadgetAvailableEvent<>(currentMission.getGadget(), currentTime.get(), currentMission.getMissionName());
+		Future<Pair<String, AtomicInteger>> gadgetAndQTimeFuture = getSimplePublisher().sendEvent(checkGadget);
+
+		Pair<String, AtomicInteger> gadgetAndQTime = gadgetAndQTimeFuture.get(remainingTime, unit);
+
+		return gadgetAndQTime;
+	}
+
+	private void sendThemAgents() throws InterruptedException, ClassNotFoundException {
+		Event sendThemAgents = new SendThemAgentsEvent(currentMission.getSerialAgentsNumbers(), currentMission.getDuration(), currentTime.get(), currentMission.getMissionName());
+		getSimplePublisher().sendEvent(sendThemAgents);
+	}
+
+	private void reportMission(Integer moneypennyId, List<String> agentNames, Integer qTime) {
+		Report toAdd = new Report(
+				currentMission.getMissionName(),
+				MID,
+				moneypennyId,
+				currentMission.getSerialAgentsNumbers(),
+				agentNames,
+				currentMission.getGadget(),
+				currentMission.getTimeIssued(),
+				qTime,
+				currentTime.get());
+
+		Diary.getInstance().addReport(toAdd);
 	}
 
 }

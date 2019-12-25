@@ -14,13 +14,14 @@ public class AgentsAvailableEvent<T> implements Event<T> {
     private Future<T> fut;
     private AtomicInteger time;
     private String missionName;
+    private int expiredTime;
 
-    public AgentsAvailableEvent(List<String> serialAgentsNumbers, int time, String missionName) {
+    public AgentsAvailableEvent(List<String> serialAgentsNumbers, int time, String missionName, int expiredTime) {
         this.serialAgentsNumbers=serialAgentsNumbers;
         this.fut = new Future<>();
         this.time = new AtomicInteger(time);
         this.missionName = missionName;
-
+        this.expiredTime = expiredTime;
     }
 
     public List<String> getSerialAgentsNumbers() {
@@ -39,4 +40,7 @@ public class AgentsAvailableEvent<T> implements Event<T> {
 
     public String getMissionName() {return missionName;} //TODO: Delete before submission
 
+    public int getExpiredTime() {
+        return expiredTime;
+    }
 }

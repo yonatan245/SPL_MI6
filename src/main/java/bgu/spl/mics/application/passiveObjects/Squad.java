@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Passive data-object representing a information about an agent in MI6.
@@ -16,7 +17,6 @@ public class Squad {
 
 	//Fields
 	private Map<String, Agent> agents;
-//	private Map<Agent, Semaphore> semaphoreMap;
 
 	//Constructor
 	private static class SquadHolder{
@@ -28,7 +28,6 @@ public class Squad {
 	}
 	private Squad(){
 		agents = new HashMap<>();
-//		semaphoreMap = new HashMap<>();
 	}
 
 	//Methods
@@ -58,13 +57,12 @@ public class Squad {
 	 */
 	public void releaseAgents(List<String> serials, String missionName) throws InterruptedException {
 		Collections.sort(serials);
-
 		for(String serial : serials){
 			Agent toRelease = agents.get(serial);
-			toRelease.release();
-//			semaphoreMap.get(toRelease).release();
-			System.out.println(Thread.currentThread().getName() +" has released agent " +toRelease.getSerialNumber() +", mission: " +missionName);
-
+			if(!toRelease.isAvailable()) {
+				toRelease.release();
+				System.out.println(Thread.currentThread().getName() + " has released agent " + toRelease.getSerialNumber() + ", mission: " + missionName);
+			}
 		}
 	}
 
@@ -74,8 +72,11 @@ public class Squad {
 	 */
 	public void sendAgents(List<String> serials, int time, String missionName) throws InterruptedException {
 		Collections.sort(serials);
-		Thread.currentThread().sleep(time * 100);
-		releaseAgents(serials, missionName);
+		synchronized (serials) {
+			Thread.currentThread().sleep(time * 100);
+			releaseAgents(serials, missionName);
+			serials.notifyAll();
+		}
 	}
 
 	/**

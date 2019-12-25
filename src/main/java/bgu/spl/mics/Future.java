@@ -15,12 +15,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class Future<T> {
 	private T t;
+	private boolean timeoutPassed;
 
 	/**
 	 * This should be the the only public constructor in this class.
 	 */
 	public Future() {
 		t=null;
+		timeoutPassed = false;
 	}
 	
 	/**
@@ -71,6 +73,7 @@ public class Future<T> {
 		if(!isDone()) {
 			try {
 				wait(unit.toMillis(timeout));
+				timeoutPassed = true;
 			} catch (InterruptedException e) {}
 		}
 
