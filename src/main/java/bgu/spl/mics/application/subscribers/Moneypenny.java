@@ -52,7 +52,7 @@ public class Moneypenny extends Subscriber {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
 
-					if (Squad.getInstance().getAgents(c.getSerialAgentsNumbers())) {
+					if (Squad.getInstance().getAgents(c.getSerialAgentsNumbers(), c.getMissionName())) {
 						Pair<List<String>, Integer> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
 						complete(c, result);
 					} else
@@ -65,7 +65,7 @@ public class Moneypenny extends Subscriber {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
 
-					Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers());
+					Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers(), c.getMissionName());
 					complete(c, true);
 				} catch(NullPointerException | InterruptedException e){terminate();}
 			};
@@ -75,7 +75,7 @@ public class Moneypenny extends Subscriber {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
 
-					Squad.getInstance().sendAgents(c.getSerialAgentsNumbers(), c.getDuration());
+					Squad.getInstance().sendAgents(c.getSerialAgentsNumbers(), c.getDuration(), c.getMissionName());
 					complete(c, true);
 				} catch(NullPointerException | InterruptedException e){terminate();}
 			};

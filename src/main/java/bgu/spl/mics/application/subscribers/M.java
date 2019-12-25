@@ -65,7 +65,7 @@ public class M extends Subscriber {
 			int remainingTime = currentMission.getTimeExpired() - currentTime.get() - currentMission.getDuration();
 
 			//Check Moneypenny for agents availability
-			Event checkAgents = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get());
+			Event checkAgents = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
 			Future <Pair <List <String>, Integer>> agentsAndMPIDFuture = getSimplePublisher().sendEvent(checkAgents);
 
 			Pair <List <String>, Integer> agentsAndMPID = agentsAndMPIDFuture.get(remainingTime, unit);
@@ -73,7 +73,7 @@ public class M extends Subscriber {
 			if (agentsAndMPID == null) isAborted = true;
 
 			//Check Q for gadget availability
-			Event checkGadget =  new GadgetAvailableEvent<>(currentMission.getGadget(), currentTime.get());
+			Event checkGadget =  new GadgetAvailableEvent<>(currentMission.getGadget(), currentTime.get(), currentMission.getMissionName());
 			Future <Pair <String, AtomicInteger>> gadgetAndQTimeFuture = getSimplePublisher().sendEvent(checkGadget);
 
 			Pair<String, AtomicInteger> gadgetAndQTime = null;
@@ -88,7 +88,7 @@ public class M extends Subscriber {
 
 			//If the resources are available for the mission, send them agents and add a report to Diary
 			if(!isAborted) {
-				Event sendThemAgents = new SendThemAgentsEvent(currentMission.getSerialAgentsNumbers(), currentMission.getDuration(), currentTime.get());
+				Event sendThemAgents = new SendThemAgentsEvent(currentMission.getSerialAgentsNumbers(), currentMission.getDuration(), currentTime.get(), currentMission.getMissionName());
 				getSimplePublisher().sendEvent(sendThemAgents);
 
 				Report toAdd = new Report(
@@ -106,7 +106,7 @@ public class M extends Subscriber {
 			}
 
 			else{
-				Event releaseAgents = new ReleaseAgentsEvent(currentMission.getSerialAgentsNumbers(), currentTime.get());
+				Event releaseAgents = new ReleaseAgentsEvent(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
 				getSimplePublisher().sendEvent(releaseAgents);
 			}
 		};

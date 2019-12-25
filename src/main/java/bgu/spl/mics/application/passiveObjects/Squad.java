@@ -16,7 +16,7 @@ public class Squad {
 
 	//Fields
 	private Map<String, Agent> agents;
-	private Map<Agent, Semaphore> semaphoreMap;
+//	private Map<Agent, Semaphore> semaphoreMap;
 
 	//Constructor
 	private static class SquadHolder{
@@ -28,7 +28,7 @@ public class Squad {
 	}
 	private Squad(){
 		agents = new HashMap<>();
-		semaphoreMap = new HashMap<>();
+//		semaphoreMap = new HashMap<>();
 	}
 
 	//Methods
@@ -49,22 +49,21 @@ public class Squad {
 		for(Agent agent : agents){
 			String serialNumber = agent.getSerialNumber();
 			this.agents.put(serialNumber, agent);
-			this.semaphoreMap.put(agent, new Semaphore(1,true));
+//			this.semaphoreMap.put(agent, new Semaphore(1,true));
 		}
 	}
 
 	/**
 	 * Releases agents.
 	 */
-	public void releaseAgents(List<String> serials) throws InterruptedException {
+	public void releaseAgents(List<String> serials, String missionName) throws InterruptedException {
 		Collections.sort(serials);
 
 		for(String serial : serials){
 			Agent toRelease = agents.get(serial);
 			toRelease.release();
-
-			semaphoreMap.get(toRelease).release();
-			System.out.println(Thread.currentThread().getName() +" has released agent " +toRelease.getSerialNumber());
+//			semaphoreMap.get(toRelease).release();
+			System.out.println(Thread.currentThread().getName() +" has released agent " +toRelease.getSerialNumber() +", mission: " +missionName);
 
 		}
 	}
@@ -73,10 +72,10 @@ public class Squad {
 	 * simulates executing a mission by calling sleep.
 	 * @param time   milliseconds to sleep
 	 */
-	public void sendAgents(List<String> serials, int time) throws InterruptedException {
+	public void sendAgents(List<String> serials, int time, String missionName) throws InterruptedException {
 		Collections.sort(serials);
 		Thread.currentThread().sleep(time * 100);
-		releaseAgents(serials);
+		releaseAgents(serials, missionName);
 	}
 
 	/**
@@ -84,9 +83,7 @@ public class Squad {
 	 * @param serials   the serial numbers of the agents
 	 * @return ‘false’ if an agent of serialNumber ‘serial’ is missing, and ‘true’ otherwise
 	 */
-	public boolean getAgents(List<String> serials) throws InterruptedException {
-
-		//TODO: fix agents acquiring. release agents can release them from another mission's job. we can create a map that says which mission is acquiring it.
+	public boolean getAgents(List<String> serials, String missionName) throws InterruptedException {
 
 		List<String> acquiredAgents = new ArrayList<>();
 		boolean aborted = false;
@@ -102,14 +99,14 @@ public class Squad {
 				break;
 			}
 			else {
-				semaphoreMap.get(currentAgent).acquire();
-				System.out.println(Thread.currentThread().getName() +" has acquired agent " +currentAgent.getSerialNumber());
+//				semaphoreMap.get(currentAgent).acquire();
 				currentAgent.acquire();
+				System.out.println(Thread.currentThread().getName() +" has acquired agent " +currentAgent.getSerialNumber() +", mission: " +missionName);
 				acquiredAgents.add(serial);
 			}
 		}
 
-		if(aborted) releaseAgents(acquiredAgents);
+		if(aborted) releaseAgents(acquiredAgents, missionName);
 
 		return !aborted;
 	}

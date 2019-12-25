@@ -149,7 +149,7 @@ public abstract class Subscriber extends RunnableSubPub {
         String whichType = received.getClass().getName();
 
         if(received instanceof Event)
-            System.out.println(Thread.currentThread().getName() +", " +whichType);
+            System.out.println(Thread.currentThread().getName() +", " +whichType +", mission name: " +((Event)received).getMissionName());
 
         switch (whichType) {
             case Names.MISSION_RECEIVED_EVENT:

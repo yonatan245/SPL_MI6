@@ -9,6 +9,7 @@ import java.util.List;
 public class MissionReceivedEvent<T> implements Event<T> {
 
     private MissionInfo mission;
+    private String missionName;
 
     enum Status
     {
@@ -20,6 +21,7 @@ public class MissionReceivedEvent<T> implements Event<T> {
         this.mission = m;
         status=Status.PENDING;
         fut=new Future<T>();
+        missionName = mission.getMissionName();
     }
 
     public MissionInfo getMission() {
@@ -54,4 +56,5 @@ public class MissionReceivedEvent<T> implements Event<T> {
         fut.resolve(result);
     }
 
-    }
+    public String getMissionName() {return missionName;} //TODO: Delete before submission
+}

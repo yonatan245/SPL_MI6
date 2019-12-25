@@ -10,11 +10,13 @@ public class GadgetAvailableEvent<T> implements Event<T> {
     private String gadget;
     private Future<T> fut;
     private AtomicInteger time;
+    private String missionName;
 
-    public GadgetAvailableEvent(String gadget,int time){
+    public GadgetAvailableEvent(String gadget, int time, String missionName){
         fut = new Future<>();
         this.gadget=gadget;
         this.time = new AtomicInteger(time);
+        this.missionName = missionName;
     }
 
     public String getGadget(){
@@ -30,4 +32,6 @@ public class GadgetAvailableEvent<T> implements Event<T> {
     }
 
     public Future<T> getFut(){return fut;}
+
+    public String getMissionName() {return missionName;} //TODO: Delete before submission
 }

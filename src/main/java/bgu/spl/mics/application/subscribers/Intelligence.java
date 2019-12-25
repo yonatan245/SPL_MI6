@@ -57,7 +57,7 @@ public class Intelligence extends Subscriber {
                 if (missions.containsKey(currentTime.get())) {
 
                     for (MissionInfo mission : missions.get(currentTime.get())) {
-                        System.out.println("Intelligence, Mission received event sent");
+                        System.out.println("Intelligence, Mission received event sent " +mission.getMissionName());
                         this.getSimplePublisher().sendEvent(new MissionReceivedEvent(mission));
                     }
                 }

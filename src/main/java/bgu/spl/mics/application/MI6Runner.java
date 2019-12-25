@@ -110,7 +110,10 @@ public class MI6Runner {
         int i = 0;
 
         for(JsonElement agentJson : squadJson){
-            Agent toAdd = gson.fromJson(agentJson, Agent.class);
+//            Agent toAdd = gson.fromJson(agentJson, Agent.class);
+            String serialNumber = agentJson.getAsJsonObject().get("serialNumber").getAsString();
+            String name = agentJson.getAsJsonObject().get("name").getAsString();
+            Agent toAdd = new Agent(serialNumber, name);
             agentsToLoad[i] = toAdd;
             i++;
         }
