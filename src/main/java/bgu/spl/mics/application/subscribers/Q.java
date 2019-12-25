@@ -38,7 +38,6 @@ public class Q extends Subscriber {
 		MessageBrokerImpl.getInstance().register(this);
 
 		Callback<TickBroadcast> CBTickBroadcast= c -> {
-//			System.out.println(Thread.currentThread().getName() +", tick broadcast with time: " +c.getCurrentTime());
 
 			if(c.getCurrentTime()>=timeTicks) terminate();
 			if(currentTime.get() < c.getCurrentTime())

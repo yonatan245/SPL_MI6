@@ -2,6 +2,7 @@ package bgu.spl.mics.application.subscribers;
 
 import bgu.spl.mics.*;
 import bgu.spl.mics.application.*;
+import bgu.spl.mics.application.passiveObjects.Agent;
 import bgu.spl.mics.application.passiveObjects.Diary;
 import bgu.spl.mics.application.passiveObjects.MissionInfo;
 import bgu.spl.mics.application.passiveObjects.Report;
@@ -42,8 +43,6 @@ public class M extends Subscriber {
 		MessageBrokerImpl.getInstance().register(this);
 
 		Callback<TickBroadcast> tickBroadcastCallBack = c -> {
-//			System.out.println(Thread.currentThread().getName() +", tick broadcast with time: " +c.getCurrentTime());
-
 			if (currentTime.get() < c.getCurrentTime()) currentTime.set(c.getCurrentTime());
 
 			if(c.getCurrentTime() >= timeTicks) terminate();
@@ -58,10 +57,9 @@ public class M extends Subscriber {
 			currentMission = c.getMission();
 			if (currentMission.getTimeExpired() < timeTicks) currentMission.setTimeExpired(timeTicks);
 			boolean isAborted = false;
-			boolean needToReleaseAgents = false;
+			Boolean needToReleaseAgents = false;
 			Pair<List<String>, Integer> agentsAndMPID = null;
 			Pair<String, AtomicInteger> gadgetAndQTime = null;
-			boolean isPlace = false;
 
 
 			if (currentTime.get() < currentMission.getTimeIssued())
@@ -69,17 +67,12 @@ public class M extends Subscriber {
 
 			int remainingTime = currentMission.getTimeExpired() - currentTime.get() - currentMission.getDuration();
 
-			if(currentMission.getMissionName().equals("Thunderball (2)"))
-				isPlace = true;
-
-
 			//Check Moneypenny for agents availability
 			agentsAndMPID = getAgentsAndMPid(remainingTime);
 			if (agentsAndMPID == null) isAborted = true;
 			else needToReleaseAgents = true;
 
-			if(isPlace)
-				System.out.print("");
+			if (agentsAndMPID.getValue1() == -1) isAborted = true;
 
 			//Check Q for gadget availability
 			if (!isAborted) {
@@ -92,11 +85,17 @@ public class M extends Subscriber {
 			//Check if there is still enough time for the mission execution
 			if (!isAborted && remainingTime <= 0) isAborted = true;
 
+
+
 			if(!isAborted) {
 				sendThemAgents();
 				reportMission(agentsAndMPID.getValue1(), agentsAndMPID.getValue0(), gadgetAndQTime.getValue1().get());
 			}
-			else if(needToReleaseAgents) releaseMissionAgents();
+			else{
+				if(currentMission.getMissionName().equals("From Russia With Love (1)"))
+					System.out.println("");
+				if(needToReleaseAgents) releaseMissionAgents(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
+			}
 
 		};
 
@@ -110,19 +109,19 @@ public class M extends Subscriber {
 		});
 	}
 
-	private void releaseMissionAgents() throws InterruptedException, ClassNotFoundException {
-		Event releaseAgents = new ReleaseAgentsEvent(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
+	private void releaseMissionAgents(List<String> agentsToRelease, Integer time, String missionName) throws InterruptedException, ClassNotFoundException {
+		Event releaseAgents = new ReleaseAgentsEvent(agentsToRelease, time, missionName);
 		getSimplePublisher().sendEvent(releaseAgents);
 	}
 
 	private Pair<List<String>, Integer> getAgentsAndMPid(int remainingTime) throws InterruptedException, ClassNotFoundException {
-		Event checkAgents = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName(), currentMission.getTimeExpired()-remainingTime);
+		Event checkAgents = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
 		Future<Pair<List<String>, Integer>> agentsAndMPIDFuture = getSimplePublisher().sendEvent(checkAgents);
 
 		Pair<List<String>, Integer> agentsAndMPID = agentsAndMPIDFuture.get(remainingTime, unit);
-
-		if (currentMission.getMissionName().equals("Thunderball (2)"))
-			System.out.println("adayin");
+		if(!agentsAndMPIDFuture.isDone()) {
+			agentsAndMPID = new Pair(null, -1);
+		}
 
 		return agentsAndMPID;
 	}

@@ -15,14 +15,14 @@ import java.util.concurrent.TimeUnit;
  */
 public class Future<T> {
 	private T t;
-	private boolean timeoutPassed;
+	private boolean isDone;
 
 	/**
 	 * This should be the the only public constructor in this class.
 	 */
 	public Future() {
-		t=null;
-		timeoutPassed = false;
+		t = null;
+		isDone = false;
 	}
 	
 	/**
@@ -47,6 +47,7 @@ public class Future<T> {
      * Resolves the result of this Future object.
      */
 	public synchronized void resolve (T result) {
+		isDone = true;
 		t = result;
 		notifyAll();
 	}
@@ -55,7 +56,7 @@ public class Future<T> {
      * @return true if this object has been resolved, false otherwise
      */
 	public boolean isDone() {
-		return t != null;
+		return isDone;
 	}
 	
 	/**
@@ -73,7 +74,6 @@ public class Future<T> {
 		if(!isDone()) {
 			try {
 				wait(unit.toMillis(timeout));
-				timeoutPassed = true;
 			} catch (InterruptedException e) {}
 		}
 

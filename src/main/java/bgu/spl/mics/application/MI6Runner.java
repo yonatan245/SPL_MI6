@@ -44,8 +44,8 @@ public class MI6Runner {
             timeService.join();
 
             for(Thread thread : intelligences) if(thread.isAlive()) thread.interrupt();
-            for(Thread thread : threadList) if(thread.isAlive()) thread.interrupt();
             for(Thread thread : intelligences) thread.join();
+            for(Thread thread : threadList) if(thread.isAlive()) thread.interrupt();
             for(Thread thread : threadList) thread.join();
 
         } catch (FileNotFoundException | InterruptedException e) {

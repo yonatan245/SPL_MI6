@@ -16,6 +16,21 @@
       "timeIssued": 3,
       "QTime": 3,
       "timeCreated": 3
+    },
+    {
+      "missionName": "From Russia With Love (2)",
+      "mId": 0,
+      "moneyPennyId": 2,
+      "agentsSerialNumbers": [
+        "007"
+      ],
+      "agentsNames": [
+        "James Bond"
+      ],
+      "gadgetName": "Dagger shoe",
+      "timeIssued": 15,
+      "QTime": 15,
+      "timeCreated": 15
     }
   ],
   "total": 5

@@ -48,7 +48,6 @@ public class Squad {
 		for(Agent agent : agents){
 			String serialNumber = agent.getSerialNumber();
 			this.agents.put(serialNumber, agent);
-//			this.semaphoreMap.put(agent, new Semaphore(1,true));
 		}
 	}
 
@@ -70,13 +69,12 @@ public class Squad {
 	 * simulates executing a mission by calling sleep.
 	 * @param time   milliseconds to sleep
 	 */
-	public void sendAgents(List<String> serials, int time, String missionName) throws InterruptedException {
+	public synchronized void sendAgents(List<String> serials, int time, String missionName) throws InterruptedException {
 		Collections.sort(serials);
-		synchronized (serials) {
-			Thread.currentThread().sleep(time * 100);
-			releaseAgents(serials, missionName);
-			serials.notifyAll();
-		}
+		System.out.println(Thread.currentThread().getName() + " has sent them agents " + serials + ", mission: " + missionName);
+		Thread.sleep(time * 100);
+		System.out.println(Thread.currentThread().getName() + " has finished mission with agents " + serials + ", mission: " + missionName);
+		releaseAgents(serials, missionName);
 	}
 
 	/**
@@ -100,7 +98,6 @@ public class Squad {
 				break;
 			}
 			else {
-//				semaphoreMap.get(currentAgent).acquire();
 				currentAgent.acquire();
 				System.out.println(Thread.currentThread().getName() +" has acquired agent " +currentAgent.getSerialNumber() +", mission: " +missionName);
 				acquiredAgents.add(serial);

@@ -40,7 +40,6 @@ public class Moneypenny extends Subscriber {
 		MessageBrokerImpl.getInstance().register(this);
 
 			Callback<TickBroadcast> CBTB = c -> {
-//				System.out.println(Thread.currentThread().getName() +", tick broadcast with time: " +c.getCurrentTime());
 				if(c.getCurrentTime()>=timeTicks) terminate();
 
 				if (currentTime.get() < c.getCurrentTime())
@@ -55,6 +54,7 @@ public class Moneypenny extends Subscriber {
 					if (Squad.getInstance().getAgents(c.getSerialAgentsNumbers(), c.getMissionName())) {
 						Pair<List<String>, Integer> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
 						complete(c, result);
+
 					} else
 						complete(c, null);
 				} catch (NullPointerException | InterruptedException e){terminate();}
@@ -89,9 +89,9 @@ public class Moneypenny extends Subscriber {
 		subscribeBroadcast(TickBroadcast.class, CBTB);
 		if (MoneyPennyID % 2 == 0) {
 			subscribeEvent(AgentsAvailableEvent.class, CBAAE);
+			subscribeEvent(ReleaseAgentsEvent.class, CBRAE);
 		}
 		if (MoneyPennyID % 2 != 0) {
-			subscribeEvent(ReleaseAgentsEvent.class, CBRAE);
 			subscribeEvent(SendThemAgentsEvent.class, CBSTAE);
 		}
 

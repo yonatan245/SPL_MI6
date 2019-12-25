@@ -10,10 +10,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
+import java.util.concurrent.Semaphore;
 
 /**
  *  That's where Q holds his gadget (e.g. an explosive pen was used in GoldenEye, a geiger counter in Dr. No, etc).
@@ -33,7 +31,7 @@ public class Inventory {
 		private static Inventory instance= new Inventory();
 	}
 	private Inventory(){
-		gadgets = new ArrayList<String>();
+		gadgets = new ArrayList<>();
 	}
 
 	//Methods
