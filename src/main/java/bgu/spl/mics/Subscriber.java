@@ -139,6 +139,7 @@ public abstract class Subscriber extends RunnableSubPub {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 System.out.println(Thread.currentThread().getName() +" has got a InterruptedException in Subscriber.run()");
+                terminate();
             }
         }
 

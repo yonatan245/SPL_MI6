@@ -29,7 +29,7 @@ public class Diary {
 	//Fields
 	private List<Report> reports;
 	private AtomicInteger total;
-	private AtomicBoolean wasPrinted;
+
 
 
 	//Constructor
@@ -76,6 +76,9 @@ public class Diary {
 		Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).setPrettyPrinting().create();
 		String diaryJson = gson.toJson(Diary.getInstance());
 
+
+
+
 		try(Writer writer = new FileWriter(filename)){
 			writer.write(diaryJson);
 		} catch (IOException e) {
@@ -111,8 +114,10 @@ public class Diary {
 
 		return jsonReport;
 	}
+
 	public void incrementTotal(){
 		total.getAndIncrement();
 	}
+
 
 }

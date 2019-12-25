@@ -191,6 +191,7 @@ public class MessageBrokerImpl implements MessageBroker {
 	private void sendMessageToSubscriber(Message message, Subscriber subscriber) throws InterruptedException {
 		personalQueues.get(subscriber).put(message);
 	}
+
 }
 
 

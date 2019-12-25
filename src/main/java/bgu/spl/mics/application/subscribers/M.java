@@ -43,6 +43,8 @@ public class M extends Subscriber {
 		MessageBrokerImpl.getInstance().register(this);
 
 		Callback<TickBroadcast> tickBroadcastCallBack = c -> {
+			System.out.println(Thread.currentThread().getName() +", time: " +currentTime.get());
+
 			if (currentTime.get() < c.getCurrentTime()) currentTime.set(c.getCurrentTime());
 
 			if(c.getCurrentTime() >= timeTicks) terminate();
@@ -61,7 +63,6 @@ public class M extends Subscriber {
 			Pair<List<String>, Integer> agentsAndMPID = null;
 			Pair<String, AtomicInteger> gadgetAndQTime = null;
 
-
 			if (currentTime.get() < currentMission.getTimeIssued())
 				currentTime.set(currentMission.getTimeIssued());
 
@@ -71,8 +72,6 @@ public class M extends Subscriber {
 			agentsAndMPID = getAgentsAndMPid(remainingTime);
 			if (agentsAndMPID == null) isAborted = true;
 			else needToReleaseAgents = true;
-
-			if (agentsAndMPID.getValue1() == -1) isAborted = true;
 
 			//Check Q for gadget availability
 			if (!isAborted) {
@@ -85,15 +84,11 @@ public class M extends Subscriber {
 			//Check if there is still enough time for the mission execution
 			if (!isAborted && remainingTime <= 0) isAborted = true;
 
-
-
 			if(!isAborted) {
 				sendThemAgents();
 				reportMission(agentsAndMPID.getValue1(), agentsAndMPID.getValue0(), gadgetAndQTime.getValue1().get());
 			}
 			else{
-				if(currentMission.getMissionName().equals("From Russia With Love (1)"))
-					System.out.println("");
 				if(needToReleaseAgents) releaseMissionAgents(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
 			}
 
@@ -119,9 +114,6 @@ public class M extends Subscriber {
 		Future<Pair<List<String>, Integer>> agentsAndMPIDFuture = getSimplePublisher().sendEvent(checkAgents);
 
 		Pair<List<String>, Integer> agentsAndMPID = agentsAndMPIDFuture.get(remainingTime, unit);
-		if(!agentsAndMPIDFuture.isDone()) {
-			agentsAndMPID = new Pair(null, -1);
-		}
 
 		return agentsAndMPID;
 	}

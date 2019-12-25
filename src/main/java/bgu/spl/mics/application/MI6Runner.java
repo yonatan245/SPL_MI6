@@ -28,10 +28,6 @@ public class MI6Runner {
         List<Thread> intelligences = new ArrayList<>();
         List<Thread> threadList = new ArrayList<>();
 
-        MessageBroker messageBroker = MessageBrokerImpl.getInstance();
-        Squad squad = Squad.getInstance();
-        Inventory inventory = Inventory.getInstance();
-
         try {
             initialize(filePath, threadList, intelligences);
 
@@ -144,7 +140,7 @@ public class MI6Runner {
             //iterating on all of the missions for the specific intelligence
             while(missionsIter.hasNext()){
                 JsonObject newMissionJson = (JsonObject) missionsIter.next();
-                String name = newMissionJson.get("missionName").getAsString();
+                String name = newMissionJson.get("name").getAsString();
 
                 JsonArray serialAgentsNumbersJson = newMissionJson.get("serialAgentsNumbers").getAsJsonArray();
                 List<String> serialAgentNumbers = new ArrayList<>();

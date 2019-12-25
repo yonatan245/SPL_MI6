@@ -52,9 +52,13 @@ public class Moneypenny extends Subscriber {
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
 
 					if (Squad.getInstance().getAgents(c.getSerialAgentsNumbers(), c.getMissionName())) {
-						Pair<List<String>, Integer> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
-						complete(c, result);
+						if (c.getFut().isDone())
+							Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers(), c.getMissionName());
 
+						else {
+							Pair<List<String>, Integer> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
+							complete(c, result);
+						}
 					} else
 						complete(c, null);
 				} catch (NullPointerException | InterruptedException e){terminate();}

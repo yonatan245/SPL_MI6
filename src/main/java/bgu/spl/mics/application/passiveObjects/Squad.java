@@ -85,24 +85,25 @@ public class Squad {
 	public boolean getAgents(List<String> serials, String missionName) throws InterruptedException {
 
 		List<String> acquiredAgents = new ArrayList<>();
+		List<String> newSerials = new ArrayList<>(serials);
 		boolean aborted = false;
 		Collections.sort(serials);
 		Agent currentAgent;
 
+		for(String serial : newSerials) {
 
-		for(String serial : serials){
-			currentAgent = agents.get(serial);
+				currentAgent = agents.get(serial);
 
-			if(currentAgent == null){
-				aborted = true;
-				break;
+				if (currentAgent == null) {
+					aborted = true;
+					break;
+				} else {
+					currentAgent.acquire();
+					System.out.println(Thread.currentThread().getName() + " has acquired agent " + currentAgent.getSerialNumber() + ", mission: " + missionName);
+					acquiredAgents.add(serial);
+				}
 			}
-			else {
-				currentAgent.acquire();
-				System.out.println(Thread.currentThread().getName() +" has acquired agent " +currentAgent.getSerialNumber() +", mission: " +missionName);
-				acquiredAgents.add(serial);
-			}
-		}
+
 
 		if(aborted) releaseAgents(acquiredAgents, missionName);
 

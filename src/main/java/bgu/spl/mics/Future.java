@@ -73,8 +73,13 @@ public class Future<T> {
 	public synchronized T get(long timeout, TimeUnit unit) {
 		if(!isDone()) {
 			try {
-				wait(unit.toMillis(timeout));
+				wait(timeout * 100);
 			} catch (InterruptedException e) {}
+		}
+
+		if(!isDone){
+			System.out.println(Thread.currentThread().getName() +" has forced resolved the future");
+			resolve(null);
 		}
 
 		return t;
