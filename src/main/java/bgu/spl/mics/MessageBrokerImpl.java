@@ -22,9 +22,7 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	private ConcurrentMap<String, BlockingQueue<Subscriber>> eventTopics;
 	private ConcurrentMap<String, List<Subscriber>> broadcastTopics;
-	private ConcurrentMap<Subscriber, BlockingQueue<Message>> personalEventQueues;
-	private ConcurrentMap<Subscriber, BlockingQueue<Message>> personalBroadcastQueues;
-	private ConcurrentMap<Subscriber, BlockingQueue<Message>> personalTimeQueues;
+	private ConcurrentMap<Subscriber, BlockingQueue<Message>> personalQueues;
 
 
 	//Constructor
@@ -48,8 +46,7 @@ public class MessageBrokerImpl implements MessageBroker {
 		broadcastTopics.put(Names.TICK_BROADCAST, new CopyOnWriteArrayList<>());
 		broadcastTopics.put(Names.TERMINATE_ALL_BROADCAST, new CopyOnWriteArrayList<>());
 
-		personalEventQueues = new ConcurrentHashMap<>();
-		personalBroadcastQueues = new ConcurrentHashMap<>();
+		personalQueues = new ConcurrentHashMap<>();
 	}
 
 	//Methods
@@ -104,8 +101,7 @@ public class MessageBrokerImpl implements MessageBroker {
 			if (b.getClass().getName().equals(Names.TICK_BROADCAST)) currentTime.incrementAndGet();
 
 			for (Subscriber subscriber : broadcastTopics.get(b.getClass().getName()))
-				if(b.getClass().getName().equals(Names.TICK_BROADCAST)) sendTimeBroadcast(subscriber);
-				else sendBroadcastToSubscriber(b, subscriber);
+				 sendMessageToSubscriber(b, subscriber);
 
 		} catch(NullPointerException e){}
 	}
@@ -121,19 +117,19 @@ public class MessageBrokerImpl implements MessageBroker {
 		receiver = eventTopics.get(type).take();
 		eventTopics.get(type).put(receiver);
 
-		sendEventToSubscriber(e, receiver);
+		sendMessageToSubscriber(e, receiver);
 
 		return getEventFuture(e);
 	}
 
 	@Override
 	public void register(Subscriber m) {
-			personalEventQueues.put(m, new LinkedBlockingQueue<>());
+		personalQueues.put(m, new LinkedBlockingQueue<>());
 	}
 
 	@Override
 	public void unregister(Subscriber m) {
-		personalEventQueues.remove(m);
+		personalQueues.remove(m);
 
 		for(BlockingQueue topic : eventTopics.values()) if(topic.contains(m)) topic.remove(m);
 		for(List<Subscriber> topic : broadcastTopics.values()) if(topic.contains(m)) topic.remove(m);
@@ -141,17 +137,18 @@ public class MessageBrokerImpl implements MessageBroker {
 
 	@Override
 	public Message awaitMessage(Subscriber m) {
+		Message output = null;
+
 		try {
-			if(!Thread.currentThread().isInterrupted()) return personalEventQueues.get(m).take();
+			if (!Thread.currentThread().isInterrupted()) {
+				output = personalQueues.get(m).take();
+			} else	if (!personalQueues.get(m).isEmpty()) output = personalQueues.get(m).take();
 
-			else {
-				if (personalEventQueues.get(m).isEmpty()) return null;
-				else return personalEventQueues.get(m).take();
-			}
-
-		} catch (InterruptedException e) {
-			return null;
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
 		}
+
+		return output;
 	}
 
 	private <T> Future<T> getEventFuture(Event<T> event){
@@ -191,36 +188,9 @@ public class MessageBrokerImpl implements MessageBroker {
 		return output;
 	}
 
-	private void sendEventToSubscriber(Message message, Subscriber subscriber) throws InterruptedException {
-		personalEventQueues.get(subscriber).put(message);
+	private void sendMessageToSubscriber(Message message, Subscriber subscriber) throws InterruptedException {
+		personalQueues.get(subscriber).put(message);
 	}
-
-	private void sendBroadcastToSubscriber(Message message, Subscriber subscriber) throws InterruptedException {
-		personalBroadcastQueues.get(subscriber).put(message);
-	}
-
-	private Message getNextMessage(Subscriber m) throws InterruptedException {
-		Message output = null;
-
-		if(!Thread.currentThread().isInterrupted()){
-			if(!personalTimeQueues.get(m).isEmpty()) output = personalTimeQueues.get(m).take();
-			else if(!personalBroadcastQueues.get(m).isEmpty()) output = personalBroadcastQueues.get(m).take();
-			else output = personalEventQueues.get(m).take();
-		}
-
-		else {
-			if (personalTimeQueues.get(m).isEmpty()) {
-				if (personalBroadcastQueues.get(m).isEmpty()) {
-					if (personalEventQueues.get(m).isEmpty()) output = null;
-					else output = personalEventQueues.get(m).take();
-				} else output = personalBroadcastQueues.get(m).take();
-			} else output = personalTimeQueues.get(m).take();
-		}
-
-		return output;
-	}
-
-	private void sendTimeBroadcast(Subscriber m, Broadcast tickBC) throws InterruptedException { personalTimeQueues.get(m).put(tickBC);}
 }
 
 

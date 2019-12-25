@@ -188,4 +188,8 @@ public abstract class Subscriber extends RunnableSubPub {
         }
 
     }
+
+    private void syncTime(){
+
+    }
 }
