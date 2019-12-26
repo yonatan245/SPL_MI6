@@ -136,17 +136,13 @@ public class MessageBrokerImpl implements MessageBroker {
 	}
 
 	@Override
-	public Message awaitMessage(Subscriber m) {
+	public Message awaitMessage(Subscriber m) throws InterruptedException {
 		Message output = null;
 
-		try {
-			if (!Thread.currentThread().isInterrupted()) {
-				output = personalQueues.get(m).take();
-			} else	if (!personalQueues.get(m).isEmpty()) output = personalQueues.get(m).take();
+		if (!Thread.currentThread().isInterrupted()) {
+			output = personalQueues.get(m).take();
 
-		} catch (InterruptedException ex) {
-			ex.printStackTrace();
-		}
+		} else	if (!personalQueues.get(m).isEmpty()) output = personalQueues.get(m).take();
 
 		return output;
 	}
@@ -192,6 +188,11 @@ public class MessageBrokerImpl implements MessageBroker {
 		personalQueues.get(subscriber).put(message);
 	}
 
+	public void clear(){
+		currentTime.set(0);
+		for(BlockingQueue topic : eventTopics.values()) topic.clear();
+		for(List topic : broadcastTopics.values()) topic.clear();
+	}
 }
 
 

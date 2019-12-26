@@ -112,7 +112,6 @@ public abstract class Subscriber extends RunnableSubPub {
     protected final void terminate() {
         terminated = true;
         Thread.currentThread().interrupt();
-        System.out.println(Thread.currentThread().getName() +" is terminating");
     }
 
     /**
@@ -133,12 +132,10 @@ public abstract class Subscriber extends RunnableSubPub {
                 executeMessage(received);
 
             } catch (NullPointerException e) {
-                System.out.println(Thread.currentThread().getName() +" has got a NullPointerException in Subscriber.run()");
                 terminate();
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
-                System.out.println(Thread.currentThread().getName() +" has got a InterruptedException in Subscriber.run()");
                 terminate();
             }
         }
@@ -149,48 +146,42 @@ public abstract class Subscriber extends RunnableSubPub {
     private void executeMessage(Message received) throws ClassNotFoundException, InterruptedException, NullPointerException {
         String whichType = received.getClass().getName();
 
-        if(received instanceof Event)
-            System.out.println(Thread.currentThread().getName() +", " +whichType +", mission name: " +((Event)received).getMissionName());
 
         switch (whichType) {
             case Names.MISSION_RECEIVED_EVENT:
-                Callback<MissionReceivedEvent> MRECB=map.get(MissionReceivedEvent.class);
-                MRECB.call((MissionReceivedEvent)received);
+                Callback<MissionReceivedEvent> missionReceivedEventCallback = map.get(MissionReceivedEvent.class);
+                missionReceivedEventCallback.call((MissionReceivedEvent) received);
                 break;
 
             case Names.AGENTS_AVAILABLE_EVENT:
-                Callback<AgentsAvailableEvent> AAECB=map.get(AgentsAvailableEvent.class);
-                AAECB.call((AgentsAvailableEvent)received);
+                Callback<AgentsAvailableEvent> agentsAvailableEventCallback = map.get(AgentsAvailableEvent.class);
+                agentsAvailableEventCallback.call((AgentsAvailableEvent) received);
                 break;
 
             case Names.GADGET_AVAILABLE_EVENT:
-                Callback<GadgetAvailableEvent> GAECB=map.get(GadgetAvailableEvent.class);
-                GAECB.call((GadgetAvailableEvent) received);
+                Callback<GadgetAvailableEvent> gadgetAvailableEventCallback = map.get(GadgetAvailableEvent.class);
+                gadgetAvailableEventCallback.call((GadgetAvailableEvent) received);
                 break;
 
             case Names.SEND_THEM_AGENTS:
-                Callback<SendThemAgentsEvent> STAECB=map.get(SendThemAgentsEvent.class);
-                STAECB.call((SendThemAgentsEvent)received);
+                Callback<SendThemAgentsEvent> sendThemAgentsEventCallback = map.get(SendThemAgentsEvent.class);
+                sendThemAgentsEventCallback.call((SendThemAgentsEvent) received);
                 break;
 
             case Names.RELEASE_AGENTS_EVENT:
-                Callback<ReleaseAgentsEvent> RAECB=map.get(ReleaseAgentsEvent.class);
-                RAECB.call((ReleaseAgentsEvent) received);
+                Callback<ReleaseAgentsEvent> releaseAgentsEventCallback = map.get(ReleaseAgentsEvent.class);
+                releaseAgentsEventCallback.call((ReleaseAgentsEvent) received);
                 break;
 
             case Names.TICK_BROADCAST:
-                Callback<TickBroadcast> TBCB=map.get(TickBroadcast.class);
-                TBCB.call((TickBroadcast) received);
+                Callback<TickBroadcast> tickBroadcastCallback = map.get(TickBroadcast.class);
+                tickBroadcastCallback.call((TickBroadcast) received);
                 break;
 
             case Names.TERMINATE_ALL_BROADCAST:
                 Callback<TerminateAllBroadcast> terminateAllBroadcastCallback = map.get(TerminateAllBroadcast.class);
                 terminateAllBroadcastCallback.call((TerminateAllBroadcast) received);
+            }
         }
-
     }
 
-    private void syncTime(){
-
-    }
-}

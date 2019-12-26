@@ -3,6 +3,8 @@ package bgu.spl.mics.application.passiveObjects;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -77,6 +79,15 @@ public class Inventory {
 
 		Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).setPrettyPrinting().create();
 		String inventoryJson = gson.toJson(Inventory.getInstance());
+
+		File output = new File(filename);
+		if(!output.exists()) {
+			try {
+				output.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 		try(Writer writer = new FileWriter(filename)){
 			writer.write(inventoryJson);

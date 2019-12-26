@@ -78,7 +78,6 @@ public class Future<T> {
 		}
 
 		if(!isDone){
-			System.out.println(Thread.currentThread().getName() +" has forced resolved the future");
 			resolve(null);
 		}
 

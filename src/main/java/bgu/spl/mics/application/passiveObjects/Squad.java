@@ -52,13 +52,12 @@ public class Squad {
 	/**
 	 * Releases agents.
 	 */
-	public void releaseAgents(List<String> serials, String missionName) throws InterruptedException {
+	public void releaseAgents(List<String> serials) throws InterruptedException {
 		Collections.sort(serials);
 		for(String serial : serials){
 			Agent toRelease = agents.get(serial);
 			if(!toRelease.isAvailable()) {
 				toRelease.release();
-				System.out.println(Thread.currentThread().getName() + " has released agent " + toRelease.getSerialNumber() + ", mission: " + missionName);
 			}
 		}
 	}
@@ -67,12 +66,10 @@ public class Squad {
 	 * simulates executing a mission by calling sleep.
 	 * @param time   milliseconds to sleep
 	 */
-	public synchronized void sendAgents(List<String> serials, int time, String missionName) throws InterruptedException {
+	public synchronized void sendAgents(List<String> serials, int time) throws InterruptedException {
 		Collections.sort(serials);
-		System.out.println(Thread.currentThread().getName() + " has sent them agents " + serials + ", mission: " + missionName);
 		Thread.sleep(time * 100);
-		System.out.println(Thread.currentThread().getName() + " has finished mission with agents " + serials + ", mission: " + missionName);
-		releaseAgents(serials, missionName);
+		releaseAgents(serials);
 	}
 
 	/**
@@ -80,7 +77,7 @@ public class Squad {
 	 * @param serials   the serial numbers of the agents
 	 * @return ‘false’ if an agent of serialNumber ‘serial’ is missing, and ‘true’ otherwise
 	 */
-	public boolean getAgents(List<String> serials, String missionName) throws InterruptedException {
+	public boolean getAgents(List<String> serials) throws InterruptedException {
 
 		Collections.sort(serials);
 		List<String> acquiredAgents = new ArrayList<>();
@@ -96,14 +93,13 @@ public class Squad {
 					break;
 				} else {
 					currentAgent.acquire();
-					System.out.println(Thread.currentThread().getName() + " has acquired agent " + currentAgent.getSerialNumber() + ", mission: " + missionName);
 					acquiredAgents.add(serial);
 				}
 			}
 
 
 
-		if(aborted) releaseAgents(acquiredAgents, missionName);
+		if(aborted) releaseAgents(acquiredAgents);
 
 		return !aborted;
 	}

@@ -11,13 +11,11 @@ public class ReleaseAgentsEvent<T> implements Event<T> {
     private List<String> serialAgentsNumbers;
     private Future<T> fut;
     private AtomicInteger time;
-    private String missionName;
 
-    public ReleaseAgentsEvent(List<String> serialAgentsNumbers, int time, String missionName){
+    public ReleaseAgentsEvent(List<String> serialAgentsNumbers, int time){
         fut = new Future<>();
         this.serialAgentsNumbers=serialAgentsNumbers;
         this.time = new AtomicInteger(time);
-        this.missionName = missionName;
     }
 
     public int getTime() {
@@ -33,6 +31,4 @@ public class ReleaseAgentsEvent<T> implements Event<T> {
     }
 
     public Future<T> getFut(){return fut;}
-
-    public String getMissionName() {return missionName;} //TODO: Delete before submission
 }

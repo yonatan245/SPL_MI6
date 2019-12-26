@@ -1,5 +1,6 @@
 package bgu.spl.mics.application.passiveObjects;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -27,7 +28,6 @@ public class Diary {
 	private AtomicInteger total;
 
 
-
 	//Constructor
 	private static class DiaryHolder{
 		private static Diary instance = new Diary();
@@ -40,6 +40,7 @@ public class Diary {
 		reports = new ArrayList<>();
 		total = new AtomicInteger(0);
 	}
+
 	//Methods
 	/**
 	 * Retrieves the single instance of this class.
@@ -72,8 +73,14 @@ public class Diary {
 		Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).setPrettyPrinting().create();
 		String diaryJson = gson.toJson(Diary.getInstance());
 
-
-
+		File output = new File(filename);
+		if(!output.exists()) {
+			try {
+				output.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 
 		try(Writer writer = new FileWriter(filename)){
 			writer.write(diaryJson);
@@ -90,29 +97,14 @@ public class Diary {
 		return total.get();
 	}
 
-	private JSONObject reportToJSON(Report report){
-		JSONObject jsonReport = new JSONObject();
-
-		JSONArray agentSerialNumbers = new JSONArray();
-		agentSerialNumbers.addAll(report.getAgentsSerialNumbersNumber());
-		JSONArray agentNames = new JSONArray();
-		agentNames.addAll(report.getAgentsSerialNumbersNumber());
-
-		jsonReport.put("Mission name", report.getMissionName());
-		jsonReport.put("M", report.getM());
-		jsonReport.put("Money Penny", report.getMoneypenny());
-		jsonReport.put("Agents serial numbers", agentSerialNumbers);
-		jsonReport.put("Agent names", agentNames);
-		jsonReport.put("Gadget name", report.getGadgetName());
-		jsonReport.put("Time issued", report.getTimeIssued());
-		jsonReport.put("Q time", report.getQTime());
-		jsonReport.put("Time created", report.getTimeCreated());
-
-		return jsonReport;
-	}
-
 	public void incrementTotal(){
 		total.getAndIncrement();
+	}
+
+	//TODO: delete
+	public void clear() {
+		reports.clear();
+		total.set(0);
 	}
 
 

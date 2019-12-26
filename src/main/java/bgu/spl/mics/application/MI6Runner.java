@@ -18,17 +18,16 @@ import java.util.*;
 public class MI6Runner {
     public static void main(String[] args) {
 
-        String filePath = "src/input201 - 2.json";
         List<Thread> intelligences = new ArrayList<>();
         List<Thread> threadList = new ArrayList<>();
 
         try {
-            initialize(filePath, threadList, intelligences);
+            initialize(args[0], threadList, intelligences);
 
             for(Thread thread : threadList) thread.start();
             for(Thread thread : intelligences) thread.start();
 
-            Thread timeService = new Thread(new TimeService(getTimeTicks(filePath)));
+            Thread timeService = new Thread(new TimeService(getTimeTicks(args[0])));
             timeService.start();
 
             timeService.join();
@@ -42,8 +41,8 @@ public class MI6Runner {
             e.printStackTrace();
         }
 
-        Diary.getInstance().printToFile(Names.OUTPUT_DIARY);
-        Inventory.getInstance().printToFile(Names.OUTPUT_INVENTORY);
+        Inventory.getInstance().printToFile(args[1]);
+        Diary.getInstance().printToFile(args[2]);
     }
 
     static private void initialize(String filePath, List<Thread> threadList, List<Thread> intelligences) throws FileNotFoundException {

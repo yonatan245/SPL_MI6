@@ -39,21 +39,21 @@ public class Moneypenny extends Subscriber {
 		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
 
-			Callback<TickBroadcast> CBTB = c -> {
+			Callback<TickBroadcast> tickBroadcastCallback = c -> {
 				if(c.getCurrentTime()>=timeTicks) terminate();
 
 				if (currentTime.get() < c.getCurrentTime())
 					currentTime.set(c.getCurrentTime());
 			};
 
-			Callback<AgentsAvailableEvent> CBAAE = c -> {
+			Callback<AgentsAvailableEvent> agentsAvailableEventCallback = c -> {
 				try {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
 
-					if (Squad.getInstance().getAgents(c.getSerialAgentsNumbers(), c.getMissionName())) {
+					if (Squad.getInstance().getAgents(c.getSerialAgentsNumbers())) {
 						if (c.getFut().isDone())
-							Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers(), c.getMissionName());
+							Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers());
 
 						else {
 							Pair<List<String>, Integer> result = new Pair(Squad.getInstance().getAgentsNames(c.getSerialAgentsNumbers()), MoneyPennyID);
@@ -64,21 +64,21 @@ public class Moneypenny extends Subscriber {
 				} catch (NullPointerException | InterruptedException e){terminate();}
 			};
 
-			Callback<ReleaseAgentsEvent> CBRAE = c -> {
+			Callback<ReleaseAgentsEvent> releaseAgentsEventCallback = c -> {
 				try {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
-					Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers(), c.getMissionName());
+					Squad.getInstance().releaseAgents(c.getSerialAgentsNumbers());
 					complete(c, true);
 				} catch(NullPointerException | InterruptedException e){terminate();}
 			};
 
-			Callback<SendThemAgentsEvent> CBSTAE = c -> {
+			Callback<SendThemAgentsEvent> sendThemAgentsEventCallback = c -> {
 				try {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
 
-					Squad.getInstance().sendAgents(c.getSerialAgentsNumbers(), c.getDuration(), c.getMissionName());
+					Squad.getInstance().sendAgents(c.getSerialAgentsNumbers(), c.getDuration());
 					complete(c, true);
 				} catch(NullPointerException | InterruptedException e){terminate();}
 			};
@@ -90,13 +90,13 @@ public class Moneypenny extends Subscriber {
 			}
 		});
 
-		subscribeBroadcast(TickBroadcast.class, CBTB);
+		subscribeBroadcast(TickBroadcast.class, tickBroadcastCallback);
 		if (MoneyPennyID % 2 == 0) {
-			subscribeEvent(AgentsAvailableEvent.class, CBAAE);
-			subscribeEvent(ReleaseAgentsEvent.class, CBRAE);
+			subscribeEvent(AgentsAvailableEvent.class, agentsAvailableEventCallback);
+			subscribeEvent(ReleaseAgentsEvent.class, releaseAgentsEventCallback);
 		}
 		if (MoneyPennyID % 2 != 0) {
-			subscribeEvent(SendThemAgentsEvent.class, CBSTAE);
+			subscribeEvent(SendThemAgentsEvent.class, sendThemAgentsEventCallback);
 		}
 
 	}

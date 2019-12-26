@@ -36,18 +36,6 @@ public class Report {
 		this.timeCreated = timeCreated;
 	}
 
-	public Report(){
-		this.missionName = "";
-		this.mId = 0;
-		this.moneyPennyId = 0;
-		this.agentsSerialNumbers = new ArrayList<>();
-		this.agentsNames = new ArrayList<>();
-		this.gadgetName = "";
-		this.timeIssued = 0;
-		this.QTime = 0;
-		this.timeCreated = 0;
-	}
-
 	//Methods
 	/**
      * Retrieves the mission name.
@@ -96,7 +84,7 @@ public class Report {
 	 * <p>
 	 * @return The serial numbers of the agents.
 	 */
-	public List<String> getAgentsSerialNumbersNumber() {
+	public List<String> getAgentsSerialNumbers() {
 		return agentsSerialNumbers;
 	}
 
@@ -142,7 +130,7 @@ public class Report {
 	/**
 	 * Retrieves the time-tick in which Q Received the GadgetAvailableEvent for that mission.
 	 */
-	public long getQTime() {
+	public int getQTime() {
 		return QTime;
 	}
 
@@ -156,7 +144,7 @@ public class Report {
 	/**
 	 * Retrieves the time when the mission was sent by an Intelligence Publisher.
 	 */
-	public long getTimeIssued() {
+	public int getTimeIssued() {
 		return timeIssued;
 	}
 
@@ -170,7 +158,7 @@ public class Report {
 	/**
 	 * Retrieves the time-tick when the report has been created.
 	 */
-	public long getTimeCreated() {
+	public int getTimeCreated() {
 		return timeCreated;
 	}
 

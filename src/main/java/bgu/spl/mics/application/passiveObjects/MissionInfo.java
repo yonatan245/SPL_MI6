@@ -35,15 +35,6 @@ public class MissionInfo {
 		this.duration = duration;
 	}
 
-	public MissionInfo(){
-		missionName = "";
-		serialAgentsNumbers = new ArrayList<String>();
-		gadget = "";
-		timeIssued = 0;
-		timeExpired = 0;
-		duration = 0;
-	}
-
 	//Methods
     /**
      * Sets the name of the mission.

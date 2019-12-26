@@ -37,14 +37,14 @@ public class Q extends Subscriber {
 		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
 
-		Callback<TickBroadcast> CBTickBroadcast= c -> {
+		Callback<TickBroadcast> tickBroadcastCallback= c -> {
 
 			if(c.getCurrentTime()>=timeTicks) terminate();
 			if(currentTime.get() < c.getCurrentTime())
 				currentTime.set(c.getCurrentTime());
 		};
 
-		Callback<GadgetAvailableEvent> CBGadgetAvailableEvent = call -> {
+		Callback<GadgetAvailableEvent> gadgetAvailableEventCallback = call -> {
 			try {
 				if(call.getMTime()>=timeTicks) terminate();
 				if (currentTime.get() < call.getMTime()) currentTime.set(call.getMTime());
@@ -64,8 +64,8 @@ public class Q extends Subscriber {
 				terminate();
 			}
 		});
-		subscribeBroadcast(TickBroadcast.class, CBTickBroadcast);
-		subscribeEvent(GadgetAvailableEvent.class,CBGadgetAvailableEvent);
+		subscribeBroadcast(TickBroadcast.class, tickBroadcastCallback);
+		subscribeEvent(GadgetAvailableEvent.class,gadgetAvailableEventCallback);
 	}
 
 }

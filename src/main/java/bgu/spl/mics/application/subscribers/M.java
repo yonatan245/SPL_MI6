@@ -39,7 +39,6 @@ public class M extends Subscriber {
 		MessageBrokerImpl.getInstance().register(this);
 
 		Callback<TickBroadcast> tickBroadcastCallBack = c -> {
-			System.out.println(Thread.currentThread().getName() +", time: " +currentTime.get());
 
 			if (currentTime.get() < c.getCurrentTime()) currentTime.set(c.getCurrentTime());
 
@@ -56,29 +55,46 @@ public class M extends Subscriber {
 			if (currentMission.getTimeExpired() < timeTicks) currentMission.setTimeExpired(timeTicks);
 			boolean isAborted = false;
 			Boolean needToReleaseAgents = false;
+			boolean init = true;
 			Pair<List<String>, Integer> agentsAndMPID = null;
 			Pair<String, AtomicInteger> gadgetAndQTime = null;
 
 			if (currentTime.get() < currentMission.getTimeIssued())
 				currentTime.set(currentMission.getTimeIssued());
 
-			int remainingTime = currentMission.getTimeExpired() - currentTime.get() - currentMission.getDuration();
+			while(init) {
+				init = false;
 
-			//Check Moneypenny for agents availability
-			agentsAndMPID = getAgentsAndMPid(remainingTime);
-			if (agentsAndMPID == null) isAborted = true;
-			else needToReleaseAgents = true;
+				int remainingTime = currentMission.getTimeExpired() - currentTime.get() - currentMission.getDuration();
+				if (remainingTime <= 0){
+					isAborted = true;
+					break;
+				}
 
-			//Check Q for gadget availability
-			if (!isAborted) {
+				//Check Moneypenny for agents availability
+				agentsAndMPID = getAgentsAndMPid(remainingTime);
+				if (agentsAndMPID == null){
+					isAborted = true;
+					break;
+				}
+				else needToReleaseAgents = true;
+
+				//Check Q for gadget availability
 				gadgetAndQTime = getGadgetAndQtime(remainingTime);
 
-				if (gadgetAndQTime == null) isAborted = true;
+				if (gadgetAndQTime == null){
+					isAborted = true;
+					break;
+				}
 				else remainingTime = remainingTime - (gadgetAndQTime.getValue1().get() - currentTime.get());
-			}
 
-			//Check if there is still enough time for the mission execution
-			if (!isAborted && remainingTime <= 0) isAborted = true;
+
+				//Check if there is still enough time for the mission execution
+				if (remainingTime <= 1){
+					isAborted = true;
+					break;
+				}
+			}
 
 			if(!isAborted) {
 				sendThemAgents();
@@ -87,6 +103,7 @@ public class M extends Subscriber {
 			else{
 				if(needToReleaseAgents) releaseMissionAgents(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
 			}
+
 
 		};
 
@@ -101,12 +118,12 @@ public class M extends Subscriber {
 	}
 
 	private void releaseMissionAgents(List<String> agentsToRelease, Integer time, String missionName) throws InterruptedException, ClassNotFoundException {
-		Event releaseAgents = new ReleaseAgentsEvent(agentsToRelease, time, missionName);
+		Event releaseAgents = new ReleaseAgentsEvent(agentsToRelease, time);
 		getSimplePublisher().sendEvent(releaseAgents);
 	}
 
 	private Pair<List<String>, Integer> getAgentsAndMPid(int remainingTime) throws InterruptedException, ClassNotFoundException {
-		Event checkAgents = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get(), currentMission.getMissionName());
+		Event checkAgents = new AgentsAvailableEvent<>(currentMission.getSerialAgentsNumbers(), currentTime.get());
 		Future<Pair<List<String>, Integer>> agentsAndMPIDFuture = getSimplePublisher().sendEvent(checkAgents);
 
 		Pair<List<String>, Integer> agentsAndMPID = agentsAndMPIDFuture.get(remainingTime, unit);
@@ -115,7 +132,7 @@ public class M extends Subscriber {
 	}
 
 	private Pair<String, AtomicInteger> getGadgetAndQtime(int remainingTime) throws InterruptedException, ClassNotFoundException {
-		Event checkGadget = new GadgetAvailableEvent<>(currentMission.getGadget(), currentTime.get(), currentMission.getMissionName());
+		Event checkGadget = new GadgetAvailableEvent<>(currentMission.getGadget(), currentTime.get());
 		Future<Pair<String, AtomicInteger>> gadgetAndQTimeFuture = getSimplePublisher().sendEvent(checkGadget);
 
 		Pair<String, AtomicInteger> gadgetAndQTime = gadgetAndQTimeFuture.get(remainingTime, unit);
@@ -124,7 +141,7 @@ public class M extends Subscriber {
 	}
 
 	private void sendThemAgents() throws InterruptedException, ClassNotFoundException {
-		Event sendThemAgents = new SendThemAgentsEvent(currentMission.getSerialAgentsNumbers(), currentMission.getDuration(), currentTime.get(), currentMission.getMissionName());
+		Event sendThemAgents = new SendThemAgentsEvent(currentMission.getSerialAgentsNumbers(), currentMission.getDuration(), currentTime.get());
 		getSimplePublisher().sendEvent(sendThemAgents);
 	}
 

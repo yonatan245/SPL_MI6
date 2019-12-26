@@ -24,6 +24,7 @@ public class TimeService extends Publisher {
 	private AtomicInteger currentTime;
 	private int TimeTicks;
 	private Timer timer;
+	private boolean doneTicking;
 
 
 	public TimeService(int TimeTicks) {
@@ -31,6 +32,7 @@ public class TimeService extends Publisher {
 		timer = new Timer("The One And Only TimeService");
 		currentTime = new AtomicInteger(0);
 		this.TimeTicks = TimeTicks;
+		doneTicking = false;
 	}
 
 	/**
@@ -44,26 +46,31 @@ public class TimeService extends Publisher {
 
 	@Override
 	public void run() {
-		timer.scheduleAtFixedRate(getNewTimerTask(), 0, 100);
+		try {
+			timer.scheduleAtFixedRate(getNewTimerTask(), 0, 100);
+		} catch(Exception e) {
+			System.out.println("Done tickin'");
+		}
+
 		while(currentTime.get() <= TimeTicks);
 
 		TimeService.super.getSimplePublisher().sendBroadcast(new TerminateAllBroadcast());
-		System.out.println("Termination has started");
 
 		timer.cancel();
 	}
 
-	private TimerTask getNewTimerTask(){
-		TimerTask task = new TimerTask() {
+	private TimerTask getNewTimerTask() throws Exception {
+		TimerTask task = new TimerTask(){
 			@Override
 			public void run() {
-				if(currentTime.get() <= TimeTicks ) {
-					Broadcast toSend = new TickBroadcast(currentTime.getAndIncrement());
-					System.out.println("Time Service - current time: " +currentTime.get());
-					TimeService.super.getSimplePublisher().sendBroadcast(toSend);
-				}
+				if(currentTime.get() > TimeTicks) doneTicking = true;
+
+				Broadcast toSend = new TickBroadcast(currentTime.getAndIncrement());
+				TimeService.super.getSimplePublisher().sendBroadcast(toSend);
 			}
 		};
+
+		if(doneTicking) throw new Exception("Done ticking");
 
 		return task;
 	}
