@@ -86,11 +86,11 @@ public class MessageBrokerImpl implements MessageBroker {
 				break;
 
 			case Names.SEND_THEM_AGENTS:
-				((SendThemAgentsEvent) e).resolveFut((boolean) result);
+				((SendThemAgentsEvent) e).resolveFut((Boolean) result);
 				break;
 
 			case Names.RELEASE_AGENTS_EVENT:
-				((ReleaseAgentsEvent) e).resolveFut((boolean) result);
+				((ReleaseAgentsEvent) e).resolveFut((Boolean) result);
 				break;
 		}
 	}

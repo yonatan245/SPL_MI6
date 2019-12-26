@@ -1,6 +1,4 @@
 package bgu.spl.mics.application;
-import bgu.spl.mics.MessageBroker;
-import bgu.spl.mics.MessageBrokerImpl;
 import bgu.spl.mics.Names;
 import bgu.spl.mics.application.passiveObjects.*;
 import bgu.spl.mics.application.publishers.TimeService;
@@ -11,11 +9,7 @@ import bgu.spl.mics.application.subscribers.Q;
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;
 import java.io.*;
-import java.sql.Time;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 /** This is the Main class of the application. You should parse the input file,
  * create the different instances of the objects, and run the system.

@@ -4,14 +4,10 @@ import bgu.spl.mics.Broadcast;
 import bgu.spl.mics.Publisher;
 import bgu.spl.mics.application.TerminateAllBroadcast;
 import bgu.spl.mics.application.TickBroadcast;
-
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
-import static java.lang.Thread.sleep;
 
 /**
  * TimeService is the global system timer There is only one instance of this Publisher.

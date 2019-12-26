@@ -3,9 +3,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Passive data-object representing a information about an agent in MI6.
@@ -117,9 +115,9 @@ public class Squad {
      */
     public List<String> getAgentsNames(List<String> serials) throws InterruptedException {
 
+		Collections.sort(serials);
 		List<String> agentNames = new ArrayList<>();
 
-		Collections.sort(serials);
 		Agent currentAgent;
 
         for(String serial : serials){

@@ -1,61 +1,62 @@
- {
+{
     "inventory": [
         "Sky Hook",
-        "X-ray glasses",
-        "Dagger shoe"
+        "Dagger shoe",
+        "Knife",
+        "Pistol",
+        "Tank",
+        "Jet"
     ],
     "services": {
         "M": 2,
-        "Moneypenny": 3,
+        "Moneypenny": 2,
         "intelligence": [
             {
                 "missions": [
                     {
-                        "serialAgentsNumbers": [
-                            "006",
-                            "007"
-                        ],
-                        "duration": 3,
+                        "serialAgentsNumbers": ["007"],
+                        "duration": 4,
+                        "gadget": "Pistol",
+                        "name": "Land of Riches",
+                        "timeExpired": 5,
+                        "timeIssued": 2
+                    },
+                    {
+                        "serialAgentsNumbers": ["007"],
+                        "duration": 10,
                         "gadget": "Sky Hook",
                         "name": "Thunderball",
                         "timeExpired": 15,
                         "timeIssued": 3
                     },
                     {
-                        "serialAgentsNumbers": ["008"],
+                        "serialAgentsNumbers": ["007"],
                         "duration": 2,
                         "gadget": "Dagger shoe",
-                        "name": "GoldFinger",
-                        "timeExpired": 18,
-                        "timeIssued": 10
-                    }
-                ]
-            },
-            {
-                "missions": [
+                        "name": "From Russia With Love",
+                        "timeExpired": 7,
+                        "timeIssued": 5
+                    },
                     {
-                        "serialAgentsNumbers": [
-                            "007",
-                            "006"
-                        ],
-                        "duration": 3,
-                        "gadget": "X-ray glasses",
-                        "name": "The World Is Not Enough",
-                        "timeExpired": 15,
-                        "timeIssued": 3
+                        "serialAgentsNumbers": ["006", "007"],
+                        "duration": 2,
+                        "gadget": "Knife",
+                        "name": "Ashan",
+                        "timeExpired": 18,
+                        "timeIssued": 7
                     },
                     {
                         "serialAgentsNumbers": ["007"],
                         "duration": 2,
-                        "gadget": "X-ray glasses",
-                        "name": "From Russia With Love",
-                        "timeExpired": 100,
-                        "timeIssued": 10
+                        "gadget": "Tank",
+                        "name": "Biara's Castle",
+                        "timeExpired": 18,
+                        "timeIssued": 9
                     }
                 ]
             }
         ],
-        "time": 20
+        "time": 10
     },
     "squad": [
         {
@@ -63,7 +64,7 @@
             "serialNumber": "007"
         },
         {
-            "name": "Alec Trevelyan",
+            "name": "Somebody once",
             "serialNumber": "006"
         }
     ]
