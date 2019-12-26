@@ -84,13 +84,12 @@ public class Squad {
 	 */
 	public boolean getAgents(List<String> serials, String missionName) throws InterruptedException {
 
+		Collections.sort(serials);
 		List<String> acquiredAgents = new ArrayList<>();
 		List<String> newSerials = new ArrayList<>(serials);
 		boolean aborted = false;
-		Collections.sort(serials);
 		Agent currentAgent;
-
-		for(String serial : newSerials) {
+			for (String serial : newSerials) {
 
 				currentAgent = agents.get(serial);
 
@@ -103,6 +102,7 @@ public class Squad {
 					acquiredAgents.add(serial);
 				}
 			}
+
 
 
 		if(aborted) releaseAgents(acquiredAgents, missionName);
