@@ -100,12 +100,4 @@ public class Diary {
 	public void incrementTotal(){
 		total.getAndIncrement();
 	}
-
-	//TODO: delete
-	public void clear() {
-		reports.clear();
-		total.set(0);
-	}
-
-
 }

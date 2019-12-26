@@ -188,11 +188,6 @@ public class MessageBrokerImpl implements MessageBroker {
 		personalQueues.get(subscriber).put(message);
 	}
 
-	public void clear(){
-		currentTime.set(0);
-		for(BlockingQueue topic : eventTopics.values()) topic.clear();
-		for(List topic : broadcastTopics.values()) topic.clear();
-	}
 }
 
 
