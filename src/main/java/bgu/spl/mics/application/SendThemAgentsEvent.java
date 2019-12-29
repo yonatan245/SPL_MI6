@@ -10,12 +10,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SendThemAgentsEvent<T> implements Event<T> {
 
+    //Fields
     private List<String> serialAgentsNumbers;
     private int duration;
     private Future<T> fut;
     private AtomicInteger time;
 
-
+    //Constructor
     public SendThemAgentsEvent(List<String> serialAgentsNumbers, int duration, int time){
         this.serialAgentsNumbers=serialAgentsNumbers;
         this.duration=duration;
@@ -23,6 +24,7 @@ public class SendThemAgentsEvent<T> implements Event<T> {
         this.time = new AtomicInteger(time);
     }
 
+    //Methods
     public int getTime() {
         return time.get();
     }

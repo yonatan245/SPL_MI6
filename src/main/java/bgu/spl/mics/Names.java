@@ -8,5 +8,4 @@ public class Names {
     public static final String SEND_THEM_AGENTS = "bgu.spl.mics.application.SendThemAgentsEvent";
     public static final String TICK_BROADCAST = "bgu.spl.mics.application.TickBroadcast";
     public static final String TERMINATE_ALL_BROADCAST = "bgu.spl.mics.application.TerminateAllBroadcast";
-
 }

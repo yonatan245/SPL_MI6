@@ -18,13 +18,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class M extends Subscriber {
 
+	//Fields
 	private Integer MID;
 	private MissionInfo currentMission;
 	private TimeUnit unit;
 	private AtomicInteger currentTime;
 	private int timeTicks;
 
-
+	//Constructor
 	public M(Integer NMID, int timeTicks) {
 		super("M"+NMID);
 		MID=NMID;
@@ -33,6 +34,7 @@ public class M extends Subscriber {
 		this.timeTicks = timeTicks;
 	}
 
+	//Methods
 	@Override
 	protected void initialize() {
 		Thread.currentThread().setName(getName());

@@ -20,13 +20,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class TimeService extends Publisher {
 
-
+	//Fields
 	private AtomicInteger currentTime;
 	private int TimeTicks;
 	private Timer timer;
 	private boolean doneTicking;
 
-
+	//Constructor
 	public TimeService(int TimeTicks) {
 		super("The One And Only TimeService");
 		timer = new Timer("The One And Only TimeService");
@@ -35,11 +35,10 @@ public class TimeService extends Publisher {
 		doneTicking = false;
 	}
 
+	//Methods
 	/**
 	 * Retrieves the single instance of this class.
 	 */
-
-
 	@Override
 	protected void initialize() {
 	}
@@ -48,9 +47,7 @@ public class TimeService extends Publisher {
 	public void run() {
 		try {
 			timer.scheduleAtFixedRate(getNewTimerTask(), 0, 100);
-		} catch(Exception e) {
-			System.out.println("Done tickin'");
-		}
+		} catch(Exception e) {}
 
 		while(currentTime.get() <= TimeTicks);
 
@@ -70,7 +67,7 @@ public class TimeService extends Publisher {
 			}
 		};
 
-		if(doneTicking) throw new Exception("Done ticking");
+		if(doneTicking) throw new Exception();
 
 		return task;
 	}

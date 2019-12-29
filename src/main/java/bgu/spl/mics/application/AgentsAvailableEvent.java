@@ -8,19 +8,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AgentsAvailableEvent<T> implements Event<T> {
 
+    //Fields
     private List<String> serialAgentsNumbers;
     private Future<T> fut;
     private AtomicInteger time;
 
-
-
+    //Constructor
     public AgentsAvailableEvent(List<String> serialAgentsNumbers, int time) {
         this.serialAgentsNumbers = serialAgentsNumbers;
         this.fut = new Future<>();
         this.time = new AtomicInteger(time);
-
     }
 
+    //Methods
     public List<String> getSerialAgentsNumbers() {
         return serialAgentsNumbers;
     }

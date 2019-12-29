@@ -22,7 +22,7 @@ public class Report {
 	private int QTime;
 	private int timeCreated;
 
-	//Constructors
+	//Constructor
 	public Report(String missionName, int mId, int moneyPennyId, List<String> agentsSerialNumbers,
 				  List<String> agentsNames, String gadgetName, int timeIssued, int QTime, int timeCreated){
 		this.missionName = missionName;

@@ -7,10 +7,13 @@ import org.javatuples.Pair;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GadgetAvailableEvent<T> implements Event<T> {
+
+    //Fields
     private String gadget;
     private Future<T> fut;
     private AtomicInteger time;
 
+    //Constructor
     public GadgetAvailableEvent(String gadget, int time){
         fut = new Future<>();
         this.gadget=gadget;
@@ -18,6 +21,7 @@ public class GadgetAvailableEvent<T> implements Event<T> {
 
     }
 
+    //Methods
     public String getGadget(){
         return gadget;
     }

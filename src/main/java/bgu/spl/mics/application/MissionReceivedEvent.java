@@ -8,32 +8,21 @@ import java.util.List;
 
 public class MissionReceivedEvent<T> implements Event<T> {
 
+    //Fields
     private MissionInfo mission;
     private String missionName;
-
-    enum Status
-    {
-        COMPLETED,ABORTED,IN_PROGRESS, PENDING;
-    }
-    private Status status;
     private Future<T> fut;
+
+    //Constructor
     public MissionReceivedEvent(MissionInfo m){
         this.mission = m;
-        status=Status.PENDING;
         fut=new Future<T>();
         missionName = mission.getMissionName();
     }
 
+    //Methods
     public MissionInfo getMission() {
         return mission;
-    }
-
-    public void setStatus(String status){
-        switch(status){
-            case "ABORTED": this.status=Status.ABORTED;
-            case "COMPLETED" : this.status=Status.COMPLETED;
-            case "IN_PROGRESS": this.status=Status.IN_PROGRESS;
-        };
     }
 
     public List<String> AgentsRequired(){
@@ -55,6 +44,4 @@ public class MissionReceivedEvent<T> implements Event<T> {
     public void resolveFuture(T result){
         fut.resolve(result);
     }
-
-    public String getMissionName() {return missionName;} //TODO: Delete before submission
 }

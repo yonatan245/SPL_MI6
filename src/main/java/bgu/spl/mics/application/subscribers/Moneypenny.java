@@ -39,14 +39,14 @@ public class Moneypenny extends Subscriber {
 		Thread.currentThread().setName(getName());
 		MessageBrokerImpl.getInstance().register(this);
 
-			Callback<TickBroadcast> tickBroadcastCallback = c -> {
+		Callback<TickBroadcast> tickBroadcastCallback = c -> {
 				if(c.getCurrentTime()>=timeTicks) terminate();
 
 				if (currentTime.get() < c.getCurrentTime())
 					currentTime.set(c.getCurrentTime());
 			};
 
-			Callback<AgentsAvailableEvent> agentsAvailableEventCallback = c -> {
+		Callback<AgentsAvailableEvent> agentsAvailableEventCallback = c -> {
 				try {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
@@ -64,7 +64,7 @@ public class Moneypenny extends Subscriber {
 				} catch (NullPointerException | InterruptedException e){terminate();}
 			};
 
-			Callback<ReleaseAgentsEvent> releaseAgentsEventCallback = c -> {
+		Callback<ReleaseAgentsEvent> releaseAgentsEventCallback = c -> {
 				try {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
@@ -73,7 +73,7 @@ public class Moneypenny extends Subscriber {
 				} catch(NullPointerException | InterruptedException e){terminate();}
 			};
 
-			Callback<SendThemAgentsEvent> sendThemAgentsEventCallback = c -> {
+		Callback<SendThemAgentsEvent> sendThemAgentsEventCallback = c -> {
 				try {
 					if(c.getTime()>=timeTicks) terminate();
 					if (currentTime.get() < c.getTime()) currentTime.set(c.getTime());
